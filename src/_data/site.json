@@ -1,0 +1,12 @@
+{
+  "name": "Courtenay Elementary School",
+  "tagline": "Curious minds. Kind hearts.",
+  "address": "4420 N Beacon st, Chicago",
+  "phone": "(773) 534-5790",
+  "email": "office@cps.edu",
+  "hours": "Mon–Fri, 8:00 am – 4:00 pm",
+  "alert": {
+    "enabled": true,
+    "message": "School is closed Monday for a staff development day."
+  }
+}

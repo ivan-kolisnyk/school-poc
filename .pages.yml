@@ -1,0 +1,68 @@
+media:
+  input: src/images
+  output: /images
+
+content:
+  - name: site
+    label: School details & alert banner
+    type: file
+    path: src/_data/site.json
+    fields:
+      - { name: name, label: School name, type: string }
+      - { name: tagline, label: Tagline, type: string }
+      - { name: address, label: Address, type: string }
+      - { name: phone, label: Phone, type: string }
+      - { name: email, label: Email, type: string }
+      - { name: hours, label: Office hours, type: string }
+      - name: alert
+        label: Alert banner
+        type: object
+        fields:
+          - { name: enabled, label: Show banner, type: boolean }
+          - { name: message, label: Message, type: string }
+
+  - name: home
+    label: Home page
+    type: file
+    path: src/index.md
+    format: yaml-frontmatter
+    fields:
+      - { name: hero_heading, label: Headline, type: string }
+      - { name: hero_sub, label: Sub-headline, type: string }
+      - { name: body, label: Principal's welcome message, type: rich-text }
+
+  - name: about
+    label: About page
+    type: file
+    path: src/about.md
+    format: yaml-frontmatter
+    fields:
+      - { name: title, label: Page title, type: string }
+      - { name: body, label: Content, type: rich-text }
+
+  - name: news
+    label: News & announcements
+    type: collection
+    path: src/news
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, date]
+      sort: [date]
+      primary: title
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: body, label: Story, type: rich-text }
+
+  - name: calendar
+    label: Upcoming dates
+    type: file
+    path: src/_data/calendar.json
+    fields:
+      - name: items
+        label: Dates
+        type: object
+        list: true
+        fields:
+          - { name: date, label: Date, type: date }
+          - { name: label, label: What's happening, type: string }

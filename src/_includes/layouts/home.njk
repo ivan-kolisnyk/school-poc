@@ -1,0 +1,33 @@
+---
+layout: layouts/base.njk
+---
+<section class="hero">
+  <div class="container">
+    <h1>{{ hero_heading }}</h1>
+    <p>{{ hero_sub }}</p>
+  </div>
+</section>
+
+<div class="container grid">
+  <article class="prose">{{ content | safe }}</article>
+
+  <aside class="card">
+    <h2>Upcoming dates</h2>
+    <ul class="dates">
+      {% for item in calendar.items %}
+      <li><time>{{ item.date | dateDisplay }}</time> {{ item.label }}</li>
+      {% endfor %}
+    </ul>
+  </aside>
+</div>
+
+<section class="container">
+  <h2>Latest news</h2>
+  {% for post in collections.news | reverse %}
+  <article class="news-item">
+    <h3>{{ post.data.title }}</h3>
+    <time>{{ post.date | dateDisplay }}</time>
+    {{ post.templateContent | safe }}
+  </article>
+  {% endfor %}
+</section>
