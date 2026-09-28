@@ -6,7 +6,7 @@
   "email": "office@cps.edu",
   "hours": "Mon–Fri, 8:00 am – 4:00 pm",
   "alert": {
-    "enabled": true,
+    "enabled": false,
     "message": "School is closed Monday for a staff development day."
   }
 }
