@@ -514,7 +514,7 @@ html.menu-open { overflow: hidden; }
 .alert {
   background: var(--color-surface-brand-strong);
   color: var(--color-text-on-dark);
-  border-bottom: 4px solid var(--gold);
+  border-bottom: 4px solid var(--color-surface-accent);
 }
 .alert--emergency {
   background: var(--color-status-emergency-bg);

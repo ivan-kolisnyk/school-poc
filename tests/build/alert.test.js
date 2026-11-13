@@ -43,3 +43,8 @@ test("emergency uses role=alert and has no dismiss button", () => {
   assert.equal(text(el.querySelector(".alert__label")), strings.alertLabels.emergency);
   assert.equal(el.querySelector("[data-alert-dismiss]"), null);
 });
+
+test("Details link carries the path prefix", () => {
+  const link = page("index.html").querySelector(".alert a");
+  assert.equal(link.getAttribute("href"), "/school-poc/news/");
+});

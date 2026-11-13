@@ -24,3 +24,17 @@ test("end is exclusive and read as Chicago wall time", () => {
   assert.equal(isAlertActive(base, at("2026-11-16T20:59:00Z")), true);
   assert.equal(isAlertActive(base, at("2026-11-16T21:00:00Z")), false);
 });
+
+test("malformed end or start makes the alert inactive without throwing", () => {
+  const warn = console.warn;
+  const msgs = [];
+  console.warn = (m) => msgs.push(m);
+  try {
+    assert.equal(isAlertActive({ ...base, end: "2026-11-16 3pm" }, at("2026-11-13T12:00:00Z")), false);
+    assert.equal(isAlertActive({ ...base, end: "2026-13-45T25:00" }, at("2026-11-13T12:00:00Z")), false);
+    assert.equal(isAlertActive({ ...base, start: "soon" }, at("2026-11-13T12:00:00Z")), false);
+  } finally { console.warn = warn; }
+  assert.equal(msgs.length, 3);
+  assert.match(msgs[0], /2026-11-16 3pm/);
+  assert.match(msgs[2], /soon/);
+});

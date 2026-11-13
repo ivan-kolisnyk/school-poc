@@ -22,6 +22,9 @@
       button.addEventListener("click", () => {
         try { sessionStorage.setItem(KEY, end); } catch (e) { /* ignore */ }
         alert.remove();
+        // Removing the focused button would drop focus to <body>; keep keyboard users in place.
+        const main = document.getElementById("main");
+        if (main) main.focus({ preventScroll: true });
       });
     }
     // Remove it while the page is open when the end time arrives.
