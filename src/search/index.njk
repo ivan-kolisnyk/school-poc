@@ -32,7 +32,7 @@ eleventyExcludeFromCollections: true
             <span class="search-form__submit-label">{{ strings.search.submit }}</span>
           </button>
         </div>
-        <p class="search-form__error" id="search-page-error" data-search-error hidden>{% icon "triangle-alert" %}<span data-search-error-text></span></p>
+        <p class="search-form__error" id="search-page-error" role="alert" data-search-error hidden>{% icon "triangle-alert" %}<span data-search-error-text></span></p>
       </form>
 
       <p class="search-nojs">
@@ -40,8 +40,8 @@ eleventyExcludeFromCollections: true
         <a href="/news/">{{ strings.nav.news }}</a>, <a href="/families/">{{ strings.nav.families }}</a>, <a href="/contact/">{{ strings.nav.contact }}</a>.
       </p>
 
-      <div class="search-results" data-search-results aria-live="polite">
-        <p class="search-results__status" data-search-status></p>
+      <div class="search-results" data-search-results>
+        <p class="search-results__status" data-search-status aria-live="polite"></p>
         <ol class="search-results__list" role="list" data-search-list></ol>
       </div>
     </div>

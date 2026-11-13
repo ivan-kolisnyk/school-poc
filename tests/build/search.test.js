@@ -23,6 +23,8 @@ test("/search/ has a labeled input and a polite live results region", () => {
   assert.equal(label.text.trim(), strings.search.label);
   const live = doc.querySelector('main [aria-live="polite"]');
   assert.ok(live);
+  assert.ok(live.matches("[data-search-status]"), "only the status line is live, not the whole list");
+  assert.equal(doc.querySelector("[data-search-error]").getAttribute("role"), "alert");
   assert.ok(doc.querySelector("main [data-search-results]"));
 });
 

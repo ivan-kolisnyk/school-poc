@@ -62,3 +62,20 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Last command:** npm test -> PASS
 - **Next:** review
 - **Commit / review:** see git log
+
+## Task 12: Pages CMS configuration
+- **Status:** todo
+- **Next:** Step 1
+
+## Task 13: CI — tests, daily rebuild, Pagefind, accessibility report
+- **Status:** todo
+- **Next:** Step 1
+
+## Task 14: Quality pass with the design skills
+- **Status:** todo
+- **Next:** Step 1
+
+---
+
+## Log
+- 2026-11-13 — plan approved; status log created.

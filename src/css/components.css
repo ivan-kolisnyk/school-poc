@@ -367,6 +367,8 @@ html.menu-open { overflow: hidden; }
     pointer-events: none;
   }
   .site-search[hidden] { display: none; }
+  /* The field's background covers the nav; the wordmark stays above it. */
+  .site-header .brand { position: relative; z-index: 1; }
   .site-search__form {
     display: flex;
     justify-content: flex-end;
@@ -380,7 +382,6 @@ html.menu-open { overflow: hidden; }
     align-items: center;
     justify-content: flex-end;
     gap: var(--space-3);
-    margin-inline-start: 330px; /* leaves the wordmark visible */
     padding-inline: var(--space-4) var(--space-2);
     background: var(--color-surface-brand);
     pointer-events: auto;
