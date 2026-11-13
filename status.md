@@ -1,7 +1,7 @@
 # Build status — Courtenay site POC
 
 **Plan:** `docs/superpowers/plans/2026-11-13-courtenay-site-poc.md` · **Branch:** `redesign`
-**Current:** Task 2 in progress
+**Current:** Task 3 in progress
 
 Protocol: see the plan's "Progress log" section. Update after every step; resume from **Next**.
 
@@ -21,16 +21,17 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 
 ## Task 2: Design tokens, fonts and base styles
 - **Status:** done
-- **Agent:** implementer (sonnet), 2026-11-13
-- **Steps done:** 1-5
-- **Files touched:** src/css/{tokens,base}.css, tests/unit/tokens.test.js, eleventy.config.js, base.njk, package.json, (deleted style.css)
-- **Last command:** npm test -> PASS (23/23)
-- **Next:** review
-- **Commit:** see git log
+- **Commit / review:** ba52ba3 · review: approved (minor follow-ups carried to Task 3 / parked for Task 14)
 
 ## Task 3: Layout shell — icons, placeholder, header, navigation, footer
-- **Status:** todo
-- **Next:** Step 1
+- **Status:** done
+- **Agent:** implementer (opus), 2026-11-13
+- **Steps done:** 1-5
+- **Files touched:** lib/shortcodes.js, eleventy.config.js, package.json(+lock: lucide-static), src/_data/{site.json,nav.json}, src/_settings/strings.en.json, src/_includes/layouts/{base,home}.njk, src/_includes/partials/{header,footer,quick-tasks,placeholder}.njk, src/_includes/icons/instagram.svg, src/css/{components,base}.css, src/js/site.js, src/images/logo.png, tests/build/shell.test.js, tests/unit/shortcodes.test.js
+- **Last command:** npm test -> PASS (40/40); headless Chrome check at 320/390/768/1024/1440 -> menu opens, Tab cycles, Esc closes + returns focus, gold rings on navy, no h-scroll
+- **Next:** — (controller: review)
+- **Blockers:** —
+- **Commit / review:** commit "feat: header, navigation, footer, icon and placeholder shortcodes" · report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-3-report.md
 
 ## Task 4: Alert banner
 - **Status:** todo

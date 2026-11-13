@@ -3,7 +3,7 @@ layout: layouts/base.njk
 ---
 <section class="hero">
   <div class="container">
-    <h1>{{ hero_heading }}</h1>
+    <h1 class="{{ hero_heading | headingClass }}">{{ hero_heading }}</h1>
     <p>{{ hero_sub }}</p>
   </div>
 </section>

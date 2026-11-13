@@ -28,8 +28,8 @@ h1, h2 { font-family: var(--font-display); font-weight: 700; text-transform: upp
 h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); }
 h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); }
 h3, h4 { font-family: var(--font-body); font-weight: 600; font-size: var(--fs-h3); line-height: var(--lh-h3); }
-/* Uppercase only for short headings; longer ones use sentence case (JS-free: authors add .long). */
-.long, h1.long, h2.long { text-transform: none; }
+/* Uppercase only for short headings; templates add .long via the headingClass filter (> 8 words). */
+.long { text-transform: none; }
 
 small, .small { font-size: var(--fs-small); font-weight: 500; line-height: var(--lh-small); }
 .label {
@@ -53,6 +53,8 @@ a:hover { text-decoration-thickness: 2px; }
   outline-offset: 2px;
 }
 .on-dark :focus-visible, [data-theme="dark"] :focus-visible { outline-color: var(--color-focus-on-dark); }
+/* main receives focus from the skip link, but it is not a control: no ring. */
+main:focus { outline: none; }
 
 .container {
   width: 100%;

@@ -1,0 +1,67 @@
+{#- Site footer (DESIGN.md 10.12). Contact details stay in this same place on every page (WCAG 3.2.6). -#}
+<footer class="site-footer on-dark">
+  <div class="container site-footer__grid">
+    <div class="site-footer__col site-footer__contact">
+      <p class="site-footer__name">
+        <img class="site-footer__logo" src="/images/logo.png" alt="" width="44" height="48">
+        <span>{{ site.name }}</span>
+      </p>
+      <h2 class="site-footer__heading">{{ strings.footer.contactHeading }}</h2>
+      <address>
+        {{ site.address }}<br>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query={{ (site.name + ', ' + site.address) | urlencode }}">
+          {{- strings.footer.directions }} {% icon "external-link", strings.a11y.external -%}
+        </a>
+      </address>
+      <dl class="site-footer__facts">
+        <div><dt>{{ strings.footer.phone }}</dt><dd><a href="tel:{{ site.phone | replace(r/[^0-9]/g, '') | replace(r/^/, '+1') }}">{{ site.phone }}</a></dd></div>
+        <div><dt>{{ strings.footer.fax }}</dt><dd>{{ site.fax }}</dd></div>
+        <div><dt>{{ strings.footer.hours }}</dt><dd>{{ site.hours }}</dd></div>
+      </dl>
+      <a class="site-footer__social" href="{{ site.instagram }}" aria-label="{{ strings.footer.social }}">
+        {%- icon "instagram" -%}
+      </a>
+    </div>
+
+    <div class="site-footer__col">
+      <h2 class="site-footer__heading" id="footer-tasks">{{ strings.quickTasks.heading }}</h2>
+      {%- set quickTasksVariant = "list" %}
+      {%- set quickTasksLabelledBy = "footer-tasks" %}
+      {% include "partials/quick-tasks.njk" %}
+    </div>
+
+    <div class="site-footer__col">
+      <h2 class="site-footer__heading">{{ strings.footer.explore }}</h2>
+      <ul class="site-footer__links" role="list">
+        {%- for item in nav %}
+        <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+        {%- endfor %}
+      </ul>
+    </div>
+
+    <div class="site-footer__col">
+      <div class="site-footer__group">
+        <h2 class="site-footer__heading">{{ strings.footer.cpsHeading }}</h2>
+        <ul class="site-footer__links" role="list">
+          <li><a href="{{ site.links.cps }}">{{ strings.footer.cps }} {% icon "external-link", strings.a11y.externalCps %}</a></li>
+          <li><a href="{{ site.links.nondiscrimination }}">{{ strings.footer.nondiscrimination }} {% icon "external-link", strings.a11y.externalCps %}</a></li>
+          <li><a href="{{ site.links.mentalHealth }}">{{ strings.footer.mentalHealth }} {% icon "external-link", strings.a11y.externalCps %}</a></li>
+        </ul>
+      </div>
+      {%- if site.staffLinks.length %}
+      <div class="site-footer__group">
+        <h2 class="site-footer__heading">{{ strings.footer.staffLinks }}</h2>
+        <ul class="site-footer__links" role="list">
+          {%- for link in site.staffLinks %}
+          <li><a href="{{ link.url }}">{{ link.label }} {% icon "external-link", strings.a11y.externalCps %}</a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+    </div>
+  </div>
+
+  <div class="container site-footer__base">
+    <p>© {{ now.getFullYear() }} {{ strings.footer.rights }}</p>
+  </div>
+</footer>

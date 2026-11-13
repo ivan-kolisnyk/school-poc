@@ -1,0 +1,34 @@
+{#-
+  The six quick tasks (DESIGN.md 10.6). Reused by the mobile menu, the footer and (Task 8) the homepage.
+  Set before including:
+    quickTasksVariant     "tiles" (default: icon above label) | "menu" | "list" (footer link list)
+    quickTasksLabelledBy  optional id of the element that names the list
+-#}
+{%- set qtVariant = quickTasksVariant or "tiles" -%}
+{%- set qtUrls = {
+  calendar: "/events/",
+  lunchMenu: site.links.lunchMenu,
+  parentPortal: site.links.parentPortal,
+  enroll: "/enroll/",
+  care: "/families/before-after-care/",
+  contact: "/contact/"
+} -%}
+{%- set qtIcons = {
+  calendar: "calendar-days",
+  lunchMenu: "utensils",
+  parentPortal: "user-round",
+  enroll: "clipboard-pen-line",
+  care: "sunrise",
+  contact: "phone"
+} -%}
+<ul class="quick-tasks quick-tasks--{{ qtVariant }}" role="list"{% if quickTasksLabelledBy %} aria-labelledby="{{ quickTasksLabelledBy }}"{% endif %}>
+  {%- for item in strings.quickTasks.items %}
+  {%- set qtUrl = qtUrls[item.key] %}
+  <li>
+    <a class="quick-task" href="{{ qtUrl }}">
+      {%- icon qtIcons[item.key] -%}
+      <span class="quick-task__label">{{ item.label }}{% if "://" in qtUrl %} {% icon "external-link", strings.a11y.externalCps %}{% endif %}</span>
+    </a>
+  </li>
+  {%- endfor %}
+</ul>

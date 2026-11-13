@@ -1,0 +1,179 @@
+// Header behaviour: mobile menu, search disclosure, nav dropdowns, scrolled shadow.
+// Self-initializing; no exports. Everything works by keyboard, pointer and touch (DESIGN.md 10.0).
+(() => {
+  const root = document.documentElement;
+  const desktop = window.matchMedia("(min-width: 1024px)");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const FOCUSABLE = "a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex='-1'])";
+  const EXIT_MS = 150; // --dur-fast; exits are quicker than the 200ms enter.
+
+  function init() {
+    const header = document.querySelector("[data-header]");
+    if (!header) return;
+    initScrollShadow(header);
+    const menu = initMenu(header);
+    const search = initSearch(header, menu);
+    if (menu) menu.onOpen = () => search && search.close(false);
+    initSubmenus(header);
+  }
+
+  // Shadow only once the page has scrolled (DESIGN.md 10.2: --shadow-header after scroll).
+  function initScrollShadow(header) {
+    let ticking = false;
+    const update = () => {
+      header.classList.toggle("is-scrolled", window.scrollY > 0);
+      ticking = false;
+    };
+    window.addEventListener("scroll", () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+  }
+
+  function initMenu(header) {
+    const button = header.querySelector("[data-menu-toggle]");
+    const panel = button && document.getElementById(button.getAttribute("aria-controls"));
+    if (!panel) return null;
+    let closeTimer = 0;
+    let inerted = [];
+
+    const api = {
+      isOpen: () => button.getAttribute("aria-expanded") === "true",
+      onOpen: null,
+      open() {
+        if (desktop.matches || api.isOpen()) return;
+        if (api.onOpen) api.onOpen();
+        clearTimeout(closeTimer);
+        // The panel sits directly under the header bar, whatever height the bar wrapped to.
+        panel.style.setProperty("--menu-top", `${header.getBoundingClientRect().bottom}px`);
+        panel.classList.add("is-mounted");
+        panel.getBoundingClientRect(); // commit the start state so the enter transition runs
+        panel.classList.add("is-open");
+        button.setAttribute("aria-expanded", "true");
+        root.classList.add("menu-open");
+        // Everything outside the menu and its button is unreachable while it is open.
+        inerted = [
+          ...[...document.body.children].filter((el) => el !== header && !el.inert),
+          ...[...header.querySelectorAll(".brand, [data-search-toggle], [data-search]")].filter((el) => !el.inert),
+        ];
+        inerted.forEach((el) => { el.inert = true; });
+        document.addEventListener("keydown", onKeydown);
+      },
+      close(returnFocus = true) {
+        if (!api.isOpen()) return;
+        button.setAttribute("aria-expanded", "false");
+        panel.classList.remove("is-open");
+        root.classList.remove("menu-open");
+        inerted.forEach((el) => { el.inert = false; });
+        inerted = [];
+        document.removeEventListener("keydown", onKeydown);
+        clearTimeout(closeTimer);
+        const unmount = () => panel.classList.remove("is-mounted");
+        if (reducedMotion.matches) unmount();
+        else closeTimer = setTimeout(unmount, EXIT_MS);
+        if (returnFocus) button.focus();
+      },
+    };
+
+    function onKeydown(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        api.close();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      // Cycle between the menu button and the menu items.
+      const items = [...panel.querySelectorAll(FOCUSABLE)].filter((el) => el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+      if (!event.shiftKey && (active === button || !panel.contains(active))) {
+        event.preventDefault();
+        first.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        button.focus();
+      } else if (event.shiftKey && active === first) {
+        event.preventDefault();
+        button.focus();
+      } else if (event.shiftKey && active === button) {
+        event.preventDefault();
+        last.focus();
+      }
+    }
+
+    button.addEventListener("click", () => (api.isOpen() ? api.close() : api.open()));
+    // Following an in-page link (or any link) from the menu closes it.
+    panel.addEventListener("click", (event) => {
+      if (event.target.closest("a[href]") && api.isOpen()) api.close(false);
+    });
+    desktop.addEventListener("change", () => api.close(false));
+    return api;
+  }
+
+  function initSearch(header, menu) {
+    const button = header.querySelector("[data-search-toggle]");
+    const panel = button && document.getElementById(button.getAttribute("aria-controls"));
+    if (!panel) return null;
+    const input = panel.querySelector("input");
+    const api = {
+      open() {
+        if (menu) menu.close(false);
+        panel.hidden = false;
+        button.setAttribute("aria-expanded", "true");
+        if (input) input.focus();
+      },
+      close(returnFocus = true) {
+        if (panel.hidden) return;
+        panel.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+        if (returnFocus) button.focus();
+      },
+    };
+    button.addEventListener("click", () => (panel.hidden ? api.open() : api.close()));
+    panel.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") { event.preventDefault(); api.close(); }
+    });
+    return api;
+  }
+
+  // Desktop dropdowns open on click/tap and Enter/Space (the toggle is a button), never on hover alone.
+  function initSubmenus(header) {
+    const toggles = [...header.querySelectorAll("[data-submenu-toggle]")];
+    if (!toggles.length) return;
+    const listFor = (t) => document.getElementById(t.getAttribute("aria-controls"));
+    const setOpen = (t, open) => {
+      t.setAttribute("aria-expanded", String(open));
+      listFor(t).hidden = !open;
+    };
+    toggles.forEach((t) => {
+      t.addEventListener("click", () => {
+        const open = t.getAttribute("aria-expanded") !== "true";
+        toggles.forEach((other) => other !== t && setOpen(other, false));
+        setOpen(t, open);
+      });
+    });
+    document.addEventListener("click", (event) => {
+      if (!desktop.matches) return;
+      toggles.forEach((t) => {
+        if (!t.parentElement.contains(event.target)) setOpen(t, false);
+      });
+    });
+    header.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      const t = toggles.find((x) => x.getAttribute("aria-expanded") === "true" && x.parentElement.contains(document.activeElement));
+      if (t) { setOpen(t, false); t.focus(); event.stopPropagation(); }
+    });
+    // Leaving a dropdown by keyboard closes it.
+    header.addEventListener("focusout", (event) => {
+      if (!desktop.matches) return;
+      toggles.forEach((t) => {
+        if (t.getAttribute("aria-expanded") === "true" && !t.parentElement.contains(event.relatedTarget)) setOpen(t, false);
+      });
+    });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();

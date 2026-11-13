@@ -1,23 +1,22 @@
 {
+  "brand": {
+    "wordmark": "Courtenay Tigers",
+    "descriptor": "Language Arts Center · Pre-K–8",
+    "home": "Courtenay Tigers home"
+  },
   "nav": {
     "label": "Main",
-    "items": [
-      { "label": "About", "url": "/about/" },
-      { "label": "Families", "url": "/families/" },
-      { "label": "Enroll", "url": "/enroll/" },
-      { "label": "News & Events", "url": "/news/" },
-      { "label": "Contact", "url": "/contact/" }
-    ]
+    "submenu": "{label} pages"
   },
   "quickTasks": {
     "heading": "Quick tasks",
     "items": [
-      { "label": "Calendar", "url": "/calendar/" },
-      { "label": "Lunch menu", "url": "/families/lunch-menu/" },
-      { "label": "Parent portal", "url": "/families/parent-portal/" },
-      { "label": "Enroll", "url": "/enroll/" },
-      { "label": "Before & after care", "url": "/families/before-after-care/" },
-      { "label": "Contact", "url": "/contact/" }
+      { "key": "calendar", "label": "Calendar" },
+      { "key": "lunchMenu", "label": "Lunch menu" },
+      { "key": "parentPortal", "label": "Parent portal" },
+      { "key": "enroll", "label": "Enroll" },
+      { "key": "care", "label": "Before & after care" },
+      { "key": "contact", "label": "Contact" }
     ]
   },
   "buttons": {
@@ -38,17 +37,30 @@
     "search": "No results found."
   },
   "footer": {
-    "staffLinks": "Staff links",
+    "contactHeading": "Visit and call",
+    "directions": "Get directions",
+    "phone": "Phone",
+    "fax": "Fax",
+    "hours": "Office hours",
+    "explore": "Explore",
+    "cpsHeading": "Chicago Public Schools",
+    "cps": "Chicago Public Schools website",
+    "nondiscrimination": "Non-discrimination statement",
+    "mentalHealth": "Mental health resources",
+    "staffLinks": "Staff",
     "social": "Courtenay on Instagram",
     "rights": "Mary E. Courtenay Language Arts Center"
   },
   "search": {
     "label": "Search the site",
-    "placeholder": "Search"
+    "placeholder": "Search",
+    "submit": "Search"
   },
   "a11y": {
     "skipToContent": "Skip to main content",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "externalCps": "opens CPS site",
+    "external": "opens another site"
   }
 }

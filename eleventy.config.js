@@ -1,5 +1,6 @@
 import { EleventyHtmlBasePlugin } from "@11ty/eleventy";
 import { formatDate, formatTime } from "./lib/dates.js";
+import { icon, placeholder, headingClass } from "./lib/shortcodes.js";
 
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
@@ -11,12 +12,17 @@ export default function (eleventyConfig) {
     "node_modules/@fontsource/barlow/files/barlow-latin-{400,500,600}-normal.woff2": "fonts",
   });
   eleventyConfig.addPassthroughCopy({ "src/images": "images" });
+  eleventyConfig.addPassthroughCopy({ "src/js": "js" });
 
   // Interface text lives in src/_settings and is loaded by src/_data/strings.js.
   eleventyConfig.ignores.add("src/_settings/**");
 
   eleventyConfig.addFilter("dateFormat", (value, style) => formatDate(value, style));
   eleventyConfig.addFilter("timeFormat", (value) => formatTime(value));
+  eleventyConfig.addFilter("headingClass", headingClass);
+
+  eleventyConfig.addShortcode("icon", icon);
+  eleventyConfig.addShortcode("placeholder", placeholder);
   // Kept until Task 6 replaces the homepage calendar list.
   eleventyConfig.addFilter("dateDisplay", (d) => formatDate(d, "post"));
 

@@ -1,8 +1,26 @@
 {
   "name": "Mary E. Courtenay Language Arts Center",
   "tagline": "Curious minds. Kind hearts.",
-  "address": "4420 N Beacon st, Chicago",
+  "address": "4420 N. Beacon St., Chicago, IL 60640",
   "phone": "(773) 534-5790",
+  "fax": "(773) 534-5799",
   "email": "office@cps.edu",
-  "hours": "Mon–Fri, 8:00 am – 4:00 pm"
+  "hours": "Mon–Fri, 8:00 am – 4:00 pm",
+  "instagram": "https://www.instagram.com/courtenaytigers/",
+  "links": {
+    "parentPortal": "https://aspen.cps.edu/",
+    "lunchMenu": "https://www.cps.edu/services-and-supports/school-meals/",
+    "cpsCalendar": "https://www.cps.edu/calendar/",
+    "tourForm": "https://forms.gle/REPLACE-WITH-TOUR-FORM",
+    "cps": "https://www.cps.edu/",
+    "nondiscrimination": "https://www.cps.edu/nondiscrimination/",
+    "mentalHealth": "https://www.cps.edu/mentalhealth"
+  },
+  "staffLinks": [
+    { "label": "Frontline", "url": "https://login.frontlineeducation.com/" },
+    { "label": "Staff intranet", "url": "https://www.cps.edu/" },
+    { "label": "Aspen", "url": "https://sis.cps.edu/" },
+    { "label": "Kronos", "url": "https://timekeeper.cps.edu/" }
+  ],
+  "calendarIcs": ""
 }
