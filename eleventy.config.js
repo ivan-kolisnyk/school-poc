@@ -5,7 +5,8 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { formatDate, formatTime } from "./lib/dates.js";
 import { isAlertActive } from "./lib/alert.js";
 import { chicagoLocalToDate } from "./lib/dates.js";
-import { icon, placeholder, headingClass } from "./lib/shortcodes.js";
+import { icon, placeholder, headingClass, linkPhrase } from "./lib/shortcodes.js";
+import { eventWhen, groupByMonth, chicagoDay } from "./lib/events.js";
 import { nextHeadlines, newsDay, hasPhoto, photoIssue } from "./lib/news.js";
 
 export default function (eleventyConfig) {
@@ -74,8 +75,12 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addShortcode("icon", icon);
   eleventyConfig.addShortcode("placeholder", placeholder);
-  // Kept until Task 6 replaces the homepage calendar list.
-  eleventyConfig.addFilter("dateDisplay", (d) => formatDate(d, "post"));
+  eleventyConfig.addFilter("linkPhrase", linkPhrase);
+
+  // Events from Google Calendar (DESIGN.md 10.9); data in src/_data/events.js.
+  eleventyConfig.addFilter("eventWhen", eventWhen);
+  eleventyConfig.addFilter("eventMonths", groupByMonth);
+  eleventyConfig.addFilter("chicagoDay", chicagoDay);
 
   return {
     dir: { input: "src", includes: "_includes", data: "_data", output: "_site" },

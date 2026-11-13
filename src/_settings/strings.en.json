@@ -42,7 +42,7 @@
   },
   "empty": {
     "news": "No news yet. Check back soon.",
-    "events": "No upcoming events.",
+    "events": "No events scheduled — see the CPS calendar for district dates.",
     "search": "No results found."
   },
   "news": {
@@ -53,6 +53,14 @@
     "newer": "Newer posts",
     "older": "Older posts",
     "pageOf": "Page {n} of {total}"
+  },
+  "events": {
+    "heading": "Events",
+    "allDay": "All day",
+    "seeFullCalendar": "See full calendar",
+    "cpsCalendarLink": "see the CPS calendar",
+    "cpsCalendar": "CPS district calendar",
+    "cpsCalendarNote": "Holidays and district dates are on the CPS district calendar."
   },
   "breadcrumb": {
     "label": "Breadcrumb",

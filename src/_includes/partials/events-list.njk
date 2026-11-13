@@ -1,0 +1,31 @@
+{#- Event date-block list (DESIGN.md 10.9). Set before including:
+      items            Event[] from the events data (already upcoming and sorted)
+      limit            how many to show (optional; e.g. 4 on the homepage)
+      eventLevel       heading level of event titles (optional, default 3)
+      showDescription  true to show the calendar entry's description (optional)
+    With no items it shows the one empty-state line linking to the CPS calendar. -#}
+{%- set _level = eventLevel or 3 -%}
+{%- set _items = (items or []).slice(0, limit) if limit else (items or []) -%}
+{%- if _items.length %}
+<ol class="event-list" role="list">
+  {%- for event in _items %}
+  {%- set _day = event.start | chicagoDay %}
+  <li class="event">
+    <p class="event__date"><time datetime="{{ _day }}"><span class="event__month" aria-hidden="true">{{ event.start | dateFormat("month") }}</span><span class="event__day" aria-hidden="true">{{ event.start | dateFormat("day") }}</span><span class="visually-hidden">{{ event.start | dateFormat("list") }}</span></time></p>
+    <div class="event__body">
+      <h{{ _level }} class="event__title">{{ event.title }}</h{{ _level }}>
+      <p class="event__time">{% icon "clock" %}<span>{{ event | eventWhen(strings.events.allDay) }}</span></p>
+      {%- if event.location %}
+      <p class="event__place">{% icon "map-pin" %}<span>{{ event.location }}</span></p>
+      {%- endif %}
+      {%- if showDescription and event.description %}
+      <p class="event__desc">{{ event.description }}</p>
+      {%- endif %}
+    </div>
+  </li>
+  {%- endfor %}
+</ol>
+{%- else %}
+{%- set _ext %}{% icon "external-link", strings.a11y.externalCps %}{% endset %}
+<p class="events-empty">{{ strings.empty.events | linkPhrase(strings.events.cpsCalendarLink, site.links.cpsCalendar, _ext) | safe }}</p>
+{%- endif %}

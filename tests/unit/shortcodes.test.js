@@ -43,3 +43,12 @@ test("headingClass marks headings over eight words as long", () => {
   assert.equal(headingClass("  spaced   out   words  "), "");
   assert.equal(headingClass(undefined), "");
 });
+
+test("linkPhrase links one phrase inside an escaped sentence, or appends the link", async () => {
+  const { linkPhrase } = await import("../../lib/shortcodes.js");
+  assert.equal(
+    linkPhrase("No events — see the <CPS> calendar.", "see the <CPS> calendar", "https://x.test/?a=1&b=2"),
+    'No events — <a href="https://x.test/?a=1&amp;b=2">see the &lt;CPS&gt; calendar</a>.'
+  );
+  assert.equal(linkPhrase("Sin eventos.", "calendario", "/c", "<svg></svg>"), 'Sin eventos. <a href="/c">calendario <svg></svg></a>');
+});

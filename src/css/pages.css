@@ -30,3 +30,19 @@
 /* ---------- Content body (DESIGN.md 10.10) ---------- */
 /* Phone numbers never break across lines. */
 .prose a[href^="tel:"] { white-space: nowrap; }
+
+/* ---------- Events page (DESIGN.md 10.9) ---------- */
+.events-month + .events-month { margin-top: var(--space-7); }
+.events-month__title {
+  margin: 0 0 var(--space-5);
+  padding-left: var(--space-3);
+  border-left: 6px solid var(--color-surface-accent);
+}
+.events-month .event-list { max-width: calc(var(--measure) + 72px + var(--space-4)); }
+.events-note {
+  max-width: var(--measure);
+  margin: var(--space-7) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+}

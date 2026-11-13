@@ -12,12 +12,14 @@ layout: layouts/base.njk
   <article class="prose">{{ content | safe }}</article>
 
   <aside class="card">
-    <h2>Upcoming dates</h2>
-    <ul class="dates">
-      {% for item in calendar.items %}
-      <li><time>{{ item.date | dateDisplay }}</time> {{ item.label }}</li>
-      {% endfor %}
-    </ul>
+    {#- Interim until Task 8 rebuilds the homepage: the next 4 events (DESIGN.md 10.9). #}
+    <h2>{{ strings.events.heading }}</h2>
+    {%- set items = events.items %}
+    {%- set limit = 4 %}
+    {%- set eventLevel = 3 %}
+    {%- set showDescription = false %}
+    {% include "partials/events-list.njk" %}
+    <p class="events-more"><a href="/events/">{{ strings.events.seeFullCalendar }}</a></p>
   </aside>
 </div>
 
