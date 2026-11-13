@@ -42,6 +42,19 @@ Each task names the agent type to dispatch and the design skills the implementer
 
 Agent types: implementation tasks → `general-purpose` (model `opus` where noted for design-heavy work, `sonnet` for mechanical tasks). Content gathering from courtenay.cps.edu → `web-fetch`. Per-task review → `general-purpose` with superpowers:requesting-code-review. No other agent types apply.
 
+## Progress log: `status.md` (required for every agent)
+
+`status.md` at the repo root is the shared progress log, so any agent that stops (usage limit, crash, timeout) can be replaced by a fresh agent that continues where it left off. Tasks run one at a time, so only one agent writes to it at once.
+
+**Every agent (implementer, web-fetch, reviewer) must:**
+1. **On start:** read `status.md`, then `git log --oneline -10` and `git status`. If its task is marked `in progress`, resume from that task's **Next** line — do not restart completed steps. Set the task to `in progress`, add its agent role and start time.
+2. **After every plan step** (and before any long-running command): update its task block — tick the step, list files touched, the last command run and its result (PASS/FAIL + one line), and the exact **Next** action. Save the file immediately; it lives in the working tree, so it survives even before a commit.
+3. **On blockers:** record them under **Blockers** with what was tried, then stop and report.
+4. **On finish:** mark the task `done` with the commit hash, and include `status.md` in the task's commit. Reviewers append `review: approved` or their findings to the same block.
+5. **Web-fetch agents** save fetched content to `docs/content-import/<task>-<page>.md` and note the file paths in `status.md`, so fetched pages never need refetching.
+
+The controller (the main session) updates the top **Current** line when dispatching each task and when a review finishes, and on resume reads `status.md` before dispatching anything.
+
 ## Review Focus
 
 1. **Path prefix:** on GitHub Pages the site lives under `/school-poc/`. A link, CSS file, font, image, `pagefind/` script or Instagram/CPS link that ignores the prefix breaks only in production. Pinned by Task 1's build tests (built with the prefix) and Task 11/14 checks.
