@@ -85,7 +85,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Last command:** npm test -> PASS 200/200; npm run test:a11y -> PASS 95/95; npm run test:a11y:es -> PASS 58/58
 - **Next:** — (Step 9 whole-branch review is the controller's)
 - **Blockers:** —
-- **Commit / review:** see `git log` (chore: quality pass, waivers, QA report, editor guide)
+- **Commit / review:** 8cc02c1
 
 ---
 
