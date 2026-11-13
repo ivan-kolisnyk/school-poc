@@ -315,7 +315,7 @@ html.menu-open { overflow: hidden; }
   .site-nav__sub a { gap: var(--space-1); padding: var(--space-2) var(--space-4); font-size: 16px; }
 }
 
-/* ---------- Search panel (opened from the header; Task 11 wires results) ---------- */
+/* ---------- Search field (header panel and /search/ page; DESIGN.md 10.0, 10.13) ---------- */
 .site-search {
   background: var(--color-surface-brand-strong);
   padding-block: var(--space-4);
@@ -325,7 +325,7 @@ html.menu-open { overflow: hidden; }
   margin-bottom: var(--space-2);
   font-weight: 600;
 }
-.site-search__row { display: flex; gap: var(--space-2); }
+.site-search__row { display: flex; flex: 1; min-width: 0; gap: var(--space-2); }
 .site-search__input {
   flex: 1;
   min-width: 0;
@@ -337,6 +337,8 @@ html.menu-open { overflow: hidden; }
   color: var(--color-text-primary);
   font: inherit;
 }
+.site-search__input:hover,
+.search-form__input:hover { border-color: var(--color-text-brand); }
 .site-search__submit {
   min-height: 48px;
   padding: 0 var(--space-5);
@@ -351,6 +353,41 @@ html.menu-open { overflow: hidden; }
 }
 .site-search__submit:hover { background: color-mix(in srgb, var(--color-action-primary-bg) 92%, black); }
 .site-search__submit:active { transform: translateY(1px); }
+
+/* Mobile: a full-width field under the header. Desktop: the panel overlays the bar, so the
+   field opens inline to the left of the search button (the nav underneath is made inert). */
+@media (min-width: 1024px) {
+  .site-search {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    background: none;
+    pointer-events: none;
+  }
+  .site-search[hidden] { display: none; }
+  .site-search__form {
+    display: flex;
+    justify-content: flex-end;
+    align-self: stretch;
+    padding-inline-end: calc(var(--gutter) + 48px + var(--space-2));
+    pointer-events: none;
+  }
+  .site-search__field {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    margin-inline-start: 330px; /* leaves the wordmark visible */
+    padding-inline: var(--space-4) var(--space-2);
+    background: var(--color-surface-brand);
+    pointer-events: auto;
+  }
+  .site-search__label { margin: 0; white-space: nowrap; }
+  .site-search__row { flex: 0 1 460px; }
+}
 
 /* ---------- Quick tasks (DESIGN.md 10.6) ---------- */
 /* Tiles: white, navy icon above an uppercase label, 1px dividers; 3 columns, 6 on desktop. */
@@ -1063,4 +1100,77 @@ html.menu-open { overflow: hidden; }
 .hero-enter--late { animation-delay: 80ms; }
 @media (prefers-reduced-motion: reduce) {
   .hero-enter { animation: none; }
+}
+
+/* ---------- Search page (DESIGN.md 10.13) ---------- */
+.search-page { max-width: 760px; margin-inline: auto; }
+.search-form__label { display: block; margin-bottom: var(--space-2); font-weight: 600; }
+.search-form__row { display: flex; gap: var(--space-2); }
+.search-form__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-none);
+  background: var(--color-surface-page);
+  color: var(--color-text-primary);
+  font: inherit;
+}
+.search-form__input:focus-visible { outline: 3px solid var(--color-focus-on-light); outline-offset: 2px; }
+.search-form__input[aria-invalid="true"] { border-color: var(--color-status-error-fg); }
+.search-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 0 var(--space-5);
+  border: 0;
+  background: var(--color-action-primary-bg);
+  color: var(--color-action-primary-fg);
+  font: 500 16px/1 var(--font-display);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.search-form__submit:hover { background: color-mix(in srgb, var(--color-action-primary-bg) 92%, black); }
+.search-form__submit:active { transform: translateY(1px); }
+.search-form__submit:focus-visible { outline: 3px solid var(--color-focus-on-light); outline-offset: 2px; }
+.search-form__spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  animation: search-spin 700ms linear infinite;
+}
+.search-form[aria-busy="true"] .search-form__spinner { display: inline-block; }
+@keyframes search-spin { to { transform: rotate(360deg); } }
+.search-form__error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  color: var(--color-status-error-fg);
+  font-weight: 500;
+}
+.search-form__error[hidden] { display: none; }
+.search-form__error .icon { flex: none; width: 20px; height: 20px; margin-top: 2px; }
+
+/* With JavaScript the fallback line is not needed. */
+.js .search-nojs { display: none; }
+.search-nojs { margin: var(--space-5) 0 0; }
+
+.search-results { margin-top: var(--space-5); }
+.search-results__status { margin: 0 0 var(--space-4); color: var(--color-text-secondary); font-weight: 500; }
+.search-results__status:empty { display: none; }
+.search-results__list { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.search-result__excerpt { margin: var(--space-2) 0 0; color: var(--color-text-secondary); overflow-wrap: anywhere; }
+.search-result__excerpt mark { background: none; color: var(--color-text-primary); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) {
+  .search-form__spinner { animation: none; } /* a static ring still marks the loading state */
+  .search-form__submit:active { transform: none; }
 }

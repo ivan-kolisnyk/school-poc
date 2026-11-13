@@ -9,7 +9,7 @@
       headerIntro     one line under the title (optional) -#}
 <div class="page-header on-dark">
   <div class="container page-header__inner">
-    <nav class="breadcrumb" aria-label="{{ strings.breadcrumb.label }}">
+    <nav class="breadcrumb" data-pagefind-ignore aria-label="{{ strings.breadcrumb.label }}">
       <ol class="breadcrumb__list" role="list">
         <li><a href="/">{{ strings.breadcrumb.home }}</a></li>
         {%- for crumb in headerCrumbs or [] %}

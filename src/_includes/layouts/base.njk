@@ -16,7 +16,7 @@
   {% include "partials/alert.njk" %}
   {% include "partials/header.njk" %}
 
-  <main id="main" tabindex="-1">{{ content | safe }}</main>
+  <main id="main" tabindex="-1"{% if not noIndex %} data-pagefind-body{% endif %}>{{ content | safe }}</main>
 
   {% include "partials/footer.njk" %}
 </body>

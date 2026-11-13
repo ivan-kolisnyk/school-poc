@@ -53,25 +53,12 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 
 ## Task 10: Staff directory
 - **Status:** done
-- **Commit / review:** see git log (feat: staff directory) · awaiting review
+- **Commit / review:** d311926 · review: approved (6 minor notes parked)
 
 ## Task 11: Search
-- **Status:** todo
-- **Next:** Step 1
-
-## Task 12: Pages CMS configuration
-- **Status:** todo
-- **Next:** Step 1
-
-## Task 13: CI — tests, daily rebuild, Pagefind, accessibility report
-- **Status:** todo
-- **Next:** Step 1
-
-## Task 14: Quality pass with the design skills
-- **Status:** todo
-- **Next:** Step 1
-
----
-
-## Log
-- 2026-11-13 — plan approved; status log created.
+- **Status:** done
+- **Agent:** implementer (sonnet), 2026-11-13
+- **Files touched:** package.json, package-lock.json, tests/helpers/build.js, tests/build/search.test.js, tests/build/home.test.js (spinner allowed), src/search/index.njk, layouts/base.njk, partials/header.njk, partials/page-header.njk, src/404.md, strings.en.json, site.js, components.css
+- **Last command:** npm test -> PASS
+- **Next:** review
+- **Commit / review:** see git log

@@ -48,9 +48,99 @@
     bar.hidden = false;
   }
 
+  // /search/: read ?q=, query Pagefind through its JS API, render text-only news-card rows.
+  function initSearchPage() {
+    const wrap = document.querySelector("[data-search-page]");
+    if (!wrap) return;
+    const form = wrap.querySelector("form");
+    const input = wrap.querySelector("input[name='q']");
+    const list = wrap.querySelector("[data-search-list]");
+    const status = wrap.querySelector("[data-search-status]");
+    const errorBox = wrap.querySelector("[data-search-error]");
+    const errorText = wrap.querySelector("[data-search-error-text]");
+    const d = wrap.dataset;
+    let pagefind = null;
+    let run = 0;
+
+    const text = (tpl, vars) => tpl.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
+    const showError = (message) => {
+      errorText.textContent = message;
+      errorBox.hidden = false;
+      input.setAttribute("aria-invalid", "true");
+    };
+    const clearError = () => {
+      errorBox.hidden = true;
+      input.removeAttribute("aria-invalid");
+    };
+
+    async function load() {
+      if (!pagefind) {
+        pagefind = await import(d.pagefindSrc);
+        await pagefind.options({ baseUrl: d.base });
+      }
+      return pagefind;
+    }
+
+    async function search(q) {
+      const mine = ++run;
+      list.textContent = "";
+      clearError();
+      if (!q) { status.textContent = ""; return; }
+      form.setAttribute("aria-busy", "true");
+      try {
+        const pf = await load();
+        const found = await pf.search(q);
+        const data = await Promise.all(found.results.slice(0, 20).map((r) => r.data()));
+        if (mine !== run) return;
+        data.forEach((r) => {
+          const li = document.createElement("li");
+          const card = document.createElement("article");
+          card.className = "news-card news-card--text";
+          const body = document.createElement("div");
+          body.className = "news-card__body";
+          const h = document.createElement("h2");
+          h.className = "news-card__title";
+          const a = document.createElement("a");
+          a.className = "news-card__link";
+          a.href = r.url;
+          a.textContent = (r.meta && r.meta.title) || r.url;
+          h.append(a);
+          const p = document.createElement("p");
+          p.className = "search-result__excerpt";
+          p.innerHTML = r.excerpt; // Pagefind escapes the text and only adds <mark>.
+          body.append(h, p);
+          card.append(body);
+          li.append(card);
+          list.append(li);
+        });
+        const n = found.results.length;
+        status.textContent = n === 0
+          ? text(d.none, { q })
+          : text(n === 1 ? d.countOne : d.countOther, { q, n });
+      } catch (e) {
+        if (mine === run) { status.textContent = ""; showError(d.error); }
+      } finally {
+        if (mine === run) form.removeAttribute("aria-busy");
+      }
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const q = input.value.trim();
+      const url = new URL(location.href);
+      if (q) url.searchParams.set("q", q); else url.searchParams.delete("q");
+      history.replaceState(null, "", url);
+      search(q);
+    });
+    const initial = (new URLSearchParams(location.search).get("q") || "").trim();
+    input.value = initial;
+    if (initial) search(initial);
+  }
+
   function init() {
     initAlert();
     initStaffFilter();
+    initSearchPage();
     const header = document.querySelector("[data-header]");
     if (!header) return;
     initScrollShadow(header);
@@ -176,17 +266,23 @@
     const panel = button && document.getElementById(button.getAttribute("aria-controls"));
     if (!panel) return null;
     const input = panel.querySelector("input");
+    // On desktop the field opens over the nav, so the nav underneath is unreachable meanwhile.
+    const nav = header.querySelector("[data-menu]");
+    const setNavInert = (on) => { if (nav && desktop.matches) nav.inert = on; };
+    desktop.addEventListener("change", () => { if (nav) nav.inert = false; });
     const api = {
       open() {
         if (menu) menu.close(false);
         panel.hidden = false;
         button.setAttribute("aria-expanded", "true");
+        setNavInert(true);
         if (input) input.focus();
       },
       close(returnFocus = true) {
         if (panel.hidden) return;
         panel.hidden = true;
         button.setAttribute("aria-expanded", "false");
+        setNavInert(false);
         if (returnFocus) button.focus();
       },
     };

@@ -146,13 +146,15 @@ test("nothing animates or rotates except the hero entrance", () => {
     assert.ok(el.closest('[data-home-section="hero"]') || el.closest('[data-home-section="actions"]'),
       "entrance only on the hero headline and buttons");
   }
-  // Every CSS rule that declares an animation belongs to the hero entrance class.
+  // Every CSS rule that declares an animation belongs to the hero entrance class (or the search spinner).
   for (const file of ["base.css", "components.css", "pages.css"]) {
     const css = readFileSync(path.join(root, "src/css", file), "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
     for (const m of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
       const [selector, body] = [m[1].trim(), m[2]];
       if (!/(^|[;\s])animation(-name)?\s*:/.test(body)) continue;
       if (/animation(-name)?\s*:\s*none/.test(body)) continue;
+      // The search button's loading spinner (DESIGN.md 10.0) is the one other animation; it stops under reduced motion.
+      if (/\.search-form__spinner/.test(selector)) continue;
       assert.match(selector, /\.hero-enter/, `${file}: "${selector}" declares an animation`);
     }
   }

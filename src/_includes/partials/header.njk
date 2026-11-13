@@ -61,10 +61,12 @@
 
   <div class="site-search" id="site-search" data-search hidden>
     <form class="container site-search__form" action="/search/" method="get" role="search">
-      <label class="site-search__label" for="site-search-q">{{ strings.search.label }}</label>
-      <div class="site-search__row">
-        <input class="site-search__input" id="site-search-q" type="search" name="q" autocomplete="off">
-        <button class="site-search__submit" type="submit">{{ strings.search.submit }}</button>
+      <div class="site-search__field">
+        <label class="site-search__label" for="site-search-q">{{ strings.search.label }}</label>
+        <div class="site-search__row">
+          <input class="site-search__input" id="site-search-q" type="search" name="q" autocomplete="off">
+          <button class="site-search__submit" type="submit">{{ strings.search.submit }}</button>
+        </div>
       </div>
     </form>
   </div>

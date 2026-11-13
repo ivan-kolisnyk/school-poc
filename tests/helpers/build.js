@@ -44,6 +44,18 @@ export function build(variant = { name: "default", env: {} }) {
             code === 0 ? resolve() : reject(new Error(`eleventy exited ${code}\n${err}`));
           });
         });
+        // Index the prefixed output so /school-poc/pagefind/ resolves like it does in production.
+        await new Promise((resolve, reject) => {
+          const pf = spawn(process.execPath, [path.join(root, "node_modules/pagefind/lib/runner/bin.cjs"), "--site", out], {
+            cwd: root,
+            stdio: ["ignore", "pipe", "pipe"],
+          });
+          let perr = "";
+          pf.stdout.on("data", (d) => (perr += d));
+          pf.stderr.on("data", (d) => (perr += d));
+          pf.on("error", reject);
+          pf.on("close", (code) => (code === 0 ? resolve() : reject(new Error(`pagefind exited ${code}\n${perr}`))));
+        });
         return out;
       })()
     );

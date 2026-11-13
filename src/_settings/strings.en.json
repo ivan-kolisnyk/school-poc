@@ -93,7 +93,14 @@
   "search": {
     "label": "Search Courtenay",
     "placeholder": "Search",
-    "submit": "Search"
+    "submit": "Search",
+    "pageTitle": "Search",
+    "loading": "Searching",
+    "count_one": "1 result for \u201c{q}\u201d.",
+    "count_other": "{n} results for \u201c{q}\u201d.",
+    "none": "No results for \u201c{q}\u201d. Try the Families page or call the office.",
+    "error": "Search is not working right now. Try again, or call the office.",
+    "needsJs": "Search needs JavaScript. You can find what you need here instead:"
   },
   "a11y": {
     "skipToContent": "Skip to main content",
