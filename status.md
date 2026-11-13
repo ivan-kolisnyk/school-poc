@@ -28,10 +28,10 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Agent:** implementer (opus), 2026-11-13
 - **Steps done:** 1-5
 - **Files touched:** lib/shortcodes.js, eleventy.config.js, package.json(+lock: lucide-static), src/_data/{site.json,nav.json}, src/_settings/strings.en.json, src/_includes/layouts/{base,home}.njk, src/_includes/partials/{header,footer,quick-tasks,placeholder}.njk, src/_includes/icons/instagram.svg, src/css/{components,base}.css, src/js/site.js, src/images/logo.png, tests/build/shell.test.js, tests/unit/shortcodes.test.js
-- **Last command:** npm test -> PASS (40/40); headless Chrome check at 320/390/768/1024/1440 -> menu opens, Tab cycles, Esc closes + returns focus, gold rings on navy, no h-scroll
+- **Last command:** fix 1 (nav labels -> strings.nav.<key>, search label 'Search Courtenay'): npm test -> PASS (41/41). Earlier: headless Chrome check at 320/390/768/1024/1440 -> menu opens, Tab cycles, Esc closes + returns focus, gold rings on navy, no h-scroll
 - **Next:** — (controller: review)
 - **Blockers:** —
-- **Commit / review:** commit "feat: header, navigation, footer, icon and placeholder shortcodes" · report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-3-report.md
+- **Commit / review:** 49f3375 · report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-3-report.md
 
 ## Task 4: Alert banner
 - **Status:** todo

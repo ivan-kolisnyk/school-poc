@@ -6,7 +6,12 @@
   },
   "nav": {
     "label": "Main",
-    "submenu": "{label} pages"
+    "submenu": "{label} pages",
+    "about": "About",
+    "families": "Families",
+    "enroll": "Enroll",
+    "news": "News & Events",
+    "contact": "Contact"
   },
   "quickTasks": {
     "heading": "Quick tasks",
@@ -52,7 +57,7 @@
     "rights": "Mary E. Courtenay Language Arts Center"
   },
   "search": {
-    "label": "Search the site",
+    "label": "Search Courtenay",
     "placeholder": "Search",
     "submit": "Search"
   },

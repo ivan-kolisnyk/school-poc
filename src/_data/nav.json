@@ -1,7 +1,7 @@
 [
-  { "key": "about", "label": "About", "url": "/about/" },
-  { "key": "families", "label": "Families", "url": "/families/" },
-  { "key": "enroll", "label": "Enroll", "url": "/enroll/" },
-  { "key": "news", "label": "News & Events", "url": "/news/" },
-  { "key": "contact", "label": "Contact", "url": "/contact/" }
+  { "key": "about", "url": "/about/" },
+  { "key": "families", "url": "/families/" },
+  { "key": "enroll", "url": "/enroll/" },
+  { "key": "news", "url": "/news/" },
+  { "key": "contact", "url": "/contact/" }
 ]

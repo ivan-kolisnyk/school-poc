@@ -32,6 +32,15 @@ test("header nav has exactly the five top-level items", () => {
   assert.deepEqual(links.map(text), ["About", "Families", "Enroll", "News & Events", "Contact"]);
 });
 
+test("nav.json is structure only; labels come from strings", () => {
+  const nav = JSON.parse(readFileSync(path.join(root, "src/_data/nav.json"), "utf8"));
+  assert.deepEqual(nav.map((i) => i.key), ["about", "families", "enroll", "news", "contact"]);
+  for (const item of nav) {
+    assert.deepEqual(Object.keys(item).sort(), ["key", "url"]);
+    assert.equal(typeof strings.nav[item.key], "string", item.key);
+  }
+});
+
 test("current section link carries aria-current", () => {
   const about = page("about/index.html").querySelectorAll("header nav > ul > li > a");
   const current = about.filter((a) => a.getAttribute("aria-current"));
@@ -55,6 +64,8 @@ test("search button is a labelled disclosure for an existing panel", () => {
   assert.equal(btn.getAttribute("aria-expanded"), "false");
   assert.ok(home.querySelector(`#${btn.getAttribute("aria-controls")}`));
   assert.ok(text(btn).length > 0 || btn.getAttribute("aria-label"));
+  const input = home.querySelector("#site-search input[name='q']");
+  assert.equal(text(home.querySelector(`label[for='${input.getAttribute("id")}']`)), "Search Courtenay");
 });
 
 test("mobile menu repeats the six quick tasks at the bottom", () => {

@@ -17,11 +17,11 @@
           {%- set inSection = page.url and page.url.indexOf(item.url) == 0 %}
           <li class="site-nav__item{% if children.length %} has-sub{% endif %}">
             <a class="site-nav__link" href="{{ item.url }}"
-              {%- if page.url == item.url %} aria-current="page"{% elif inSection %} aria-current="true"{% endif %}>{{ item.label }}</a>
+              {%- if page.url == item.url %} aria-current="page"{% elif inSection %} aria-current="true"{% endif %}>{{ strings.nav[item.key] }}</a>
             {%- if children.length %}
             <button class="site-nav__sub-toggle" type="button" aria-expanded="false" aria-controls="subnav-{{ item.key }}" data-submenu-toggle>
               {%- icon "chevron-down" -%}
-              <span class="visually-hidden">{{ strings.nav.submenu | replace("{label}", item.label) }}</span>
+              <span class="visually-hidden">{{ strings.nav.submenu | replace("{label}", strings.nav[item.key]) }}</span>
             </button>
             <ul class="site-nav__sub" id="subnav-{{ item.key }}" role="list" hidden>
               {%- for child in children %}

@@ -34,7 +34,7 @@
       <h2 class="site-footer__heading">{{ strings.footer.explore }}</h2>
       <ul class="site-footer__links" role="list">
         {%- for item in nav %}
-        <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+        <li><a href="{{ item.url }}">{{ strings.nav[item.key] }}</a></li>
         {%- endfor %}
       </ul>
     </div>
