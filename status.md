@@ -87,7 +87,19 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Blockers:** —
 - **Commit / review:** 8cc02c1
 
+## Final review fixes (final-fix-brief.md: C1, I1–I4, Minor 1, 5, 7, 9, 10, 11, 13)
+- **Status:** done
+- **Agent:** implementer (opus), 2026-11-13
+- **Steps done:** C1 (content-independent gating suite: invariants from source + fixtures, PAGES_FIXTURES_DIR hook, bodyHeadings normalization, CALENDAR_ICS_FILE enforced, tests/content non-gating, tests/regression CMS-edit copy runs test:gating), I1, I2 (a/b/c), I3 (+ Playwright), I4, Minor 1/5/7/9/10/11/13, ledger Task 7 + Task 12 #1 (found and removed dead `site.tagline`)
+- **Files touched:** see .superpowers/sdd/2026-11-13-courtenay-site-poc/final-fix-report.md
+- **Last command:** npm test -> PASS 229/229; npm run test:a11y -> PASS 98/98; npm run test:a11y:es -> PASS 58/58; npm run test:content -> PASS 7/7
+- **Next:** — (controller: re-review)
+- **Blockers:** —
+- **Commit / review:** 67720c6, 80c0202
+
 ---
 
 ## Log
 - 2026-11-13 — plan approved; status log created.
+- 2026-11-13 — Final review fixes started (final-fix-brief.md).
+- 2026-11-13 — Final review fixes done (67720c6, 80c0202); report in final-fix-report.md.
