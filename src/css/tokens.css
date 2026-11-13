@@ -1,0 +1,92 @@
+/* Design tokens: DESIGN.md sections 5, 6, 7, 12. Components use the semantic layer only. */
+@font-face{font-family:"Oswald";font-style:normal;font-weight:500;font-display:swap;src:url("../fonts/oswald-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Oswald";font-style:normal;font-weight:700;font-display:swap;src:url("../fonts/oswald-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/barlow-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:500;font-display:swap;src:url("../fonts/barlow-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:600;font-display:swap;src:url("../fonts/barlow-latin-600-normal.woff2") format("woff2")}
+
+:root {
+  /* 5.1 primitives (never used directly by components) */
+  --navy: #1B2A6B;
+  --navy-deep: #111C4A;
+  --gold: #F6CE1F;
+  --gold-text: #7A6200;
+  --ink: #121733;
+  --muted: #4A5068;
+  --surface: #F4F5F8;
+  --line: #E1E4EC;
+  --white: #FFFFFF;
+  --alert-red: #B42318;
+
+  /* 5.2 semantic */
+  --color-text-primary: var(--ink);
+  --color-text-secondary: var(--muted);
+  --color-text-brand: var(--navy);
+  --color-text-accent: var(--gold-text);
+  --color-text-on-dark: var(--white);
+  --color-text-accent-on-dark: var(--gold);
+  --color-text-on-accent: var(--navy-deep);
+  --color-surface-page: var(--white);
+  --color-surface-alt: var(--surface);
+  --color-surface-brand: var(--navy);
+  --color-surface-brand-strong: var(--navy-deep);
+  --color-surface-accent: var(--gold);
+  --color-border-subtle: var(--line);
+  --color-border-control: var(--muted);
+  --color-action-primary-bg: var(--gold);
+  --color-action-primary-fg: var(--navy-deep);
+  --color-action-secondary-bg: var(--navy-deep);
+  --color-action-secondary-fg: var(--white);
+  --color-focus-on-light: var(--navy);
+  --color-focus-on-dark: var(--gold);
+  --color-status-emergency-bg: var(--alert-red);
+  --color-status-emergency-fg: var(--white);
+  --color-status-error-fg: var(--alert-red);
+
+  /* 6 type (fluid between 320px and 1024px viewports) */
+  --font-display: "Oswald", "Arial Narrow", Arial, sans-serif;
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --fs-display: clamp(40px, calc(40px + 32 * (100vw - 320px) / 704), 72px);
+  --fs-h1: clamp(34px, calc(34px + 18 * (100vw - 320px) / 704), 52px);
+  --fs-h2: clamp(26px, calc(26px + 10 * (100vw - 320px) / 704), 36px);
+  --fs-h3: clamp(19px, calc(19px + 3 * (100vw - 320px) / 704), 22px);
+  --fs-body: clamp(17px, calc(17px + 1 * (100vw - 320px) / 704), 18px);
+  --fs-small: 14px;
+  --fs-label: clamp(14px, calc(14px + 2 * (100vw - 320px) / 704), 16px);
+  --lh-display: 1;
+  --lh-h1: 1.05;
+  --lh-h2: 1.1;
+  --lh-h3: 1.25;
+  --lh-body: 1.6;
+  --lh-small: 1.45;
+
+  /* 7 layout */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --shadow-header: 0 2px 8px rgba(17, 28, 74, .18);
+  --z-header: 20;
+  --z-menu: 30;
+  --z-skip: 50;
+  --container-max: 1200px;
+  --gutter: 16px;
+  --header-height: 80px;
+  --measure: 680px;
+
+  /* 12 motion */
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+  --dur-enter: 400ms;
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+}
+
+@media (min-width: 768px) { :root { --gutter: 24px; } }
+@media (min-width: 1024px) { :root { --gutter: 32px; } }

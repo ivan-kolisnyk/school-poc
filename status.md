@@ -1,7 +1,7 @@
 # Build status — Courtenay site POC
 
 **Plan:** `docs/superpowers/plans/2026-11-13-courtenay-site-poc.md` · **Branch:** `redesign`
-**Current:** Task 1 review pending; next is Task 2
+**Current:** Task 2 in progress
 
 Protocol: see the plan's "Progress log" section. Update after every step; resume from **Next**.
 
@@ -10,18 +10,23 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 ---
 
 ## Task 1: Test harness, path-prefix-safe base, dates module
-- **Status:** review
+- **Status:** done
 - **Agent:** implementer (sonnet), 2026-11-13
 - **Steps done:** 1-9
 - **Files touched:** lib/dates.js, eleventy.config.js, src/_data/{now.js,strings.js,site.json}, src/_settings/strings.en.json, base.njk, tests/*, package.json, .gitignore
 - **Last command:** npm test -> PASS (8/8)
-- **Next:** controller review
+- **Next:** —
 - **Blockers:** —
-- **Commit / review:** —
+- **Commit / review:** 0931c68 · review: approved (3 minor notes parked for final review)
 
 ## Task 2: Design tokens, fonts and base styles
-- **Status:** todo
-- **Next:** Step 1
+- **Status:** done
+- **Agent:** implementer (sonnet), 2026-11-13
+- **Steps done:** 1-5
+- **Files touched:** src/css/{tokens,base}.css, tests/unit/tokens.test.js, eleventy.config.js, base.njk, package.json, (deleted style.css)
+- **Last command:** npm test -> PASS (23/23)
+- **Next:** review
+- **Commit:** see git log
 
 ## Task 3: Layout shell — icons, placeholder, header, navigation, footer
 - **Status:** todo

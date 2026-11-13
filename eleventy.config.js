@@ -5,6 +5,11 @@ export default function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
 
   eleventyConfig.addPassthroughCopy({ "src/css": "css" });
+  // Only the weights DESIGN.md section 6 allows.
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/@fontsource/oswald/files/oswald-latin-{500,700}-normal.woff2": "fonts",
+    "node_modules/@fontsource/barlow/files/barlow-latin-{400,500,600}-normal.woff2": "fonts",
+  });
   eleventyConfig.addPassthroughCopy({ "src/images": "images" });
 
   // Interface text lives in src/_settings and is loaded by src/_data/strings.js.
