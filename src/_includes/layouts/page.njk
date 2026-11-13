@@ -21,7 +21,7 @@ layout: layouts/base.njk
       {%- set children = (collections["section_" + section] or []) if isHub else [] %}
       {%- if children.length %}
       <section class="link-rows-block" aria-labelledby="in-section-heading">
-        <h2 id="in-section-heading">{{ strings.pages.inSection }}</h2>
+        <h2 class="section-title" id="in-section-heading">{{ strings.pages.inSection }}</h2>
         <ul class="link-rows" role="list">
           {%- for child in children %}
           {%- set childUrl = child | entryUrl %}

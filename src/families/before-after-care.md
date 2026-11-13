@@ -25,4 +25,4 @@ Academic and enrichment classes run from dismissal to 4:00 pm, one day a week. E
 
 ## Sports
 
-Students can join CPS sports teams in fall, winter and spring. See [Athletics](/families/athletics/).
+Students can join Chicago Public Schools sports teams in fall, winter and spring. See [Athletics](/families/athletics/).

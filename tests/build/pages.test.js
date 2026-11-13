@@ -270,3 +270,44 @@ test("section H2s on events and news posts use the shared .section-title bar", (
   const css = readFileSync(path.join(root, "src/css/pages.css"), "utf8");
   assert.doesNotMatch(css, /border-left:\s*6px solid/, "pages.css repeats no gold-bar rule");
 });
+
+test("the gold bar is for section titles only, not H2s inside page bodies (DESIGN.md 8)", () => {
+  const css = readFileSync(path.join(root, "src/css/components.css"), "utf8");
+  const barRules = [...css.matchAll(/([^{}]+)\{[^}]*border-left:\s*6px solid var\(--color-surface-accent\)/g)].map((m) => m[1].trim());
+  for (const selector of barRules) assert.doesNotMatch(selector, /\.prose|h2/, `gold bar on "${selector}"`);
+  assert.ok(barRules.some((sel) => /^(\/\*[\s\S]*\*\/\s*)?\.section-title$/.test(sel)), ".section-title carries the bar");
+  const body = page("enroll/index.html").querySelectorAll("main .page-body > h2");
+  assert.ok(body.length && body.every((h) => !h.classList.contains("section-title")), "body H2s are plain");
+  assert.ok(page("about/index.html").querySelector("main #in-section-heading").classList.contains("section-title"));
+});
+
+// ---------- Plain language (DESIGN.md 14): jargon spelled out where a page first uses it ----------
+
+const JARGON = [
+  ["LSC", /Local School Council \(LSC\)/],
+  ["PAC", /Parent Advisory Council \(PAC\)/],
+  ["CPC", /Child-Parent Center \(CPC\)/],
+  ["ISBE", /Illinois State Board of Education \(ISBE\)/],
+  ["SCORE", /SCORE, the after-school sports program of Chicago Public Schools/],
+  ["GoCPS", /GoCPS, the CPS application and lottery website/],
+];
+
+test("jargon is spelled out at its first use on each content page", () => {
+  for (const file of CONTENT_PAGES) {
+    const main = page(file).querySelector("main");
+    const intro = main.querySelector(".page-header__intro");
+    const t = `${intro ? text(intro) : ""} ${text(main.querySelector(".page-body"))}`;
+    for (const [abbr, expansion] of JARGON) {
+      const first = t.search(new RegExp(`\\b${abbr}\\b`));
+      if (first < 0) continue;
+      const near = t.slice(Math.max(0, first - 60), first + 160);
+      assert.match(near, expansion, `${file}: first "${abbr}" is explained`);
+    }
+  }
+});
+
+test("PAC page promises nothing the school has not confirmed", () => {
+  const body = text(page("about/lsc-pac/index.html").querySelector("main .page-body"));
+  assert.doesNotMatch(body, /calendar/i);
+  assert.match(body, /PAC meeting notices and agendas are available from the main office/);
+});

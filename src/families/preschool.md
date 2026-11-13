@@ -20,7 +20,7 @@ Your child must be 3 or 4 years old on or before September 1 of the school year.
 
 ## How to apply
 
-Apply through [Chicago Early Learning](https://www.chicagoearlylearning.org). The application has several steps, and the CPS central office assigns the seats. Living near Courtenay does not guarantee a seat.
+Apply through [Chicago Early Learning](https://www.chicagoearlylearning.org). The application has several steps, and the Chicago Public Schools (CPS) central office assigns the seats. Living near Courtenay does not guarantee a seat.
 
 Once your child has a seat, [enroll the same way as for kindergarten to 8th grade](/enroll/).
 

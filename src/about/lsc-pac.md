@@ -1,6 +1,6 @@
 ---
 title: LSC & PAC
-intro: Two groups where families have a say in how Courtenay is run.
+intro: The Local School Council (LSC) and the Parent Advisory Council (PAC) give families a say in the school.
 order: 5
 ---
 ## Local School Council (LSC)
@@ -15,4 +15,4 @@ Current agendas and minutes are available from the main office.
 
 ## Parent Advisory Council (PAC)
 
-The Parent Advisory Council is a group of Courtenay parents who meet during the school year. PAC meetings are posted in [News & Events](/news/) and on our [events calendar](/events/).
+The Parent Advisory Council is a group of Courtenay parents who meet during the school year. PAC meeting notices and agendas are available from the main office. We also share them in [News & Events](/news/) when they are posted.

@@ -1042,9 +1042,9 @@ html.menu-open { overflow: hidden; }
 }
 @media (min-width: 1024px) { .section-head { margin-bottom: var(--space-6); } }
 .section-head .section-title { margin: 0; }
-/* The one gold-bar rule (DESIGN.md 8): section H2s in templates, and H2s in page bodies. */
-.section-title,
-.prose h2 {
+/* The one gold-bar rule (DESIGN.md 8): section titles only. H2s inside page and news-post
+   bodies keep the plain heading style. */
+.section-title {
   padding-left: var(--space-3);
   border-left: 6px solid var(--color-surface-accent);
 }

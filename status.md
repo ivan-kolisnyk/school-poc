@@ -48,11 +48,11 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Commit / review:** 9361db2 (+status commit) · review: approved (5 minor notes parked)
 
 ## Task 9: Inner pages, section navigation and migrated content
-- **Status:** review
+- **Status:** review (fix round 1 done: PAC wording, jargon on first use, gold bar on section titles only)
 - **Agent:** implementer (general-purpose), 2026-11-13
 - **Steps done:** 1-5 (ui-ux-pro-max loaded; headless-Chrome check at 1024/1440 header + dropdowns, 390 mobile menu Esc/resize, 320/390/1440 pages)
 - **Files touched:** eleventy.config.js, lib/shortcodes.js, src/_data/{paths.js,site.json}, src/_settings/strings.en.json, src/_includes/layouts/{page,post}.njk, src/_includes/partials/{header,page-header}.njk, src/{about,families,enroll,contact}/*, src/404.md, src/about.md (deleted), src/events/index.njk, src/css/{components,pages}.css, src/js/site.js, tests/build/pages.test.js, tests/unit/shortcodes.test.js, tests/helpers/build.js
-- **Last command:** npm test -> PASS (150/150, three runs)
+- **Last command:** npm test -> PASS (153/153) after fix round 1
 - **Next:** — (awaiting review; report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-9-report.md). TASK 10: empty PENDING in tests/build/pages.test.js
 - **Blockers:** —
 - **Commit / review:** 5464da9 (+status commit) · review: pending

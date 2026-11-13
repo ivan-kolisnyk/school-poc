@@ -6,8 +6,8 @@ Enrolling early helps us plan classes and staff for the year.
 
 ## Who can enroll
 
-- **Kindergarten to 8th grade, inside our attendance area:** Courtenay is your neighborhood school. Check your address with the [CPS School Locator](https://schoolinfo.cps.edu/schoollocator/index.html).
-- **Kindergarten to 8th grade, outside our attendance area:** apply through [GoCPS](https://go.cps.edu).
+- **Kindergarten to 8th grade, inside our attendance area:** Courtenay is your neighborhood Chicago Public Schools (CPS) school. Check your address with the [CPS School Locator](https://schoolinfo.cps.edu/schoollocator/index.html).
+- **Kindergarten to 8th grade, outside our attendance area:** apply through [GoCPS](https://go.cps.edu), the CPS application and lottery website.
 - **Preschool:** apply through [Chicago Early Learning](https://www.chicagoearlylearning.org). See [our preschool](/families/preschool/).
 
 {% callout %}
@@ -31,7 +31,7 @@ If they apply to your child:
 
 - Transfer form from your child's last school
 - Pre-K placement receipt
-- ISBE form from a school outside the district
+- A form from the Illinois State Board of Education (ISBE), if your child is coming from a school outside the district
 
 ## Wait list
 
