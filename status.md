@@ -43,7 +43,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Last command:** npm test -> PASS 107/107
 - **Next:** — (awaiting review)
 - **Blockers:** —
-- **Commit / review:** see git log (feat: Google Calendar events with recurrence and cache fallback)
+- **Commit / review:** 42f71d0
 
 ## Task 7: Homepage content model
 - **Status:** todo
