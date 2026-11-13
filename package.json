@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=26"
+  },
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy && pagefind --site _site",
-    "test": "node --test tests/unit tests/build tests/regression",
-    "test:gating": "node --test tests/unit tests/build",
-    "test:content": "node --test tests/content",
+    "test": "node --test \"tests/unit/*.test.js\" \"tests/build/*.test.js\" \"tests/regression/*.test.js\"",
+    "test:gating": "node --test \"tests/unit/*.test.js\" \"tests/build/*.test.js\"",
+    "test:content": "node --test \"tests/content/*.test.js\"",
     "build:ci": "eleventy --pathprefix=${PATH_PREFIX:-/school-poc/} && pagefind --site _site",
     "test:a11y": "playwright test",
     "build:es-sample": "STRINGS_FILE=tests/fixtures/strings-es-sample.json eleventy --pathprefix=/school-poc/ --output=_site_es --quiet",
