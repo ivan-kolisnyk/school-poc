@@ -69,13 +69,14 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 
 ## Task 14: Quality pass with the design skills
 ### 14a (steps 1–2 + carry-over items 1–13)
-- **Status:** in progress
-- **Agent:** implementer (opus), started 2026-11-13
-- **Steps done:** Step 1, Step 2 (Spanish sample at 320: npm run test:a11y:es), carry-over 1–13
-- **Files touched:** tests/fixtures/strings-es-sample.json, tests/a11y/es-overflow.spec.js, playwright.config.js, tests/a11y/serve.js, package.json, .gitignore, src/css/components.css (narrow tile padding), tests/unit/{strings,workflow}.test.js, .github/workflows/deploy.yml
-- **Last command:** npm test -> PASS; npm run test:a11y -> PASS 95/95; npm run test:a11y:es -> PASS 58/58
-- **Next:** commit Step 2 + CI; write task-14a-report.md; mark done
+- **Status:** done
+- **Agent:** implementer (opus), 2026-11-13
+- **Steps done:** Step 1 (a11y suite green), Step 2 (Spanish sample at 320: npm run test:a11y:es), carry-over 1–13
+- **Files touched:** see .superpowers/sdd/2026-11-13-courtenay-site-poc/task-14a-report.md
+- **Last command:** npm test -> PASS 195/195; npm run test:a11y -> PASS 95/95; npm run test:a11y:es -> PASS 58/58
+- **Next:** — (14b: steps 3–8)
 - **Blockers:** —
+- **Commit / review:** 174b717, 3c500d1, 94cf41f, ec5a417
 ### 14b (steps 3–8)
 - **Status:** todo
 
