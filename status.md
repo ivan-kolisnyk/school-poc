@@ -40,7 +40,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Last command:** npm test -> PASS 68/68
 - **Next:** — (awaiting review)
 - **Blockers:** —
-- **Commit / review:** 0d35864
+- **Commit / review:** 0d35864, fix 941946d
 
 ## Task 6: Google Calendar events
 - **Status:** todo
