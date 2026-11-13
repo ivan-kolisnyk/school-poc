@@ -44,7 +44,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Fix round 1 (controller rulings):** done — (1) /events/ shows next 90 days (`eventsDays: 90` in page front matter, `eventsWithin` filter) + "See the CPS district calendar" link; (2) feed body must contain BEGIN:VCALENDAR before Eleventy Fetch caches it (function source), else cache fallback / none. Files: lib/events.js, src/events/index.njk, eleventy.config.js, strings.en.json, pages.css, tests/{unit,build}/events.test.js, tests/fixtures/calendar.ics (+Spring concert 2027-03-04). npm test -> PASS 110/110
 - **Next:** — (awaiting review)
 - **Blockers:** —
-- **Commit / review:** 42f71d0
+- **Commit / review:** 42f71d0, fix ce917c7
 
 ## Task 7: Homepage content model
 - **Status:** todo
