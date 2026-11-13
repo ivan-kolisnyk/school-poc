@@ -1,7 +1,7 @@
 # Build status — Courtenay site POC
 
 **Plan:** `docs/superpowers/plans/2026-11-13-courtenay-site-poc.md` · **Branch:** `redesign`
-**Current:** Task 13 next (Task 12 fix in re-review)
+**Current:** Task 13 in progress
 
 Protocol: see the plan's "Progress log" section. Update after every step; resume from **Next**.
 
@@ -64,8 +64,8 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Commit / review:** 1f99378, e63ba48, ebfc46c · review: approved; cross-task fix a0756dd (staff email/photo rendering) in re-review
 
 ## Task 13: CI — tests, daily rebuild, Pagefind, accessibility report
-- **Status:** todo
-- **Next:** Step 1
+- **Status:** done
+- **Commit / review:** see git log (ci: tests, daily rebuild, search index, accessibility report); a11y suite 79 pass / 11 fail (tap targets), left for Task 14
 
 ## Task 14: Quality pass with the design skills
 - **Status:** todo

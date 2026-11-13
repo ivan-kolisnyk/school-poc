@@ -24,3 +24,6 @@ Gemfile.lock
 
 _test_site/
 .cache/
+
+test-results/
+playwright-report/
