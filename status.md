@@ -55,7 +55,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Last command:** npm test -> PASS (153/153) after fix round 1
 - **Next:** — (awaiting review; report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-9-report.md). TASK 10: empty PENDING in tests/build/pages.test.js
 - **Blockers:** —
-- **Commit / review:** 5464da9 (+status commit) · review: pending
+- **Commit / review:** 5464da9, fix 0e95548 (+status commits) · review: pending (fix round 1)
 
 ## Task 10: Staff directory
 - **Status:** todo
