@@ -57,11 +57,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 
 ## Task 11: Search
 - **Status:** done
-- **Agent:** implementer (sonnet), 2026-11-13
-- **Files touched:** package.json, package-lock.json, tests/helpers/build.js, tests/build/search.test.js, tests/build/home.test.js (spinner allowed), src/search/index.njk, layouts/base.njk, partials/header.njk, partials/page-header.njk, src/404.md, strings.en.json, site.js, components.css
-- **Last command:** npm test -> PASS
-- **Next:** review
-- **Commit / review:** see git log
+- **Commit / review:** 1dba05c, ad04c5f · review: approved after 1 fix round
 
 ## Task 12: Pages CMS configuration
 - **Status:** todo
@@ -79,3 +75,9 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 
 ## Log
 - 2026-11-13 — plan approved; status log created.
+
+## Task 12: Pages CMS configuration
+- **Status:** done
+- **Files touched:** .pages.yml, tests/unit/cms-config.test.js
+- **Last command:** npm test -> PASS (175/175)
+- **Next:** review
