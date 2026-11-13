@@ -38,7 +38,33 @@ test("the deploy is gated only by the content-independent suite", () => {
   assert.equal(wf.jobs.a11y["continue-on-error"], true);
 });
 
-test("a save during a deploy does not cancel it", () => {
-  assert.equal(wf.concurrency.group, "pages");
-  assert.equal(wf.concurrency["cancel-in-progress"], false);
+test("a save during a deploy does not cancel it; pull requests get their own group", () => {
+  assert.match(wf.concurrency.group, /github\.event_name == 'pull_request'/);
+  assert.match(wf.concurrency.group, /\|\| 'pages'/, "non-PR runs share the 'pages' group");
+  assert.equal(wf.concurrency["cancel-in-progress"], "${{ github.event_name == 'pull_request' }}");
+});
+
+test("pull requests to main run the checks but never deploy", () => {
+  assert.deepEqual(wf.on.pull_request.branches, ["main"]);
+  assert.deepEqual(wf.on.push.branches, ["main"]);
+  assert.equal(wf.jobs.deploy.if, "github.event_name != 'pull_request'");
+  for (const job of ["test", "build", "a11y"]) assert.equal(wf.jobs[job].if, undefined, `${job} runs on PRs`);
+});
+
+test("only the deploy job can write to Pages", () => {
+  assert.deepEqual(wf.permissions, { contents: "read" });
+  assert.deepEqual(wf.jobs.deploy.permissions, { pages: "write", "id-token": "write" });
+});
+
+test("CI and local development use the same Node version (.nvmrc)", () => {
+  const nvmrc = readFileSync(new URL("../../.nvmrc", import.meta.url), "utf8").trim();
+  const pkg = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8"));
+  assert.equal(nvmrc, "26");
+  assert.equal(pkg.engines.node, `>=${nvmrc}`);
+  const setups = Object.values(wf.jobs).flatMap((j) => j.steps ?? []).filter((s) => String(s.uses).startsWith("actions/setup-node"));
+  assert.ok(setups.length >= 3);
+  for (const s of setups) {
+    assert.equal(s.with["node-version-file"], ".nvmrc");
+    assert.equal(s.with["node-version"], undefined, "no hard-coded version next to .nvmrc");
+  }
 });

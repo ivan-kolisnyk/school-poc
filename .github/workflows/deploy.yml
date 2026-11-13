@@ -2,6 +2,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Pull requests run tests, build and the a11y report, but never deploy.
+  pull_request:
+    branches: [main]
   workflow_dispatch:
   schedule:
     # 10:00 UTC = 4-5 am Chicago: expired alerts and past events drop off before school.
@@ -9,13 +12,13 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
-  # A save during a deploy waits for it instead of cancelling it (GitHub's Pages starter setting).
-  cancel-in-progress: false
+  # Deploys share one queue; a save during a deploy waits for it instead of cancelling it
+  # (GitHub's Pages starter setting). Each pull request gets its own group, and a newer
+  # push to the same PR cancels its older run.
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.ref) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   test:
@@ -24,7 +27,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       # Content-independent: unit tests, build tests on fixtures and invariants, and the
@@ -38,7 +41,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       # Last good calendar copy: a fresh key every run, newest cache restored by prefix and re-saved.
@@ -64,7 +67,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       # Restore only: the build job owns saving the calendar cache under this run's key.
@@ -99,7 +102,11 @@ jobs:
 
   deploy:
     needs: build
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
