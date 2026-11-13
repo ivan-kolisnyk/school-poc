@@ -1,7 +1,7 @@
 # Build status — Courtenay site POC
 
 **Plan:** `docs/superpowers/plans/2026-11-13-courtenay-site-poc.md` · **Branch:** `redesign`
-**Current:** Task 12 in review; next is Task 13
+**Current:** Task 13 next (Task 12 fix in re-review)
 
 Protocol: see the plan's "Progress log" section. Update after every step; resume from **Next**.
 
@@ -60,8 +60,8 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Commit / review:** 1dba05c, ad04c5f · review: approved after 1 fix round
 
 ## Task 12: Pages CMS configuration
-- **Status:** todo
-- **Next:** Step 1
+- **Status:** done
+- **Commit / review:** 1f99378, e63ba48, ebfc46c · review: approved; cross-task fix a0756dd (staff email/photo rendering) in re-review
 
 ## Task 13: CI — tests, daily rebuild, Pagefind, accessibility report
 - **Status:** todo
@@ -75,9 +75,3 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 
 ## Log
 - 2026-11-13 — plan approved; status log created.
-
-## Task 12: Pages CMS configuration
-- **Status:** done
-- **Files touched:** .pages.yml, tests/unit/cms-config.test.js
-- **Last command:** npm test -> PASS (175/175)
-- **Next:** review
