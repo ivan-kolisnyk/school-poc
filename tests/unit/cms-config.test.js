@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { parse } from "yaml";
 
 const raw = readFileSync(new URL("../../.pages.yml", import.meta.url), "utf8");
