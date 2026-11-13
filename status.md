@@ -51,7 +51,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Last command:** npm test -> PASS (126/126)
 - **Next:** — (awaiting review; report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-8-report.md)
 - **Blockers:** —
-- **Commit / review:** see `feat: homepage hero, quick tasks, pride band, news and events`
+- **Commit / review:** 9361db2 · review: pending
 
 ## Task 9: Inner pages, section navigation and migrated content
 - **Status:** todo
