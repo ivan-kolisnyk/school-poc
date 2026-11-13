@@ -39,7 +39,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Last command:** npm test -> PASS 68/68
 - **Next:** — (awaiting review)
 - **Blockers:** —
-- **Commit / review:** see git log `feat: news cards, list and post pages with image pipeline`
+- **Commit / review:** 0d35864
 
 ## Task 6: Google Calendar events
 - **Status:** todo
