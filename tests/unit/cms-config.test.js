@@ -132,3 +132,7 @@ test("every CMS field is read by a template, the config or lib/", async () => {
   }
   assert.deepEqual(unread, []);
 });
+
+test("page collections name new files by title only, so new pages get clean URLs", () => {
+  for (const name of ["about", "families"]) assert.equal(entry(name).filename, "{primary}.md", name);
+});

@@ -160,6 +160,8 @@ content:
     type: collection
     path: src/about
     exclude: [about.json, staff.md]
+    # Slug-only file names, so a new page gets a clean URL (/about/new-page/), not a dated one.
+    filename: "{primary}.md"
     format: yaml-frontmatter
     view:
       fields: [title, order]
@@ -185,6 +187,8 @@ content:
     type: collection
     path: src/families
     exclude: [families.json, events.md, cps-calendar.md, parent-portal.md, lunch-menu.md]
+    # Slug-only file names, so a new page gets a clean URL (/families/new-page/), not a dated one.
+    filename: "{primary}.md"
     format: yaml-frontmatter
     view:
       fields: [title, order]

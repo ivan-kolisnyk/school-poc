@@ -95,7 +95,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Last command:** npm test -> PASS 229/229; npm run test:a11y -> PASS 98/98; npm run test:a11y:es -> PASS 58/58; npm run test:content -> PASS 7/7
 - **Next:** — (controller: re-review)
 - **Blockers:** —
-- **Commit / review:** 67720c6, 80c0202
+- **Commit / review:** 67720c6, 80c0202, + clean-URL follow-up (filename {primary}.md for About/Families)
 
 ---
 
@@ -103,3 +103,4 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - 2026-11-13 — plan approved; status log created.
 - 2026-11-13 — Final review fixes started (final-fix-brief.md).
 - 2026-11-13 — Final review fixes done (67720c6, 80c0202); report in final-fix-report.md.
+- 2026-11-13 — Final review follow-up: new About/Families pages get slug-only file names (clean URLs).

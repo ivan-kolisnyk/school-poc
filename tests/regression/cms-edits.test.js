@@ -211,6 +211,10 @@ test("pages: the dropdowns follow the edits; pasted H1/H4 headings are demoted",
   const nav = edited("index.html").querySelector("header nav");
   const about = nav.querySelectorAll("#subnav-about a").map(text);
   assert.ok(about.includes("Our history") && about.includes("Visit us") && !about.includes("Tours"));
+  // A page created in the CMS gets a clean URL from its title, not a dated one.
+  const history = nav.querySelectorAll("#subnav-about a").find((a) => text(a) === "Our history");
+  assert.equal(history.getAttribute("href"), `${PREFIX}/about/our-history/`);
+  assert.equal(text(edited("about/our-history/index.html").querySelector("h1")), "Our history");
   assert.ok(!nav.querySelectorAll("#subnav-families a").map(text).includes("Athletics"));
   const enroll = edited("enroll/index.html");
   assert.equal(enroll.querySelectorAll("h1").length, 1);
