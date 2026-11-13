@@ -8,7 +8,7 @@ import { chicagoLocalToDate } from "./lib/dates.js";
 import { icon, placeholder, headingClass, linkPhrase, externalKind, externalIcon, docLink, callout } from "./lib/shortcodes.js";
 import loadStrings from "./src/_data/strings.js";
 import { eventWhen, eventsWithin, groupByMonth, chicagoDay } from "./lib/events.js";
-import { staffGroups, initials } from "./lib/staff.js";
+import { staffGroups, initials, staffPhotoIssue } from "./lib/staff.js";
 import { nextHeadlines, newsDay, hasPhoto, photoIssue } from "./lib/news.js";
 
 export default function (eleventyConfig) {
@@ -40,7 +40,23 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("initials", initials);
 
   // Staff directory (DESIGN.md 10.11): non-empty groups in the fixed order of strings.staff.groups.
-  eleventyConfig.addCollection("staffGroups", (api) => staffGroups(api.getFilteredByTag("staff"), loadStrings().staff.groups));
+  // A photo needs alt text and an existing file; otherwise the initials circle shows (never a build failure).
+  eleventyConfig.addCollection("staffGroups", (api) => {
+    const items = api.getFilteredByTag("staff");
+    for (const item of items) {
+      const issue = staffPhotoIssue(item.data, (src, data) => imageExists(src, data));
+      if (issue) console.warn(`[staff] ${item.inputPath}: ${issue}; showing the initials circle.`);
+    }
+    return staffGroups(items, loadStrings().staff.groups);
+  });
+  eleventyConfig.addFilter("staffPhoto", (data) => Boolean(String(data?.photo ?? "").trim()) && staffPhotoIssue(data, (src, d) => imageExists(src, d)) === null);
+  // Test-only hook: add the fixture people in STAFF_FIXTURES_DIR as if they were in src/staff/people/.
+  if (process.env.STAFF_FIXTURES_DIR) {
+    const dir = path.resolve(process.env.STAFF_FIXTURES_DIR);
+    for (const file of readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+      eleventyConfig.addTemplate(`staff/people/${file}`, readFileSync(path.join(dir, file), "utf8"));
+    }
+  }
 
   eleventyConfig.addFilter("alertActive", (alert, now) => isAlertActive(alert, now));
   eleventyConfig.addFilter("chicagoIso", (local) => chicagoLocalToDate(local).toISOString());

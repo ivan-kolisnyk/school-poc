@@ -336,3 +336,12 @@
 @media (min-width: 768px) { .staff-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .staff-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) { .staff-filter__btn:active { transform: none; } }
+.staff-card__photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  margin-bottom: var(--space-2);
+}
+.staff-card__email { margin: var(--space-1) 0 0; }
+.staff-card__email a { display: inline-block; min-height: 44px; padding-block: 10px; }

@@ -1,7 +1,7 @@
 # Build status — Courtenay site POC
 
 **Plan:** `docs/superpowers/plans/2026-11-13-courtenay-site-poc.md` · **Branch:** `redesign`
-**Current:** Task 10 done, awaiting review
+**Current:** Task 12 in review; next is Task 13
 
 Protocol: see the plan's "Progress log" section. Update after every step; resume from **Next**.
 

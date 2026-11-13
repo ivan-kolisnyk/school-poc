@@ -69,3 +69,34 @@ test("staff menu entries point to /staff/", () => {
   const hrefs = page("index.html").querySelectorAll('a[href$="/school-poc/staff/"]');
   assert.ok(hrefs.length >= 2);
 });
+
+// ---- Editor-set email and photo (fixture people added through STAFF_FIXTURES_DIR) ----
+import { buildLog } from "../helpers/build.js";
+await build({ name: "staff-fixtures", env: { STAFF_FIXTURES_DIR: "tests/fixtures/staff" } });
+const fx = page("staff/index.html", "staff-fixtures");
+const cardOf = (name) => fx.querySelectorAll(".staff-card").find((c) => c.querySelector(".staff-card__name").text.includes(name));
+
+test("email renders as a mailto link named after the person", () => {
+  const a = cardOf("Fixture Email").querySelector('a[href^="mailto:"]');
+  assert.equal(a.getAttribute("href"), "mailto:fixture.email@cps.edu");
+  assert.equal(a.getAttribute("aria-label"), "Email Ms. Fixture Email");
+});
+
+test("photo with alt renders a 1:1 image and no initials circle", () => {
+  const card = cardOf("Fixture Photo");
+  assert.ok(card.querySelector("img.staff-card__photo, picture img"));
+  assert.equal(card.querySelector("img").getAttribute("alt"), "Ms. Fixture Photo smiling");
+  assert.equal(card.querySelector(".staff-card__initials"), null);
+});
+
+test("photo without alt or with a missing file falls back to initials and warns", () => {
+  for (const name of ["Fixture NoAlt", "Fixture Missing"]) {
+    const card = cardOf(name);
+    assert.ok(card.querySelector(".staff-card__initials"), name);
+    assert.equal(card.querySelector("img"), null, name);
+  }
+  const log = buildLog("staff-fixtures");
+  assert.match(log, /\[staff\].*photo-without-alt\.md.*no photo_alt/);
+  assert.match(log, /\[staff\].*photo-missing-file\.md.*photo file not found/);
+  assert.doesNotMatch(buildLog(), /\[staff\]/);
+});

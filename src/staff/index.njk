@@ -25,9 +25,16 @@ permalink: /staff/
       <ul class="staff-grid" role="list">
         {%- for person in group.people %}
         <li class="staff-card">
+          {%- if person | staffPhoto %}
+          <img class="staff-card__photo" src="{{ person.photo }}" alt="{{ person.photo_alt }}" sizes="(min-width: 1024px) 264px, (min-width: 768px) 30vw, 45vw">
+          {%- else %}
           <span class="staff-card__initials" aria-hidden="true">{{ person.name | initials }}</span>
+          {%- endif %}
           <h3 class="staff-card__name">{{ person.name }}</h3>
           <p class="staff-card__role">{{ person.role }}</p>
+          {%- if person.email %}
+          <p class="staff-card__email"><a href="mailto:{{ person.email }}" aria-label="{{ strings.staff.emailLabel | replace('{name}', person.name) }}">{{ person.email }}</a></p>
+          {%- endif %}
         </li>
         {%- endfor %}
       </ul>
