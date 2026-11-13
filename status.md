@@ -1,7 +1,7 @@
 # Build status — Courtenay site POC
 
 **Plan:** `docs/superpowers/plans/2026-11-13-courtenay-site-poc.md` · **Branch:** `redesign`
-**Current:** Task 4 done, awaiting review
+**Current:** Task 5 done, awaiting review
 
 Protocol: see the plan's "Progress log" section. Update after every step; resume from **Next**.
 
@@ -28,14 +28,18 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Commit / review:** 49f3375, 1b11edd · review: approved (8 minor notes routed to Tasks 8, 9, 14)
 
 ## Task 4: Alert banner
-- **Status:** done (review pending)
-- **Agent:** implementer (sonnet)
-- **Last command:** npm test -> PASS (47/47)
-- **Next:** review
+- **Status:** done
+- **Commit / review:** 38c00b1, 09325b3 · review: approved after 1 fix round (invalid dates, dismiss focus, prefixed link test)
 
 ## Task 5: Images, news cards, news list and post pages
-- **Status:** todo
-- **Next:** web-fetch current news, then Step 1
+- **Status:** done
+- **Agent:** implementer (opus), started 2026-11-13
+- **Steps done:** 1-6 (news already fetched: docs/content-import/task5-news.md)
+- **Files touched:** package.json/lock (+@11ty/eleventy-img), eleventy.config.js, lib/news.js, src/news/{news.json,index.njk,5 new posts, 2 samples +summary}, src/_includes/layouts/{post,base,home}.njk, src/_includes/partials/{news-card,page-header}.njk, header/footer.njk (logo eleventy:ignore), src/_settings/strings.en.json (news, breadcrumb), src/css/components.css, src/css/pages.css, tests/{unit,build}/news.test.js, tests/fixtures/news/, tests/helpers/build.js (+buildLog)
+- **Last command:** npm test -> PASS 68/68
+- **Next:** — (awaiting review)
+- **Blockers:** —
+- **Commit / review:** see git log `feat: news cards, list and post pages with image pipeline`
 
 ## Task 6: Google Calendar events
 - **Status:** todo

@@ -1,0 +1,20 @@
+{#- News card (DESIGN.md 10.8). Set `post` (a collection item); optional `cardLevel` (heading
+    level, default 3). Photo variant only when both image and image_alt exist; otherwise the
+    text-only variant with the gold left bar. The title link covers the whole card. -#}
+{%- set _level = cardLevel or 3 -%}
+{%- set _photo = post.data | hasPhoto -%}
+{%- set _day = post.date | newsDay -%}
+<article class="news-card {{ 'news-card--photo' if _photo else 'news-card--text' }}">
+  {%- if _photo %}
+  <div class="news-card__media">
+    <img src="{{ post.data.image }}" alt="{{ post.data.image_alt }}" sizes="(min-width: 1024px) 380px, 120px">
+  </div>
+  {%- endif %}
+  <div class="news-card__body">
+    <h{{ _level }} class="news-card__title"><a class="news-card__link" href="{{ post.url }}">{{ post.data.title }}</a></h{{ _level }}>
+    <p class="news-card__date"><time datetime="{{ _day }}">{{ _day | dateFormat("card") }}</time></p>
+    {%- if post.data.summary %}
+    <p class="news-card__summary">{{ post.data.summary }}</p>
+    {%- endif %}
+  </div>
+</article>

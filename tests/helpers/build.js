@@ -8,6 +8,7 @@ import { parse } from "node-html-parser";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const cache = new Map();
 const outDirs = new Map();
+const logs = new Map();
 
 const baseEnv = {
   SITE_NOW: "2026-11-13T12:00:00-06:00",
@@ -35,9 +36,10 @@ export function build(variant = { name: "default", env: {} }) {
           child.stdout.on("data", (d) => (err += d));
           child.stderr.on("data", (d) => (err += d));
           child.on("error", reject);
-          child.on("close", (code) =>
-            code === 0 ? resolve() : reject(new Error(`eleventy exited ${code}\n${err}`))
-          );
+          child.on("close", (code) => {
+            logs.set(name, err);
+            code === 0 ? resolve() : reject(new Error(`eleventy exited ${code}\n${err}`));
+          });
         });
         return out;
       })()
@@ -50,4 +52,10 @@ export function page(p, variantName = "default") {
   const out = outDirs.get(variantName);
   if (!out) throw new Error(`variant "${variantName}" has not been built; await build() first`);
   return parse(readFileSync(path.join(out, p), "utf8"));
+}
+
+/** Everything the build printed (stdout and stderr), e.g. content warnings. */
+export function buildLog(variantName = "default") {
+  if (!logs.has(variantName)) throw new Error(`variant "${variantName}" has not been built; await build() first`);
+  return logs.get(variantName);
 }

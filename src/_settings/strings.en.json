@@ -45,6 +45,19 @@
     "events": "No upcoming events.",
     "search": "No results found."
   },
+  "news": {
+    "heading": "News",
+    "allNews": "All news",
+    "moreNews": "More news",
+    "pagination": "News pages",
+    "newer": "Newer posts",
+    "older": "Older posts",
+    "pageOf": "Page {n} of {total}"
+  },
+  "breadcrumb": {
+    "label": "Breadcrumb",
+    "home": "Home"
+  },
   "footer": {
     "contactHeading": "Visit and call",
     "directions": "Get directions",

@@ -23,11 +23,10 @@ layout: layouts/base.njk
 
 <section class="container">
   <h2>Latest news</h2>
-  {% for post in collections.news | reverse %}
-  <article class="news-item">
-    <h3>{{ post.data.title }}</h3>
-    <time>{{ post.date | dateDisplay }}</time>
-    {{ post.templateContent | safe }}
-  </article>
-  {% endfor %}
+  {#- Interim until Task 8 rebuilds the homepage: the 3 newest posts as cards. #}
+  <div class="news-grid">
+    {%- for post in collections.newsDesc.slice(0, 3) %}
+    {% include "partials/news-card.njk" %}
+    {%- endfor %}
+  </div>
 </section>

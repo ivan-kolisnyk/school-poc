@@ -1,0 +1,27 @@
+{#- Inner page header (DESIGN.md 10.4): navy band, breadcrumb, H1, optional date or intro.
+    Minimal version for news; Task 9 extends it into the shared page header.
+    Set before including:
+      headerTitle     the H1 text
+      headerSentence  true for titles staff write (news posts): never uppercased
+      headerCrumbs    [{ label, url }] after Home (optional)
+      headerDate      "YYYY-MM-DD" shown in post format (optional)
+      headerIntro     one line under the title (optional) -#}
+<div class="page-header on-dark">
+  <div class="container page-header__inner">
+    <nav class="breadcrumb" aria-label="{{ strings.breadcrumb.label }}">
+      <ol class="breadcrumb__list" role="list">
+        <li><a href="/">{{ strings.breadcrumb.home }}</a></li>
+        {%- for crumb in headerCrumbs or [] %}
+        <li><a href="{{ crumb.url }}">{{ crumb.label }}</a></li>
+        {%- endfor %}
+      </ol>
+    </nav>
+    <h1 class="page-header__title {{ 'sentence-case' if headerSentence else (headerTitle | headingClass) }}">{{ headerTitle }}</h1>
+    {%- if headerDate %}
+    <p class="page-header__meta"><time datetime="{{ headerDate }}">{{ headerDate | dateFormat("post") }}</time></p>
+    {%- endif %}
+    {%- if headerIntro %}
+    <p class="page-header__intro">{{ headerIntro }}</p>
+    {%- endif %}
+  </div>
+</div>

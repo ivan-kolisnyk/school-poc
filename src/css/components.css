@@ -570,3 +570,229 @@ html.menu-open { overflow: hidden; }
 }
 .alert__dismiss:hover { color: var(--color-text-accent-on-dark); }
 .alert__dismiss:active { transform: translateY(1px); }
+
+/* ---------- Text link with icon (DESIGN.md 10.5: navy, underlined, 600) ---------- */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  font-weight: 600;
+}
+.text-link .icon { width: 20px; height: 20px; }
+.text-link:active { color: var(--color-text-on-accent); }
+
+/* ---------- Inner page header (DESIGN.md 10.4; Task 9 extends) ---------- */
+/* Navy band; the stripe motif (8) sits in its own strip along the bottom edge, never behind text. */
+.page-header {
+  position: relative;
+  padding-block: var(--space-5) calc(var(--space-7) + var(--space-4));
+  background: var(--color-surface-brand);
+  color: var(--color-text-on-dark);
+}
+.page-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--space-4);
+  background: repeating-linear-gradient(-55deg,
+    color-mix(in srgb, var(--color-surface-accent) 15%, transparent) 0 10px,
+    transparent 10px 20px);
+  pointer-events: none;
+}
+@media (min-width: 1024px) {
+  .page-header { padding-block: var(--space-6) calc(var(--space-8) + var(--space-4)); }
+}
+.page-header__inner > :last-child { margin-bottom: 0; }
+.page-header__title {
+  max-width: 20ch;
+  margin-bottom: var(--space-3);
+  color: var(--color-text-on-dark);
+  overflow-wrap: anywhere;
+}
+/* Titles staff write (news posts) keep their sentence case (DESIGN.md 6). */
+.sentence-case { text-transform: none; }
+.page-header__title.sentence-case,
+.page-header__title.long { max-width: 28ch; }
+.page-header__meta,
+.page-header__intro { max-width: var(--measure); margin: 0; font-weight: 500; }
+
+.breadcrumb { margin-bottom: var(--space-2); }
+.breadcrumb__list { display: flex; flex-wrap: wrap; align-items: center; }
+.breadcrumb__list li { display: inline-flex; align-items: center; margin: 0; }
+.breadcrumb__list li + li::before {
+  content: "/" / "";
+  padding-inline: var(--space-2);
+  color: var(--color-text-on-dark);
+  opacity: .6;
+}
+.breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  color: var(--color-text-accent-on-dark);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.breadcrumb a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+.breadcrumb a:active { color: var(--color-text-on-dark); }
+
+/* ---------- News cards (DESIGN.md 10.8) ---------- */
+/* Mobile: stacked list, photo cards with a 120px thumbnail on the left. >= 1024px: 3 columns. */
+.news-grid {
+  display: grid;
+  /* minmax(0, …): line-clamped text must not widen the column past the viewport. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+@media (min-width: 1024px) {
+  .news-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+}
+
+.news-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  background: var(--color-surface-page);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+}
+.news-card--text { border-left: 6px solid var(--color-surface-accent); }
+.news-card--photo { grid-template-columns: 120px minmax(0, 1fr); }
+@media (min-width: 1024px) {
+  .news-card--photo { grid-template-columns: minmax(0, 1fr); }
+}
+
+.news-card__media {
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  background: var(--color-surface-alt);
+}
+@media (min-width: 1024px) {
+  .news-card__media { border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+}
+.news-card__media picture { display: contents; }
+.news-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.news-card__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--space-4);
+}
+@media (min-width: 1024px) {
+  .news-card__body { padding: var(--space-4) var(--space-5) var(--space-5); }
+}
+
+/* Date reads first visually; the title stays first in the source for heading navigation. */
+.news-card__date {
+  order: -1;
+  margin: 0 0 var(--space-1);
+  color: var(--color-text-accent);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* Card titles are h2 on /news/ and h3 elsewhere; both look like H3 (Barlow 600, sentence case). */
+.news-card__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  margin: 0;
+  color: var(--color-text-brand);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  text-transform: none;
+  overflow-wrap: anywhere;
+}
+.news-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+/* The title link covers the whole card, so the card is one tap target with one name. */
+.news-card__link::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-sm);
+}
+.news-card--text .news-card__link::after { left: -6px; }
+.news-card__link:focus-visible { outline: none; }
+.news-card__link:focus-visible::after {
+  outline: 3px solid var(--color-focus-on-light);
+  outline-offset: 2px;
+}
+
+.news-card__summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+/* Hover and press: the photo zooms 1.03 inside its frame and the title underlines. */
+.news-card:hover .news-card__link,
+.news-card:active .news-card__link {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .15em;
+}
+.news-card:hover .news-card__media img,
+.news-card:active .news-card__media img { transform: scale(1.03); }
+@media (prefers-reduced-motion: reduce) {
+  .news-card:hover .news-card__media img,
+  .news-card:active .news-card__media img { transform: none; }
+}
+
+/* ---------- Pagination (news list) ---------- */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-subtle);
+}
+.pagination__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  font-weight: 600;
+}
+.pagination__link .icon { width: 20px; height: 20px; }
+.pagination__link--next { margin-inline-start: auto; }
+.pagination__status {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-small);
+  font-weight: 500;
+}
