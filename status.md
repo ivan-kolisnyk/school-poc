@@ -1,7 +1,7 @@
 # Build status — Courtenay site POC
 
 **Plan:** `docs/superpowers/plans/2026-11-13-courtenay-site-poc.md` · **Branch:** `redesign`
-**Current:** Task 14 in progress
+**Current:** All tasks done; PR #1 open. Open item: make tests/regression/cms-edits.test.js content-independent before inviting editors.
 
 Protocol: see the plan's "Progress log" section. Update after every step; resume from **Next**.
 
