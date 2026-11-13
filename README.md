@@ -18,7 +18,7 @@ This guide has two parts: **For editors** (principal and office staff) and **For
 2. Next time, go to [app.pagescms.org](https://app.pagescms.org), enter the same email address and click the sign-in link it sends you.
 3. Pick the Courtenay site. The menu on the left lists everything you can edit.
 
-**When does a change go live?** Every time you click **Save**, the site rebuilds. Your change is live in about 1–2 minutes. Refresh the page to see it.
+**When does a change go live?** Every time you click **Save**, the site rebuilds. Your change is live in a few minutes. Refresh the page to see it.
 
 ### Post news
 
@@ -37,8 +37,8 @@ Use the alert for things families must know today: a closure, an early dismissal
 1. Go to **Alert banner**.
 2. Turn on **Show the banner**.
 3. Pick the **Type of alert**:
-   - **Notice**: general news ("Report card pick-up Thursday").
-   - **School closed**: no school ("No school Monday, Nov 16: staff development day").
+   - **Notice**: general news (for example: "Report card pick-up on Thursday").
+   - **School closed**: no school (for example: "No school on Monday: staff development day").
    - **Emergency**: urgent safety news. It shows in red and cannot be closed by visitors.
 4. Write the **Message**. Keep it to one or two sentences.
 5. Optional: a **Link** to more details. Use a full web address, or a page on this site starting with a slash, like `/news/`.
@@ -56,6 +56,10 @@ The website is not the only channel in an emergency. CPS mass notifications rema
 2. Open the page and change the **Page title**, **Short introduction** or **Content**.
 3. **Menu order** sets where the page appears in its section's menu. Smaller numbers come first.
 4. Click **Save**.
+
+On **About pages**, **Portrait placeholder label** shows a labeled square photo placeholder at the top of the page. The principal's page uses it until a real photo exists.
+
+Headings in **Content** fit under the page title by themselves: a "Heading 1" shows as a section heading, and a heading never skips a level.
 
 Write plainly: short sentences, and headings that name the thing ("Lunch menu", not "Nourishing young minds"). When you link to a PDF, say what it is and its size, for example "LSC minutes, Oct 2026 (PDF, 220 KB)".
 
@@ -86,7 +90,7 @@ The site makes smaller copies of every photo for phones by itself. Upload the or
 Events are not entered in Pages CMS. The site reads the school's Google Calendar:
 
 - Add, change or delete events in Google Calendar, as you do today.
-- The homepage shows the next four events; the **Events** page shows all upcoming events. Past events drop off by themselves.
+- The homepage shows the next four events; the **Events** page shows all upcoming events. Past events drop off by themselves: each page hides an event once it has ended, even before the next rebuild.
 - Changes appear after the next rebuild: every morning (about 4–5 am Chicago time), or straight after anyone saves something in Pages CMS. Need it sooner? Ask an admin to run a build.
 - **The calendar must stay public** ("Make available to public — see all event details"). If it is made private, the site keeps showing the last copy it read, and new events stop appearing.
 - Only events on that one calendar appear on the site.
@@ -101,6 +105,13 @@ Events are not entered in Pages CMS. The site reads the school's Google Calendar
 2. Open the Courtenay project → **Settings** → **Collaborators**.
 3. Enter the editor's email address and send the invitation. To remove someone, remove them from the same list.
 
+**Before you invite the first editor, check the rich-text editor once.** Some pages hold short codes the editor must keep exactly as typed: `{% callout %}` boxes, `{% doc %}` document links and `{% placeholder %}` photo placeholders.
+
+1. In Pages CMS, open each of these pages and click **Save** without changing anything: **Enroll page**, **About pages** → **A message from the principal**, and **Families pages** → **Kindergarten readiness**.
+2. Under **Actions**, check that the run for each save passed (green tick).
+3. Open the three pages on the site and compare them with before: the callout box on Enroll, the portrait placeholder on the principal's page, the PDF link on Kindergarten readiness.
+4. In the repository, look at the changes those saves made to `src/enroll/index.md`, `src/about/principal.md` and `src/families/kindergarten-readiness.md`. Quotes turned into curly quotes, or `{%` turned into `\{%`, mean the editor changes short codes: stop and ask the developer before inviting editors.
+
 What editors can change is set in [`.pages.yml`](.pages.yml). Keep at least two admins.
 
 ### Run the site and the checks on your computer
@@ -110,7 +121,8 @@ Needs Node 24.
 ```bash
 npm install
 npm start              # live preview at http://localhost:8080/ (no path prefix)
-npm test               # unit and build tests
+npm test               # the deploy gate: unit tests, build tests, CMS-edit check
+npm run test:content   # house rules on today's content (plain language, migration)
 npm run build:ci       # production build into _site/ under /school-poc/
 npx playwright install chromium   # once, before the first accessibility run
 npm run test:a11y      # axe, overflow and tap-size checks on the built site (run build:ci first)
@@ -127,11 +139,13 @@ The workflow is `.github/workflows/deploy.yml` ("Deploy to GitHub Pages"). It ru
 - every day at 10:00 UTC (4–5 am Chicago), so expired alerts and past events drop off before school,
 - by hand: **Actions** → **Deploy to GitHub Pages** → **Run workflow**.
 
-The order is test → build → deploy. A failed test stops the deploy, and GitHub emails the repository admins.
+The order is test → build → deploy. A failed test stops the deploy: GitHub shows a red X in the **Actions** tab and notifies the person whose save triggered it. The tests that gate the deploy never check what the content says (they use test copies, and a check that edits a copy of the site the way Pages CMS does), so an editor's save cannot fail them. A save made while a deploy is running waits for it to finish, then publishes.
+
+**If nobody edits the site for 60 days** (a summer break, for example), GitHub turns off the daily rebuild for this repository. Alerts and past events still disappear in visitors' browsers when they end, but new Google Calendar events stop appearing. To turn it back on: **Actions** → **Deploy to GitHub Pages** → click **Enable workflow** in the banner. Any Pages CMS save also rebuilds the site straight away. Check this before each school year starts.
 
 ### The accessibility report
 
-The `a11y` job runs after each build. **It never blocks publishing**, so an editor's save always goes live. To read it: open the workflow run under **Actions** → **Artifacts** → download **a11y-report** → open `playwright-report/index.html` (and `playwright-report-es/index.html` for the Spanish-length check). A red `a11y` job means something to fix, usually a missing photo description or a very long title. Check the report after content changes.
+The `a11y` job runs after each build. **It never blocks publishing**, so an editor's save always goes live. To read it: open the workflow run under **Actions** → **Artifacts** → download **a11y-report** → open `playwright-report/index.html` (and `playwright-report-es/index.html` for the Spanish-length check). A red `a11y` job means something to fix, usually a missing photo description or a very long title. The same job runs the content checks (`npm run test:content`): jargon spelled out, no stale school year, the contact facts on the Contact page. Check the report after content changes.
 
 ### Connect the Google Calendar
 

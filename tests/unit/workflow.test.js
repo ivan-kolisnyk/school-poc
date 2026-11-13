@@ -26,3 +26,19 @@ test("the a11y job runs the Spanish-sample overflow check and uploads its report
   assert.match(upload.with.path, /playwright-report-es\//);
   assert.match(upload.with.path, /test-results\/a11y-es\.json/);
 });
+
+test("the deploy is gated only by the content-independent suite", () => {
+  const pkg = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8"));
+  assert.deepEqual(runs("test"), ["npm ci", "npm test"]);
+  assert.deepEqual(wf.jobs.build.needs, "test");
+  assert.doesNotMatch(pkg.scripts.test, /tests\/content|tests\/a11y/, "content rules never block a publish");
+  assert.match(pkg.scripts.test, /tests\/regression/, "the CMS-edit regression test gates");
+  assert.equal(pkg.scripts["test:gating"], "node --test tests/unit tests/build");
+  assert.ok(runs("a11y").includes("npm run test:content"), "content rules run in the non-blocking a11y job");
+  assert.equal(wf.jobs.a11y["continue-on-error"], true);
+});
+
+test("a save during a deploy does not cancel it", () => {
+  assert.equal(wf.concurrency.group, "pages");
+  assert.equal(wf.concurrency["cancel-in-progress"], false);
+});

@@ -14,7 +14,8 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  # A save during a deploy waits for it instead of cancelling it (GitHub's Pages starter setting).
+  cancel-in-progress: false
 
 jobs:
   test:
@@ -26,6 +27,8 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # Content-independent: unit tests, build tests on fixtures and invariants, and the
+      # CMS-edit regression test. Content rules (tests/content) run in the a11y job instead.
       - run: npm test
 
   build:
@@ -77,6 +80,9 @@ jobs:
         env:
           PATH_PREFIX: /school-poc/
       - run: npm run test:a11y
+      # Plain-language and migration rules on the real content (reported, never blocking).
+      - run: npm run test:content
+        if: ${{ !cancelled() }}
       # Layouts with ~25% longer (sample Spanish) labels, built separately into _site_es.
       - run: npm run test:a11y:es
         if: ${{ !cancelled() }}
