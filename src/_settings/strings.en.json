@@ -113,6 +113,28 @@
     "eventsHeading": "Upcoming events",
     "readFullMessage": "Read the full message"
   },
+  "menu": {
+    "heading": "Today's menu",
+    "headingNext": "Next school day's menu",
+    "weekHeading": "Week of {date}",
+    "seeWeek": "See this week's menu",
+    "fullMenu": "Allergens and nutrition on MealViewer",
+    "noMenuDay": "No menu posted.",
+    "empty": "No menu is posted for this week yet. See the full menu on MealViewer.",
+    "emptyLink": "See the full menu on MealViewer",
+    "withMilk": "Breakfast and lunch come with a choice of milk.",
+    "changeNote": "Menus come from CPS and can change with little notice.",
+    "meals": {
+      "k8-breakfast": "Breakfast · K–8",
+      "k8-lunch": "Lunch · Pre-K–8",
+      "prek-breakfast": "Breakfast · Pre-K",
+      "prek-lunch": "Lunch · Pre-K",
+      "prek-snack": "Snack · Pre-K",
+      "k8-snack": "Snack · K–8",
+      "afterSchool-snack": "After-school snack"
+    },
+    "groups": { "main": "Main", "vegetables": "Vegetables", "fruit": "Fruit" }
+  },
   "meta": {
     "description": "A Chicago public school in Uptown for Pre-K to 8th grade."
   }

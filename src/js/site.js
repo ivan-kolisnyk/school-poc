@@ -60,6 +60,40 @@
     });
   }
 
+  // Menus: the page holds every coming school day (homepage) or week (menu page). Show the
+  // first one that is not over yet in Chicago, so a page older than today never shows a past
+  // menu. When none is left, the homepage card goes and the menu page shows its empty line.
+  function chicagoToday() {
+    try {
+      return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+    } catch (e) {
+      return new Date().toISOString().slice(0, 10);
+    }
+  }
+
+  function initMenus() {
+    const today = chicagoToday();
+    document.querySelectorAll("[data-meals]").forEach((box) => {
+      const panels = [...box.querySelectorAll("[data-meals-day], [data-meals-week-end]")];
+      if (!panels.length) return;
+      const lastDay = (el) => el.getAttribute("data-meals-day") || el.getAttribute("data-meals-week-end");
+      const current = panels.find((el) => lastDay(el) >= today);
+      panels.forEach((el) => { if (el !== current) el.remove(); });
+      if (current) {
+        current.hidden = false;
+        // Homepage title: "Today's menu" only when the day shown is today.
+        const isToday = current.getAttribute("data-meals-day") === today;
+        box.querySelectorAll("[data-meals-heading]").forEach((el) => {
+          el.hidden = (el.getAttribute("data-meals-heading") === "today") !== isToday;
+        });
+        return;
+      }
+      const empty = box.querySelector("[data-meals-empty]");
+      if (empty) empty.hidden = false;
+      else if (box.matches("[data-home-section]")) box.remove();
+    });
+  }
+
   // Staff directory: filter by group. Without JavaScript the buttons stay hidden and every group shows.
   function initStaffFilter() {
     const bar = document.querySelector("[data-staff-filter]");
@@ -175,6 +209,7 @@
   function init() {
     initAlert();
     initEvents();
+    initMenus();
     initStaffFilter();
     initSearchPage();
     const header = document.querySelector("[data-header]");

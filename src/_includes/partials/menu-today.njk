@@ -1,0 +1,30 @@
+{#- Homepage "Today's menu" gold band (issue #3): the Pre-K–8 lunch and the Pre-K snack for today, or for the
+    next school day on a weekend or holiday (then titled "Next school day's menu"). Every coming school day is in the page, hidden
+    but the first: site.js shows the right one when the page is older than today (cached, or
+    the daily rebuild stopped) and removes the section once no day is left. With no menu
+    data the whole section is left out (DESIGN.md 10.0: empty components hide). -#}
+{%- set _today = now | chicagoDay -%}
+{%- set _days = menus.days | homeMenuDays(_today) -%}
+{%- if _days.length %}
+<section class="section home-menu" data-home-section="menu" aria-labelledby="home-menu-title" data-meals data-meals-source="{{ menus.source }}">
+  <div class="container">
+    <div class="section-head">
+      {#- "Today's menu", or "Next school day's menu" on a weekend or day off; site.js re-picks. -#}
+      {%- set _isToday = _days.length and _days[0].date == _today %}
+      <h2 class="section-title" id="home-menu-title"><span data-meals-heading="today"{% if not _isToday %} hidden{% endif %}>{{ strings.menu.heading }}</span><span data-meals-heading="next"{% if _isToday %} hidden{% endif %}>{{ strings.menu.headingNext }}</span></h2>
+      <a class="text-link section-head__more" href="{{ paths.lunchMenu }}"><span>{{ strings.menu.seeWeek }}</span>{% icon "arrow-right" %}</a>
+    </div>
+    {%- for day in _days %}
+    <div class="menu-today" data-meals-day="{{ day.date }}"{% if not loop.first %} hidden{% endif %}>
+      <p class="menu-today__date"><time datetime="{{ day.date }}">{{ day.date | dateFormat("list") }}</time></p>
+      <div class="menu-today__meals">
+        {%- for meal in day.meals %}
+        {%- set mealLevel = 3 %}
+        {% include "partials/meal.njk" %}
+        {%- endfor %}
+      </div>
+    </div>
+    {%- endfor %}
+  </div>
+</section>
+{%- endif %}

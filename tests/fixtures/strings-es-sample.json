@@ -113,6 +113,28 @@
     "eventsHeading": "Próximos eventos",
     "readFullMessage": "Leer el mensaje completo"
   },
+  "menu": {
+    "heading": "Menú de hoy",
+    "headingNext": "Menú del próximo día de clases",
+    "weekHeading": "Semana del {date}",
+    "seeWeek": "Ver el menú de esta semana",
+    "fullMenu": "Alérgenos y nutrición en MealViewer",
+    "noMenuDay": "No hay menú publicado.",
+    "empty": "Todavía no hay menú publicado para esta semana. Vea el menú completo en MealViewer.",
+    "emptyLink": "Vea el menú completo en MealViewer",
+    "withMilk": "El desayuno y el almuerzo incluyen leche a elegir.",
+    "changeNote": "Los menús vienen de CPS y pueden cambiar con poco aviso.",
+    "meals": {
+      "k8-breakfast": "Desayuno · K–8",
+      "k8-lunch": "Almuerzo · Pre-K–8",
+      "prek-breakfast": "Desayuno · Pre-K",
+      "prek-lunch": "Almuerzo · Pre-K",
+      "prek-snack": "Merienda · Pre-K",
+      "k8-snack": "Merienda · K–8",
+      "afterSchool-snack": "Merienda después de clases"
+    },
+    "groups": { "main": "Plato principal", "vegetables": "Verduras", "fruit": "Fruta" }
+  },
   "meta": {
     "description": "Una escuela pública de Chicago en Uptown, de Pre-K a 8.º grado."
   }

@@ -1,0 +1,1845 @@
+{
+ "menuSchedules": [
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-09T00:00:00",
+    "weekDayName": "Monday"
+   },
+   "menuBlocks": [
+    {
+     "blockName": "K-8 GNG Breakfast",
+     "scheduledDate": "2026-11-09T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cinnamon French Toast"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "COLD ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Assorted Cereals"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheddar Cheese Stick"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Apple (Local)"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Sunny Citrus Blend Juice"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "K-8 Lunch",
+     "scheduledDate": "2026-11-09T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREES"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Chicken & Cheese Soft Tacos"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Bean & Cheese Burrito"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "SBJ Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "WBJ Sandwich"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Sliced Jalapenos"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "VEGETABLES"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Refried Beans"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Chili Corn Salad (Local)"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Banana"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Raisins"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Chocolate Skim Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "Pre-K Snack",
+     "scheduledDate": "2026-11-09T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Creamy Sunflower Butter"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Apple Slices (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "After School Snack",
+     "scheduledDate": "2026-11-09T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Giant Vanilla Goldfish Graham"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Creamy Yogurt Cup"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-10T00:00:00",
+    "weekDayName": "Tuesday"
+   },
+   "menuBlocks": [
+    {
+     "blockName": "K-8 GNG Breakfast",
+     "scheduledDate": "2026-11-10T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "COLD ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Horchata Apple Yogurt Parfait"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Graham Crackers"
+          },
+          {
+           "item_Type": "Breakfast",
+           "item_Name": "Country Chicken Biscuit"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Dried Cranberries"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Apple Slices (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          },
+          {
+           "item_Type": "CONDIMENTS",
+           "item_Name": "Jelly"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "K-8 Lunch",
+     "scheduledDate": "2026-11-10T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREES"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Spicy Crispy Chicken Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Crispy Chicken Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Veggie Burger"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ketchup"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Mayonnaise"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Mustard"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "CPS Sweet Heat Sauce"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Protein Kit w/Yogurt, Cheese & Graham Crackers"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ranch Dressing"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "VEGETABLES"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Seasoned Carrots (Local)"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Fresh Cucumber Slices"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Blueberries"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Grape Juice"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Chocolate Skim Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          },
+          {
+           "item_Type": "CONDIMENTS",
+           "item_Name": "BBQ Sauce"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "Pre-K Snack",
+     "scheduledDate": "2026-11-10T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Creamy Yogurt Cup"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Pretzel Goldfish Crackers"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "After School Snack",
+     "scheduledDate": "2026-11-10T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheez-It Crackers"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheddar Cheese Stick"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-11T00:00:00",
+    "weekDayName": "Wednesday"
+   },
+   "menuBlocks": []
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-12T00:00:00",
+    "weekDayName": "Thursday"
+   },
+   "menuBlocks": [
+    {
+     "blockName": "K-8 GNG Breakfast",
+     "scheduledDate": "2026-11-12T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Turkey Bacon Scramble Breakfast Square"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "COLD ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "French Toast Bar"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Raisins"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Diced Pears"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "K-8 Lunch",
+     "scheduledDate": "2026-11-12T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "*HOLIDAY MEAL!*"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREES"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Browned Turkey Breast with Gravy"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Toasted Grilled Cheese"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ketchup"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Protein Kit w/Yogurt, Cheese & Graham Crackers"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "VEGETABLES"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Garlic Mashed Potatoes"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Garlic Green Beans (Local)"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Sliced Peaches"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Orange"
+          },
+          {
+           "item_Type": "Breads/Grains",
+           "item_Name": "Traditional Stuffing"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Chocolate Skim Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "Pre-K Snack",
+     "scheduledDate": "2026-11-12T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Blueberry Muffin (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "After School Snack",
+     "scheduledDate": "2026-11-12T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Assorted Cereals"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-13T00:00:00",
+    "weekDayName": "Friday"
+   },
+   "menuBlocks": [
+    {
+     "blockName": "K-8 GNG Breakfast",
+     "scheduledDate": "2026-11-13T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Buttery Maple Snack'n Waffles"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "COLD ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Assorted Cereals"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheddar Cheese Stick"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Blueberries"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Banana"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "K-8 Lunch",
+     "scheduledDate": "2026-11-13T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREES"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheese Pizzadilla"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Turkey Chef Salad w/ Dinner Roll & Ranch"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "SBJ Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "WBJ Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ranch Dressing"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "VEGETABLES"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Cajun Broccoli"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Fresh Green Pepper Strips"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Dried Cranberries"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Apple (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Chocolate Skim Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "Pre-K Snack",
+     "scheduledDate": "2026-11-13T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Round Tortilla Chips"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Black Bean Salsa"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "After School Snack",
+     "scheduledDate": "2026-11-13T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Pretzel Goldfish Crackers"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheddar Cheese Cubes"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-14T00:00:00",
+    "weekDayName": "Saturday"
+   },
+   "menuBlocks": []
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-15T00:00:00",
+    "weekDayName": "Sunday"
+   },
+   "menuBlocks": []
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-16T00:00:00",
+    "weekDayName": "Monday"
+   },
+   "menuBlocks": [
+    {
+     "blockName": "K-8 GNG Breakfast",
+     "scheduledDate": "2026-11-16T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cherry Frudel"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "COLD ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Assorted Cereals"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Creamy Yogurt Cup"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Apple (Local)"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Sunny Citrus Blend Juice"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "K-8 Lunch",
+     "scheduledDate": "2026-11-16T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREES"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cajun Chicken Rotini Pasta"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Mozzarella Sticks"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Marinara Dipping Sauce"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "SBJ Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "WBJ Sandwich"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "VEGETABLES"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Roasted Lemon Pepper Broccoli"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Baby Carrots w/Ranch"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Banana"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Raisins"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Chocolate Skim Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "Pre-K Snack",
+     "scheduledDate": "2026-11-16T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Creamy Yogurt Cup"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Graham Crackers"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "After School Snack",
+     "scheduledDate": "2026-11-16T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Graham Crackers"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Creamy Yogurt Cup"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-17T00:00:00",
+    "weekDayName": "Tuesday"
+   },
+   "menuBlocks": [
+    {
+     "blockName": "K-8 GNG Breakfast",
+     "scheduledDate": "2026-11-17T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Turkey Sausage Breakfast Quesadilla"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "COLD ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Oatmeal Raisin Bar"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Dried Cranberries"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Apple Slices (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "K-8 Lunch",
+     "scheduledDate": "2026-11-17T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREES"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Beef & Cheese Soft Tacos"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Bean & Cheese Burrito"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Layered Bean & Cheese Dip w/Tortilla Chips"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Sliced Jalapenos"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "VEGETABLES"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Refried Beans"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Seasoned Corn (Local)"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Blueberries"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Blended Fruit Juice"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Chocolate Skim Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "Pre-K Snack",
+     "scheduledDate": "2026-11-17T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Pretzel Goldfish Crackers"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "After School Snack",
+     "scheduledDate": "2026-11-17T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheddar Goldfish Crackers"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "String Cheese"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-18T00:00:00",
+    "weekDayName": "Wednesday"
+   },
+   "menuBlocks": [
+    {
+     "blockName": "K-8 GNG Breakfast",
+     "scheduledDate": "2026-11-18T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Pancake Bites"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "COLD ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Bagel"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cream Cheese PC"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Applesauce Cup"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Banana"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "K-8 Lunch",
+     "scheduledDate": "2026-11-18T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREES"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "CHEF'S CHOICE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Buffalo Ranch Chicken Leg (Local)"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Chef Fuller Inspired BBQ Chicken Leg (Local)"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Sweet Heat Chicken Leg (Local)"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Dinner Roll"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Margarine"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Toasted Grilled Cheese"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ketchup"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "SBJ Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "WBJ Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ketchup"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ranch Dressing"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "VEGETABLES"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Crinkle Cut Fries"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Fresh Green Pepper Strips"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Dried Cranberries"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Orange"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Chocolate Skim Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          },
+          {
+           "item_Type": "Headers",
+           "item_Name": "*FINGER FOOD DAY!*"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "Pre-K Snack",
+     "scheduledDate": "2026-11-18T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Creamy Yogurt Cup"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Apple Slices (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "After School Snack",
+     "scheduledDate": "2026-11-18T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Banana Muffin (Local)"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Apple (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-19T00:00:00",
+    "weekDayName": "Thursday"
+   },
+   "menuBlocks": [
+    {
+     "blockName": "K-8 GNG Breakfast",
+     "scheduledDate": "2026-11-19T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Sliced Smoked Chicken & Cheese Croissant"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "COLD ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cinnamon Breakfast Bun"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Raisins"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Diced Pears"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "K-8 Lunch",
+     "scheduledDate": "2026-11-19T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREES"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Beef Gyro w/Creamy Spice Sauce"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Chik'N Nuggets"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Seasoned Hawaiian Roll"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ketchup"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "CPS Sweet Heat Sauce"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Layered Bean & Cheese Dip w/Tortilla Chips"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "VEGETABLES"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Seasoned Mixed Vegetables"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Shawarma Coleslaw"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Sliced Peaches"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Grape Juice"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Chocolate Skim Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "Pre-K Snack",
+     "scheduledDate": "2026-11-19T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheez-It Crackers"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ranch Dressing"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Fresh Cucumber Slices"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "After School Snack",
+     "scheduledDate": "2026-11-19T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Assorted Cereals"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "dateInformation": {
+    "dateFull": "2026-11-20T00:00:00",
+    "weekDayName": "Friday"
+   },
+   "menuBlocks": [
+    {
+     "blockName": "K-8 GNG Breakfast",
+     "scheduledDate": "2026-11-20T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Apple Cinnamon Bread (Local)"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "String Cheese"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "COLD ENTREE"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Assorted Cereals"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "String Cheese"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Blueberries"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Applesauce Cup"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "K-8 Lunch",
+     "scheduledDate": "2026-11-20T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "FEATURED ENTREES"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Pepperoni Pizza Wedge"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheese Pizza Wedge"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "SBJ Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "WBJ Sandwich"
+          },
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Ranch Dressing"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "VEGETABLES"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Garlic Green Beans (Local)"
+          },
+          {
+           "item_Type": "VEGETABLE",
+           "item_Name": "Fresh Cucumber Slices"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "FRUITS"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Mixed Fruit"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Fresh Apple Slices (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "CHOICE OF MILK"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Chocolate Skim Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "1% Milk (Local)"
+          },
+          {
+           "item_Type": "MILK",
+           "item_Name": "Skim Milk (Local)"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "Pre-K Snack",
+     "scheduledDate": "2026-11-20T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Giant Vanilla Goldfish Graham"
+          },
+          {
+           "item_Type": "FRUIT",
+           "item_Name": "Diced Pears"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "After School Snack",
+     "scheduledDate": "2026-11-20T00:00:00",
+     "blackedOut": false,
+     "cafeteriaLineList": {
+      "data": [
+       {
+        "name": "COURTENAY",
+        "foodItemList": {
+         "data": [
+          {
+           "item_Type": "ENTREES",
+           "item_Name": "Cheddar Cheese Stick"
+          },
+          {
+           "item_Type": "Grain",
+           "item_Name": "Buffalo Cheez-It Crackers"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}

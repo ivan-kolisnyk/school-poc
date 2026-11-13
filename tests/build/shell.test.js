@@ -77,7 +77,7 @@ test("mobile menu repeats the six quick tasks at the bottom", () => {
   ]);
   assert.deepEqual(tasks.map((a) => a.getAttribute("href")), [
     "/school-poc/events/",
-    site.links.lunchMenu,
+    "/school-poc/families/lunch-menu/",
     site.links.parentPortal,
     "/school-poc/enroll/",
     "/school-poc/families/before-after-care/",

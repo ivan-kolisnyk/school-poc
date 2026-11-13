@@ -1,0 +1,37 @@
+---
+# Built from CPS's MealViewer menu (src/_data/menus.js), not edited in the CMS.
+title: Lunch menu
+intro: Breakfast, lunch and snack menus for this school week, from CPS.
+order: 3
+permalink: /families/lunch-menu/
+---
+{#- This week's menu, Monday to Friday (issue #3). On a weekend it shows the coming week.
+    Next week is in the page too, hidden: site.js swaps to it when the page is older than this
+    week, and shows the empty line once no week is left. -#}
+{%- set _weeks = menus.days | menuWeeks(now | chicagoDay) -%}
+{%- set _ext %}{% icon "external-link", strings.a11y.external %}{% endset -%}
+<div class="menu-week-box" data-meals data-meals-source="{{ menus.source }}">
+  {%- for week in _weeks %}
+  <section class="menu-week" data-meals-week-end="{{ week.end }}" aria-labelledby="menu-week-{{ week.start }}"{% if not loop.first %} hidden{% endif %}>
+    <h2 id="menu-week-{{ week.start }}">{{ strings.menu.weekHeading | replace("{date}", week.start | dateFormat("post")) }}</h2>
+    {%- for day in week.days %}
+    <section class="menu-day" aria-labelledby="menu-day-{{ day.date }}">
+      <h3 class="menu-day__title" id="menu-day-{{ day.date }}"><time datetime="{{ day.date }}">{{ day.date | dateFormat("list") }}</time></h3>
+      {%- if day.meals.length %}
+      <div class="menu-day__meals">
+        {%- for meal in day.meals %}
+        {%- set mealLevel = 4 %}
+        {% include "partials/meal.njk" %}
+        {%- endfor %}
+      </div>
+      {%- else %}
+      <p class="menu-day__none">{{ strings.menu.noMenuDay }}</p>
+      {%- endif %}
+    </section>
+    {%- endfor %}
+  </section>
+  {%- endfor %}
+  <p class="menu-empty"{% if _weeks.length %} data-meals-empty hidden{% endif %}>{{ strings.menu.empty | linkPhrase(strings.menu.emptyLink, site.links.lunchMenu, _ext) | safe }}</p>
+  <p class="menu-notes">{{ strings.menu.withMilk }} {{ strings.menu.changeNote }}</p>
+  <p class="menu-full"><a href="{{ site.links.lunchMenu }}">{{ strings.menu.fullMenu }} {{ _ext | safe }}</a></p>
+</div>

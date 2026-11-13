@@ -29,11 +29,11 @@ const section = (name, variant) => home$(variant).querySelector(`main [data-home
 
 test("homepage sections come in the blueprint order", () => {
   const order = main().querySelectorAll("[data-home-section]").map((el) => el.getAttribute("data-home-section"));
-  const expected = ["hero", "actions", "tasks", "pride", "news", "events", "welcome"]
+  const expected = ["hero", "actions", "tasks", "menu", "news", "events", "welcome"]
     .filter((s) => s !== "news" || newsPosts().length > 0);
   assert.deepEqual(order, expected);
   assert.deepEqual(main("home-fixture").querySelectorAll("[data-home-section]").map((el) => el.getAttribute("data-home-section")),
-    ["hero", "actions", "tasks", "pride", "news", "events", "welcome"]);
+    ["hero", "actions", "tasks", "menu", "news", "events", "welcome"]);
 });
 
 test("one h1, in the hero, with the headline and the highlight in gold", () => {
@@ -64,11 +64,11 @@ test("hero shows the photo only with alt text and an existing file, else the lab
   assert.equal(warned, Boolean(String(fm.hero_image ?? "").trim()) && !showsPhoto(fm.hero_image, fm.hero_alt));
 });
 
-test("pride band: the three facts from the front matter, in order", () => {
-  const items = section("pride").querySelectorAll(".pride__item");
-  assert.equal(items.length, 3);
-  assert.deepEqual(items.map((li) => text(li.querySelector(".pride__value"))), fm.pride.map((p) => String(p.value ?? "").trim()));
-  assert.deepEqual(items.map((li) => text(li.querySelector(".pride__label"))), fm.pride.map((p) => String(p.label ?? "").trim()));
+test("pride band is hidden for now: no section and no placeholder numbers on the homepage", () => {
+  for (const variant of [undefined, "home-fixture"]) {
+    assert.equal(section("pride", variant), null);
+    assert.equal(home$(variant).querySelector(".pride"), null);
+  }
 });
 
 test("welcome: title, photo placeholder and the read-more link from the front matter", () => {
@@ -90,12 +90,6 @@ test("fixture: headline, gold highlight and supporting line", () => {
   assert.match(text(section("hero", "home-fixture")), /A neighborhood public school in Uptown/);
   assert.equal(section("hero", "home-fixture").querySelector(".ph").getAttribute("aria-label"), "Photo placeholder: Kids at recess");
   assert.doesNotMatch(buildLog("home-fixture"), /\[home\]/, "a hero without a photo raises no warning");
-});
-
-test("fixture: pride band shows the placeholder values", () => {
-  const items = section("pride", "home-fixture").querySelectorAll(".pride__item");
-  assert.deepEqual(items.map((li) => text(li.querySelector(".pride__value"))), ["000", "PRE-K–8", "00:1"]);
-  assert.deepEqual(items.map((li) => text(li.querySelector(".pride__label"))), ["Students", "Grades", "Student–teacher ratio"]);
 });
 
 test("fixture: welcome message, its pasted headings re-levelled under the section h2", () => {
@@ -133,7 +127,7 @@ test("quick tasks: six links in order with the right destinations", () => {
   assert.deepEqual(links.map(text), ["Calendar", "Lunch menu", "Parent portal", "Enroll", "Before & after care", "Contact"]);
   assert.deepEqual(links.map((a) => a.getAttribute("href")), [
     `${PREFIX}/events/`,
-    site.links.lunchMenu,
+    `${PREFIX}/families/lunch-menu/`,
     site.links.parentPortal,
     `${PREFIX}/enroll/`,
     `${PREFIX}/families/before-after-care/`,
