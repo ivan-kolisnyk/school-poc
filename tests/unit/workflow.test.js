@@ -33,7 +33,7 @@ test("the deploy is gated only by the content-independent suite", () => {
   assert.deepEqual(wf.jobs.build.needs, "test");
   assert.doesNotMatch(pkg.scripts.test, /tests\/content|tests\/a11y/, "content rules never block a publish");
   assert.match(pkg.scripts.test, /tests\/regression/, "the CMS-edit regression test gates");
-  assert.equal(pkg.scripts["test:gating"], "node --test tests/unit tests/build");
+  assert.equal(pkg.scripts["test:gating"], 'node --test "tests/unit/*.test.js" "tests/build/*.test.js"');
   assert.ok(runs("a11y").includes("npm run test:content"), "content rules run in the non-blocking a11y job");
   assert.equal(wf.jobs.a11y["continue-on-error"], true);
 });
