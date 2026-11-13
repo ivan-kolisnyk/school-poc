@@ -32,9 +32,13 @@
     "close": "Close"
   },
   "alertLabels": {
-    "info": "Notice",
-    "warning": "Important",
-    "closure": "School closure"
+    "notice": "Notice",
+    "closed": "Closed",
+    "emergency": "Emergency"
+  },
+  "alert": {
+    "details": "Details",
+    "dismiss": "Dismiss alert"
   },
   "empty": {
     "news": "No news yet. Check back soon.",

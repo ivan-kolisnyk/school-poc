@@ -509,3 +509,64 @@ html.menu-open { overflow: hidden; }
   .site-nav__sub-toggle .icon,
   .site-header::after { transition: none; }
 }
+
+/* ---------- Alert banner (DESIGN.md 10.1) ---------- */
+.alert {
+  background: var(--color-surface-brand-strong);
+  color: var(--color-text-on-dark);
+  border-bottom: 4px solid var(--gold);
+}
+.alert--emergency {
+  background: var(--color-status-emergency-bg);
+  color: var(--color-status-emergency-fg);
+  border-bottom: 0;
+}
+.alert__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: var(--space-2) var(--gutter, var(--space-4));
+}
+.alert__text {
+  flex: 1;
+  margin: 0;
+  padding-block: var(--space-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  overflow-wrap: anywhere;
+}
+.alert__label {
+  margin-inline-end: var(--space-1);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--color-text-accent-on-dark);
+}
+.alert--emergency .alert__label { color: var(--color-status-emergency-fg); }
+.alert__link {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.alert__link:hover { text-decoration-thickness: 2px; }
+.alert--emergency :focus-visible { outline-color: var(--color-status-emergency-fg); }
+.alert__dismiss {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-block: calc(var(--space-1) * -1);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out, ease);
+}
+.alert__dismiss:hover { color: var(--color-text-accent-on-dark); }
+.alert__dismiss:active { transform: translateY(1px); }

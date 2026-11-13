@@ -12,6 +12,7 @@ const outDirs = new Map();
 const baseEnv = {
   SITE_NOW: "2026-11-13T12:00:00-06:00",
   CALENDAR_ICS_FILE: "tests/fixtures/calendar.ics",
+  ALERT_FILE: "tests/fixtures/alert-on.json",
 };
 
 export function build(variant = { name: "default", env: {} }) {

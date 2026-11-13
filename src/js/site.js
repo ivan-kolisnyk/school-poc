@@ -7,7 +7,30 @@
   const FOCUSABLE = "a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex='-1'])";
   const EXIT_MS = 150; // --dur-fast; exits are quicker than the 200ms enter.
 
+  // Alert banner: gone once its end time passes; Notice/Closed can be dismissed for the visit.
+  function initAlert() {
+    const alert = document.querySelector("[data-alert]");
+    if (!alert) return;
+    const end = alert.getAttribute("data-alert-end");
+    const endMs = Date.parse(end);
+    const KEY = "courtenay-alert-dismissed";
+    let dismissed = null;
+    try { dismissed = sessionStorage.getItem(KEY); } catch (e) { /* storage unavailable */ }
+    if (Number.isNaN(endMs) || Date.now() >= endMs || dismissed === end) { alert.remove(); return; }
+    const button = alert.querySelector("[data-alert-dismiss]");
+    if (button) {
+      button.addEventListener("click", () => {
+        try { sessionStorage.setItem(KEY, end); } catch (e) { /* ignore */ }
+        alert.remove();
+      });
+    }
+    // Remove it while the page is open when the end time arrives.
+    const wait = endMs - Date.now();
+    if (wait < 2147483647) setTimeout(() => alert.remove(), wait);
+  }
+
   function init() {
+    initAlert();
     const header = document.querySelector("[data-header]");
     if (!header) return;
     initScrollShadow(header);

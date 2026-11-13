@@ -12,6 +12,7 @@
 </head>
 <body>
   <a class="skip-link" href="#main">{{ strings.a11y.skipToContent }}</a>
+  {% include "partials/alert.njk" %}
   {% include "partials/header.njk" %}
 
   <main id="main" tabindex="-1">{{ content | safe }}</main>

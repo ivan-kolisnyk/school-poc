@@ -1,0 +1,11 @@
+{%- if alert and (alert | alertActive(now)) -%}
+{%- set level = alert.level if alert.level in ["notice", "closed", "emergency"] else "notice" -%}
+<div class="alert alert--{{ level }}{% if level != 'emergency' %} on-dark{% endif %}" role="{{ 'alert' if level == 'emergency' else 'status' }}" data-alert data-alert-end="{{ alert.end | chicagoIso }}">
+  <div class="alert__inner">
+    <p class="alert__text"><span class="alert__label">{{ strings.alertLabels[level] }}</span> <span class="alert__message">{{ alert.message }}</span>{% if alert.link %} <a class="alert__link" href="{{ alert.link }}">{{ strings.alert.details }}</a>{% endif %}</p>
+    {%- if level != "emergency" %}
+    <button type="button" class="alert__dismiss" data-alert-dismiss aria-label="{{ strings.alert.dismiss }}">{% icon "x" %}</button>
+    {%- endif %}
+  </div>
+</div>
+{%- endif -%}

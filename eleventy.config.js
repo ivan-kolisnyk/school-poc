@@ -1,5 +1,7 @@
 import { EleventyHtmlBasePlugin } from "@11ty/eleventy";
 import { formatDate, formatTime } from "./lib/dates.js";
+import { isAlertActive } from "./lib/alert.js";
+import { chicagoLocalToDate } from "./lib/dates.js";
 import { icon, placeholder, headingClass } from "./lib/shortcodes.js";
 
 export default function (eleventyConfig) {
@@ -20,6 +22,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("dateFormat", (value, style) => formatDate(value, style));
   eleventyConfig.addFilter("timeFormat", (value) => formatTime(value));
   eleventyConfig.addFilter("headingClass", headingClass);
+
+  eleventyConfig.addFilter("alertActive", (alert, now) => isAlertActive(alert, now));
+  eleventyConfig.addFilter("chicagoIso", (local) => chicagoLocalToDate(local).toISOString());
 
   eleventyConfig.addShortcode("icon", icon);
   eleventyConfig.addShortcode("placeholder", placeholder);
