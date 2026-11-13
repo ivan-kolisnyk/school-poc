@@ -8,6 +8,7 @@ import { chicagoLocalToDate } from "./lib/dates.js";
 import { icon, placeholder, headingClass, linkPhrase, externalKind, externalIcon, docLink, callout } from "./lib/shortcodes.js";
 import loadStrings from "./src/_data/strings.js";
 import { eventWhen, eventsWithin, groupByMonth, chicagoDay } from "./lib/events.js";
+import { staffGroups, initials } from "./lib/staff.js";
 import { nextHeadlines, newsDay, hasPhoto, photoIssue } from "./lib/news.js";
 
 export default function (eleventyConfig) {
@@ -36,6 +37,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("dateFormat", (value, style) => formatDate(value, style));
   eleventyConfig.addFilter("timeFormat", (value) => formatTime(value));
   eleventyConfig.addFilter("headingClass", headingClass);
+  eleventyConfig.addFilter("initials", initials);
+
+  // Staff directory (DESIGN.md 10.11): non-empty groups in the fixed order of strings.staff.groups.
+  eleventyConfig.addCollection("staffGroups", (api) => staffGroups(api.getFilteredByTag("staff"), loadStrings().staff.groups));
 
   eleventyConfig.addFilter("alertActive", (alert, now) => isAlertActive(alert, now));
   eleventyConfig.addFilter("chicagoIso", (local) => chicagoLocalToDate(local).toISOString());

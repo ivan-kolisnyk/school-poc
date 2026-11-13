@@ -61,6 +61,13 @@
     "cpsCalendarLink": "see the CPS calendar",
     "cpsCalendar": "See the CPS district calendar"
   },
+  "staff": {
+    "title": "Our staff",
+    "intro": "Meet the teachers and staff of Courtenay.",
+    "filterLabel": "Show staff by group",
+    "all": "All",
+    "groups": ["Administration", "Pre-K", "K–2", "3–5", "6–8", "Specials", "Support"]
+  },
   "pages": {
     "inSection": "In this section"
   },

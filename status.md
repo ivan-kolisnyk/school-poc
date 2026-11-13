@@ -1,7 +1,7 @@
 # Build status — Courtenay site POC
 
 **Plan:** `docs/superpowers/plans/2026-11-13-courtenay-site-poc.md` · **Branch:** `redesign`
-**Current:** Task 5 done, awaiting review
+**Current:** Task 10 done, awaiting review
 
 Protocol: see the plan's "Progress log" section. Update after every step; resume from **Next**.
 
@@ -48,18 +48,12 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Commit / review:** 9361db2 (+status commit) · review: approved (5 minor notes parked)
 
 ## Task 9: Inner pages, section navigation and migrated content
-- **Status:** review (fix round 1 done: PAC wording, jargon on first use, gold bar on section titles only)
-- **Agent:** implementer (general-purpose), 2026-11-13
-- **Steps done:** 1-5 (ui-ux-pro-max loaded; headless-Chrome check at 1024/1440 header + dropdowns, 390 mobile menu Esc/resize, 320/390/1440 pages)
-- **Files touched:** eleventy.config.js, lib/shortcodes.js, src/_data/{paths.js,site.json}, src/_settings/strings.en.json, src/_includes/layouts/{page,post}.njk, src/_includes/partials/{header,page-header}.njk, src/{about,families,enroll,contact}/*, src/404.md, src/about.md (deleted), src/events/index.njk, src/css/{components,pages}.css, src/js/site.js, tests/build/pages.test.js, tests/unit/shortcodes.test.js, tests/helpers/build.js
-- **Last command:** npm test -> PASS (153/153) after fix round 1
-- **Next:** — (awaiting review; report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-9-report.md). TASK 10: empty PENDING in tests/build/pages.test.js
-- **Blockers:** —
-- **Commit / review:** 5464da9, fix 0e95548 (+status commits) · review: pending (fix round 1)
+- **Status:** done
+- **Commit / review:** 5464da9, 0e95548 (+status commits) · review: approved after 1 fix round
 
 ## Task 10: Staff directory
-- **Status:** todo
-- **Next:** Step 1 (staff already fetched: docs/content-import/task10-staff.md)
+- **Status:** done
+- **Commit / review:** see git log (feat: staff directory) · awaiting review
 
 ## Task 11: Search
 - **Status:** todo

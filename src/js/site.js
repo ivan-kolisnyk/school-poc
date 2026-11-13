@@ -32,8 +32,25 @@
     if (wait < 2147483647) setTimeout(() => alert.remove(), wait);
   }
 
+  // Staff directory: filter by group. Without JavaScript the buttons stay hidden and every group shows.
+  function initStaffFilter() {
+    const bar = document.querySelector("[data-staff-filter]");
+    if (!bar) return;
+    const buttons = Array.from(bar.querySelectorAll("button"));
+    const groups = Array.from(document.querySelectorAll("[data-staff-group]"));
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const wanted = button.getAttribute("data-group");
+        buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+        groups.forEach((g) => { g.hidden = Boolean(wanted) && g.getAttribute("data-staff-group") !== wanted; });
+      });
+    });
+    bar.hidden = false;
+  }
+
   function init() {
     initAlert();
+    initStaffFilter();
     const header = document.querySelector("[data-header]");
     if (!header) return;
     initScrollShadow(header);

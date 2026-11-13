@@ -14,9 +14,8 @@ const PREFIX = "/school-poc";
 
 const out = await build();
 
-// Internal links that may not resolve yet. /staff/ is built by Task 10:
-// TASK 10 — empty this set so the staff directory link is checked like every other.
-const PENDING = new Set([`${PREFIX}/staff/`]);
+// Internal links that may not resolve yet (none: the staff directory is built).
+const PENDING = new Set();
 
 const EXTERNAL_LABELS = [strings.a11y.externalCps, strings.a11y.external];
 
