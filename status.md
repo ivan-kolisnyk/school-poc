@@ -71,10 +71,10 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 ### 14a (steps 1–2 + carry-over items 1–13)
 - **Status:** in progress
 - **Agent:** implementer (opus), started 2026-11-13
-- **Steps done:** Step 1 (a11y suite green); carry-over 1–9, 12, 13 (commit 174b717 + cleanup commit)
-- **Files touched:** strings.en.json, footer.njk, tokens.css, PAC news posts, tests/unit/{strings,tokens}.test.js, tests/build/shell.test.js
-- **Last command:** npm test -> PASS 190/190
-- **Next:** Step 2 — tests/fixtures/strings-es-sample.json, es build + 320 overflow check (test:a11y:es); then CI 10–11
+- **Steps done:** Step 1, Step 2 (Spanish sample at 320: npm run test:a11y:es), carry-over 1–13
+- **Files touched:** tests/fixtures/strings-es-sample.json, tests/a11y/es-overflow.spec.js, playwright.config.js, tests/a11y/serve.js, package.json, .gitignore, src/css/components.css (narrow tile padding), tests/unit/{strings,workflow}.test.js, .github/workflows/deploy.yml
+- **Last command:** npm test -> PASS; npm run test:a11y -> PASS 95/95; npm run test:a11y:es -> PASS 58/58
+- **Next:** commit Step 2 + CI; write task-14a-report.md; mark done
 - **Blockers:** —
 ### 14b (steps 3–8)
 - **Status:** todo

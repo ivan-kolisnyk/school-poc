@@ -1,10 +1,11 @@
-// Tiny static server: maps /school-poc/* to _site/* so the built site works under its path prefix.
+// Tiny static server: maps /school-poc/* to _site/* (or SITE_DIR) so the built site works
+// under its path prefix.
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../_site");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..", process.env.SITE_DIR || "_site");
 const PREFIX = "/school-poc/";
 const port = Number(process.env.PORT || 4173);
 const types = {
@@ -44,4 +45,4 @@ createServer(async (req, res) => {
   } catch {
     res.writeHead(404).end("Not found");
   }
-}).listen(port, () => console.log(`Serving _site at http://localhost:${port}${PREFIX}`));
+}).listen(port, () => console.log(`Serving ${root} at http://localhost:${port}${PREFIX}`));

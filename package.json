@@ -8,7 +8,9 @@
     "build": "eleventy && pagefind --site _site",
     "test": "node --test tests/unit tests/build",
     "build:ci": "eleventy --pathprefix=${PATH_PREFIX:-/school-poc/} && pagefind --site _site",
-    "test:a11y": "playwright test"
+    "test:a11y": "playwright test",
+    "build:es-sample": "STRINGS_FILE=tests/fixtures/strings-es-sample.json eleventy --pathprefix=/school-poc/ --output=_site_es --quiet",
+    "test:a11y:es": "npm run build:es-sample && A11Y_VARIANT=es-sample playwright test"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0",

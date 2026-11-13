@@ -448,6 +448,11 @@ html.menu-open { overflow: hidden; }
   height: 14px;
   margin: 0;
 }
+/* Narrow phones: the label gets the tile's full width, so a long word (Spanish runs ~25% longer,
+   e.g. "CONTÁCTENOS") never splits at 320px (DESIGN.md 10.0, 14). */
+@media (max-width: 359.98px) {
+  .quick-task { padding-inline: var(--space-1); }
+}
 @media (min-width: 1024px) {
   .quick-tasks--tiles { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }

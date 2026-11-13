@@ -37,3 +37,32 @@ test("the copyright line is named for what it holds", () => {
   assert.equal(strings.footer.rights, undefined);
   assert.equal(strings.footer.copyrightHolder, "Mary E. Courtenay Language Arts Center");
 });
+
+// Step 2 of the quality pass: a test-only Spanish sample (DESIGN.md 14) checks that layouts
+// survive ~25% longer labels at 320px. It must stay a full copy of the English file.
+const es = JSON.parse(readFileSync(path.join(root, "tests/fixtures/strings-es-sample.json"), "utf8"));
+const shape = (o) => (Array.isArray(o) ? o.map(shape) : o && typeof o === "object"
+  ? Object.fromEntries(Object.entries(o).map(([k, v]) => [k, shape(v)])) : typeof o);
+
+test("the Spanish sample has exactly the English keys", () => {
+  const en = shape(strings);
+  en.quickTasks.items = strings.quickTasks.items.map((i) => i.key);
+  const sample = shape(es);
+  sample.quickTasks.items = es.quickTasks.items.map((i) => i.key);
+  assert.deepEqual(sample, en);
+  assert.deepEqual(es.staff.groups, strings.staff.groups, "group names are data keys, not labels");
+});
+
+test("the Spanish sample carries the DESIGN.md 14 labels and runs longer", () => {
+  assert.equal(es.home.enrollNow.toUpperCase(), "INSCRIBIR AHORA");
+  assert.equal(es.home.bookTour.toUpperCase(), "AGENDAR UNA VISITA");
+  assert.equal(es.quickTasks.items.find((i) => i.key === "lunchMenu").label, "Menú del almuerzo");
+  assert.deepEqual(Object.values(es.alertLabels).map((l) => l.toUpperCase()), ["AVISO", "CERRADO", "EMERGENCIA"]);
+  const len = (list) => list.join("").length;
+  const navKeys = ["about", "families", "enroll", "news", "contact"];
+  assert.ok(len(navKeys.map((k) => es.nav[k])) >= 1.25 * len(navKeys.map((k) => strings.nav[k])), "nav labels");
+  const tasks = (s) => s.quickTasks.items.map((i) => i.label);
+  assert.ok(len(tasks(es)) >= 1.25 * len(tasks(strings)), "quick-task labels");
+  const buttons = (s) => [s.home.enrollNow, s.home.bookTour, s.home.seeAllNews, s.events.seeFullCalendar, s.search.submit];
+  assert.ok(len(buttons(es)) >= 1.25 * len(buttons(strings)), "button labels");
+});
