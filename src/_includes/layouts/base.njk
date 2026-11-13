@@ -4,19 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title }} · {{ site.name }}</title>
-  <link rel="stylesheet" href="{{ '/css/style.css' | url }}">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  {% if site.alert.enabled and site.alert.message %}
-  <div class="alert" role="alert">{{ site.alert.message }}</div>
-  {% endif %}
-
   <header class="site-header">
     <div class="container bar">
-      <a class="brand" href="{{ '/' | url }}">{{ site.name }}</a>
+      <a class="brand" href="/">{{ site.name }}</a>
       <nav>
-        <a href="{{ '/' | url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Home</a>
-        <a href="{{ '/about/' | url }}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
+        <a href="/"{% if page.url == '/' %} aria-current="page"{% endif %}>Home</a>
+        <a href="/about/"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
       </nav>
     </div>
   </header>

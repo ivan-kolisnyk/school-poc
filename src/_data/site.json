@@ -1,12 +1,8 @@
 {
-  "name": "Courtenay Elementary School",
+  "name": "Mary E. Courtenay Language Arts Center",
   "tagline": "Curious minds. Kind hearts.",
   "address": "4420 N Beacon st, Chicago",
   "phone": "(773) 534-5790",
   "email": "office@cps.edu",
-  "hours": "Mon–Fri, 8:00 am – 4:00 pm",
-  "alert": {
-    "enabled": false,
-    "message": "School is closed Monday for a staff development day."
-  }
+  "hours": "Mon–Fri, 8:00 am – 4:00 pm"
 }

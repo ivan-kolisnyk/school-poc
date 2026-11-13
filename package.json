@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "test": "node --test tests/unit tests/build"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0"
+    "@11ty/eleventy": "^3.0.0",
+    "node-html-parser": "^9.0.7",
+    "yaml": "^2.9.1"
   }
 }

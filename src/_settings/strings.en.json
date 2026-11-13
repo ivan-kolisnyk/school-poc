@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "label": "Main",
+    "items": [
+      { "label": "About", "url": "/about/" },
+      { "label": "Families", "url": "/families/" },
+      { "label": "Enroll", "url": "/enroll/" },
+      { "label": "News & Events", "url": "/news/" },
+      { "label": "Contact", "url": "/contact/" }
+    ]
+  },
+  "quickTasks": {
+    "heading": "Quick tasks",
+    "items": [
+      { "label": "Calendar", "url": "/calendar/" },
+      { "label": "Lunch menu", "url": "/families/lunch-menu/" },
+      { "label": "Parent portal", "url": "/families/parent-portal/" },
+      { "label": "Enroll", "url": "/enroll/" },
+      { "label": "Before & after care", "url": "/families/before-after-care/" },
+      { "label": "Contact", "url": "/contact/" }
+    ]
+  },
+  "buttons": {
+    "readMore": "Read more",
+    "viewAll": "View all",
+    "search": "Search",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "alertLabels": {
+    "info": "Notice",
+    "warning": "Important",
+    "closure": "School closure"
+  },
+  "empty": {
+    "news": "No news yet. Check back soon.",
+    "events": "No upcoming events.",
+    "search": "No results found."
+  },
+  "footer": {
+    "staffLinks": "Staff links",
+    "social": "Courtenay on Instagram",
+    "rights": "Mary E. Courtenay Language Arts Center"
+  },
+  "search": {
+    "label": "Search the site",
+    "placeholder": "Search"
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  }
+}
