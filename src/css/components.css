@@ -259,7 +259,8 @@ html.menu-open { overflow: hidden; }
   }
   .site-nav__link[aria-current]::after { transform: none; }
   .site-nav__sub-toggle { min-width: 56px; min-height: 56px; }
-  .site-nav__sub {
+  /* .site-nav prefix: outranks the ul[role="list"] reset, so the pages sit indented under their section. */
+  .site-nav .site-nav__sub {
     flex-basis: 100%;
     padding: 0 0 var(--space-3) var(--space-6);
   }
@@ -302,12 +303,16 @@ html.menu-open { overflow: hidden; }
     top: 100%;
     left: 0;
     z-index: var(--z-menu);
+    width: max-content;
     min-width: 240px;
+    max-width: 320px;
     padding: var(--space-2) 0;
     background: var(--color-surface-brand-strong);
     border-top: 4px solid var(--color-surface-accent);
   }
-  .site-nav__sub a { padding: var(--space-2) var(--space-4); font-size: 16px; }
+  /* The last section's list opens leftward so it never runs past the right edge at 1024px. */
+  .site-nav__item:last-child .site-nav__sub { left: auto; right: 0; }
+  .site-nav__sub a { gap: var(--space-1); padding: var(--space-2) var(--space-4); font-size: 16px; }
 }
 
 /* ---------- Search panel (opened from the header; Task 11 wires results) ---------- */
@@ -592,7 +597,7 @@ html.menu-open { overflow: hidden; }
 .text-link .icon { width: 20px; height: 20px; }
 .text-link:active { color: var(--color-text-on-accent); }
 
-/* ---------- Inner page header (DESIGN.md 10.4; Task 9 extends) ---------- */
+/* ---------- Inner page header (DESIGN.md 10.4) ---------- */
 /* Navy band; the stripe motif (8) sits in its own strip along the bottom edge, never behind text. */
 .page-header {
   position: relative;
@@ -652,6 +657,86 @@ html.menu-open { overflow: hidden; }
 }
 .breadcrumb a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
 .breadcrumb a:active { color: var(--color-text-on-dark); }
+
+/* ---------- Callout (DESIGN.md 10.10): key info such as deadlines ---------- */
+.callout {
+  margin: var(--space-5) 0;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface-alt);
+  border-left: 6px solid var(--color-surface-accent);
+}
+.callout > :last-child { margin-bottom: 0; }
+.callout__title {
+  margin-bottom: var(--space-2);
+  color: var(--color-text-brand);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* ---------- Document link (DESIGN.md 10.10, A13): "Label (PDF, 220 KB)" ---------- */
+.doc-link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding-block: 10px;
+  font-weight: 600;
+}
+.doc-link > .icon-file-text { width: 20px; height: 20px; margin-top: .15em; }
+.doc-link__meta { color: var(--color-text-secondary); font-weight: 500; }
+.doc-link > .icon-external-link { margin-top: .3em; }
+
+/* ---------- Link rows: a section hub's pages (DESIGN.md 10.0 linked rows) ---------- */
+/* One row per page: title, one-line intro, chevron. The whole row is the tap target;
+   hover and press tint it surface and underline the title. */
+.link-rows-block { margin-top: var(--space-7); }
+.link-rows,
+.prose .link-rows { margin: 0; padding: 0; border-top: 1px solid var(--color-border-subtle); }
+.link-rows > li,
+.prose .link-rows > li + li { margin: 0; }
+.link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 64px;
+  padding: var(--space-3) var(--space-2) var(--space-3) var(--space-3);
+  border-bottom: 1px solid var(--color-border-subtle);
+  color: var(--color-text-brand);
+  text-decoration: none;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.link-row:hover,
+.link-row:active { background: var(--color-surface-alt); }
+.link-row:focus-visible { outline-offset: -3px; }
+.link-row__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.link-row__title {
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  text-underline-offset: .15em;
+  overflow-wrap: anywhere;
+}
+.link-row:hover .link-row__title,
+.link-row:active .link-row__title { text-decoration: underline; text-decoration-thickness: 2px; }
+.link-row__intro {
+  color: var(--color-text-secondary);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: var(--lh-small);
+}
+.link-row > .icon-chevron-right {
+  width: 20px;
+  height: 20px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.link-row:hover > .icon-chevron-right { transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) {
+  .link-row:hover > .icon-chevron-right { transform: none; }
+}
 
 /* ---------- News cards (DESIGN.md 10.8) ---------- */
 /* Mobile: stacked list, photo cards with a 120px thumbnail on the left. >= 1024px: 3 columns. */
@@ -957,7 +1042,9 @@ html.menu-open { overflow: hidden; }
 }
 @media (min-width: 1024px) { .section-head { margin-bottom: var(--space-6); } }
 .section-head .section-title { margin: 0; }
-.section-title {
+/* The one gold-bar rule (DESIGN.md 8): section H2s in templates, and H2s in page bodies. */
+.section-title,
+.prose h2 {
   padding-left: var(--space-3);
   border-left: 6px solid var(--color-surface-accent);
 }

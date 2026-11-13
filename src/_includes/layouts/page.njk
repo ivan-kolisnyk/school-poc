@@ -1,0 +1,46 @@
+---
+layout: layouts/base.njk
+---
+{#- Inner content page (DESIGN.md 10.4, 10.10): navy page header, then the body in the
+    reading column. A section hub (the page at its nav.json URL) lists the section's pages
+    as link rows under its body.
+    Front matter: title, intro?, section (about | families | enroll | contact), order. -#}
+{%- set sectionUrl = paths[section] if section else false -%}
+{%- set isHub = sectionUrl and page.url == sectionUrl -%}
+{%- set headerTitle = title -%}
+{%- set headerSentence = false -%}
+{%- set headerCrumbs = [{ label: strings.nav[section], url: sectionUrl }] if (sectionUrl and not isHub) else [] -%}
+{%- set headerDate = false -%}
+{%- set headerIntro = intro -%}
+{% include "partials/page-header.njk" %}
+
+<div class="section">
+  <div class="container">
+    <div class="page-body prose">
+      {{ content | safe }}
+      {%- set children = (collections["section_" + section] or []) if isHub else [] %}
+      {%- if children.length %}
+      <section class="link-rows-block" aria-labelledby="in-section-heading">
+        <h2 id="in-section-heading">{{ strings.pages.inSection }}</h2>
+        <ul class="link-rows" role="list">
+          {%- for child in children %}
+          {%- set childUrl = child | entryUrl %}
+          {%- set ext = childUrl | externalIcon %}
+          <li>
+            <a class="link-row" href="{{ childUrl }}">
+              <span class="link-row__text">
+                <span class="link-row__title">{{ child.data.title }}{% if ext %} {{ ext | safe }}{% endif %}</span>
+                {%- if child.data.intro %}
+                <span class="link-row__intro">{{ child.data.intro }}</span>
+                {%- endif %}
+              </span>
+              {%- icon "chevron-right" -%}
+            </a>
+          </li>
+          {%- endfor %}
+        </ul>
+      </section>
+      {%- endif %}
+    </div>
+  </div>
+</div>

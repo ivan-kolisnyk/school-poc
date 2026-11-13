@@ -61,6 +61,9 @@
     "cpsCalendarLink": "see the CPS calendar",
     "cpsCalendar": "See the CPS district calendar"
   },
+  "pages": {
+    "inSection": "In this section"
+  },
   "breadcrumb": {
     "label": "Breadcrumb",
     "home": "Home"

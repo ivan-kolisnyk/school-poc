@@ -16,10 +16,6 @@
   padding-top: var(--space-6);
   border-top: 1px solid var(--color-border-subtle);
 }
-.post-more h2 {
-  padding-left: var(--space-3);
-  border-left: 6px solid var(--color-surface-accent);
-}
 @media (min-width: 768px) {
   .post-more .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -28,16 +24,42 @@
 }
 
 /* ---------- Content body (DESIGN.md 10.10) ---------- */
-/* Phone numbers never break across lines. */
+/* White page, reading column (--measure, ~680px: 60-75 characters at 17-18px), standard headings. */
+.prose h2 { margin: var(--space-7) 0 var(--space-4); }
+.prose h3 { margin: var(--space-5) 0 var(--space-2); }
+.prose > :first-child,
+.prose h2 + h3 { margin-top: 0; }
+.prose ul, .prose ol { padding-left: 1.25em; }
+.prose li + li { margin-top: var(--space-2); }
+.prose li > ul, .prose li > ol { margin: var(--space-2) 0 0; }
+.prose li::marker { color: var(--color-text-brand); }
+.prose ol > li::marker { font-weight: 600; }
+.prose strong { font-weight: 600; }
+/* Pictures and placeholders take the full column width. */
+.prose img,
+.prose .ph {
+  display: block;
+  width: 100%;
+  margin: 0 0 var(--space-5);
+  border-radius: var(--radius-sm);
+}
+.prose img { height: auto; }
+/* Long addresses and links wrap instead of widening the page; phone numbers never break. */
+.prose a { overflow-wrap: anywhere; }
 .prose a[href^="tel:"] { white-space: nowrap; }
+/* The external-link icon follows the text without a space, so the underline stops at the word. */
+.prose a > .icon-external-link { margin-inline-start: .2em; }
+/* A headshot-size picture (the principal) instead of a full-width one. */
+.prose .page-portrait { max-width: 240px; }
+.prose .page-portrait .ph { margin-bottom: var(--space-5); }
+/* The page's main action, at the end of the body (e.g. "Request a tour"). */
+.page-action { margin: var(--space-6) 0 0; }
+.page-action .btn { width: 100%; }
+@media (min-width: 480px) { .page-action .btn { width: auto; } }
 
 /* ---------- Events page (DESIGN.md 10.9) ---------- */
 .events-month + .events-month { margin-top: var(--space-7); }
-.events-month__title {
-  margin: 0 0 var(--space-5);
-  padding-left: var(--space-3);
-  border-left: 6px solid var(--color-surface-accent);
-}
+.events-month__title { margin: 0 0 var(--space-5); }
 .events-month .event-list { max-width: calc(var(--measure) + 72px + var(--space-4)); }
 .events-cps {
   margin: var(--space-7) 0 0;

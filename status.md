@@ -45,21 +45,21 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 
 ## Task 8: Homepage composition
 - **Status:** done
-- **Agent:** implementer (opus), 2026-11-13
-- **Steps done:** 1-6 (skills loaded: design-taste-frontend, ui-ux-pro-max, design-motion-principles; visual check at 1440/1024/768/390/320)
-- **Files touched:** tests/build/home.test.js, src/_data/paths.js, src/_includes/partials/{hero,pride,quick-tasks}.njk, layouts/{home,post}.njk, src/_settings/strings.en.json, eleventy.config.js, src/css/{components,pages}.css
-- **Last command:** npm test -> PASS (126/126)
-- **Next:** — (awaiting review; report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-8-report.md)
-- **Blockers:** —
-- **Commit / review:** 9361db2 · review: pending
+- **Commit / review:** 9361db2 (+status commit) · review: approved (5 minor notes parked)
 
 ## Task 9: Inner pages, section navigation and migrated content
-- **Status:** todo
-- **Next:** web-fetch content pages, then Step 1
+- **Status:** review
+- **Agent:** implementer (general-purpose), 2026-11-13
+- **Steps done:** 1-5 (ui-ux-pro-max loaded; headless-Chrome check at 1024/1440 header + dropdowns, 390 mobile menu Esc/resize, 320/390/1440 pages)
+- **Files touched:** eleventy.config.js, lib/shortcodes.js, src/_data/{paths.js,site.json}, src/_settings/strings.en.json, src/_includes/layouts/{page,post}.njk, src/_includes/partials/{header,page-header}.njk, src/{about,families,enroll,contact}/*, src/404.md, src/about.md (deleted), src/events/index.njk, src/css/{components,pages}.css, src/js/site.js, tests/build/pages.test.js, tests/unit/shortcodes.test.js, tests/helpers/build.js
+- **Last command:** npm test -> PASS (150/150, three runs)
+- **Next:** — (awaiting review; report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-9-report.md). TASK 10: empty PENDING in tests/build/pages.test.js
+- **Blockers:** —
+- **Commit / review:** see log below · review: pending
 
 ## Task 10: Staff directory
 - **Status:** todo
-- **Next:** web-fetch staff page, then Step 1
+- **Next:** Step 1 (staff already fetched: docs/content-import/task10-staff.md)
 
 ## Task 11: Search
 - **Status:** todo

@@ -52,3 +52,38 @@ test("linkPhrase links one phrase inside an escaped sentence, or appends the lin
   );
   assert.equal(linkPhrase("Sin eventos.", "calendario", "/c", "<svg></svg>"), 'Sin eventos. <a href="/c">calendario <svg></svg></a>');
 });
+
+test("placeholder takes an optional kind for non-photo stand-ins", () => {
+  assert.match(placeholder("School location", "16 / 9", "Map"), /aria-label="Map placeholder: School location"/);
+});
+
+test("externalKind tells CPS sites from other sites; internal, mail and phone links are not external", async () => {
+  const { externalKind } = await import("../../lib/shortcodes.js");
+  assert.equal(externalKind("https://www.cps.edu/calendar/"), "cps");
+  assert.equal(externalKind("https://aspen.cps.edu/"), "cps");
+  assert.equal(externalKind("https://go.cps.edu"), "cps");
+  assert.equal(externalKind("https://www.chicagoearlylearning.org"), "other");
+  assert.equal(externalKind("https://notcps.edu.example.com/"), "other");
+  assert.equal(externalKind("/staff/"), "");
+  assert.equal(externalKind("mailto:a@cps.edu"), "");
+  assert.equal(externalKind("tel:+17735345790"), "");
+  assert.equal(externalKind(undefined), "");
+});
+
+test("docLink states the file type and size in the link's name", async () => {
+  const { docLink } = await import("../../lib/shortcodes.js");
+  const html = docLink({ cps: "opens CPS site", other: "opens another site" }, "LSC minutes, Oct 2026", "/files/m.pdf", "PDF", "220 KB");
+  assert.match(html, /^<a class="doc-link" href="\/files\/m.pdf">/);
+  assert.match(html, /<span class="doc-link__label">LSC minutes, Oct 2026 <span class="doc-link__meta">\(PDF, 220 KB\)<\/span><\/span>/);
+  assert.match(html, /class="icon icon-file-text"/);
+  assert.doesNotMatch(html, /icon-external-link/);
+  const ext = docLink({ cps: "opens CPS site", other: "x" }, "A & B", "https://courtenay.cps.edu/a.pdf", "PDF");
+  assert.match(ext, /A &amp; B <span class="doc-link__meta">\(PDF\)<\/span>/);
+  assert.match(ext, /aria-label="opens CPS site"/);
+});
+
+test("callout wraps rendered HTML in one block with no blank lines", async () => {
+  const { callout } = await import("../../lib/shortcodes.js");
+  assert.equal(callout("<p>Due Friday.</p>\n\n<ul>\n<li>a</li>\n</ul>\n"), '<div class="callout"><p>Due Friday.</p>\n<ul>\n<li>a</li>\n</ul></div>');
+  assert.match(callout("<p>x</p>", "Deadline"), /^<div class="callout"><p class="callout__title">Deadline<\/p><p>x<\/p><\/div>$/);
+});

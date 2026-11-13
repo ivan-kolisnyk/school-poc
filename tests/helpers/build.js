@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readFileSync, rmSync } from "node:fs";
 import { rm } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,8 +19,11 @@ const baseEnv = {
 export function build(variant = { name: "default", env: {} }) {
   const name = variant.name || "default";
   if (!cache.has(name)) {
-    const out = path.join(root, "_test_site", name);
+    // One folder per test process: node --test runs test files in parallel, and two files
+    // building into the same folder would delete each other's output mid-run.
+    const out = path.join(root, "_test_site", `${name}-${process.pid}`);
     outDirs.set(name, out);
+    process.once("exit", () => rmSync(out, { recursive: true, force: true }));
     cache.set(
       name,
       (async () => {

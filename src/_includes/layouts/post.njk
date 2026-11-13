@@ -27,7 +27,7 @@ layout: layouts/base.njk
     {%- set more = collections.newsDesc | nextHeadlines(page.url) %}
     {%- if more.length %}
     <section class="post-more" aria-labelledby="more-news-heading">
-      <h2 id="more-news-heading">{{ strings.news.moreNews }}</h2>
+      <h2 class="section-title" id="more-news-heading">{{ strings.news.moreNews }}</h2>
       <div class="news-grid">
         {%- set cardLevel = 3 %}
         {%- for post in more %}

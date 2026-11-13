@@ -1,9 +1,10 @@
-{#- Inner page header (DESIGN.md 10.4): navy band, breadcrumb, H1, optional date or intro.
-    Minimal version for news; Task 9 extends it into the shared page header.
+{#- Inner page header (DESIGN.md 10.4): navy band with the stripe motif along its bottom
+    edge (the page's one motif, DESIGN.md 8), breadcrumb in gold, H1 in white, optional date
+    or one-line intro. Used by layouts/page.njk, news posts, the news list and events.
     Set before including:
       headerTitle     the H1 text
       headerSentence  true for titles staff write (news posts): never uppercased
-      headerCrumbs    [{ label, url }] after Home (optional)
+      headerCrumbs    [{ label, url }] after Home (optional; the current page is not listed)
       headerDate      "YYYY-MM-DD" shown in post format (optional)
       headerIntro     one line under the title (optional) -#}
 <div class="page-header on-dark">

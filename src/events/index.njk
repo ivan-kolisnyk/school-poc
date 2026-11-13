@@ -23,7 +23,7 @@ eleventyComputed:
     {%- if pageEvents.length %}
     {%- for group in pageEvents | eventMonths %}
     <section class="events-month" aria-labelledby="events-{{ group.key }}">
-      <h2 class="events-month__title" id="events-{{ group.key }}">{{ group.label }}</h2>
+      <h2 class="events-month__title section-title" id="events-{{ group.key }}">{{ group.label }}</h2>
       {%- set items = group.items %}
       {% include "partials/events-list.njk" %}
     </section>

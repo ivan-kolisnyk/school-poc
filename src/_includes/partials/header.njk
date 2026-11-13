@@ -25,10 +25,11 @@
             </button>
             <ul class="site-nav__sub" id="subnav-{{ item.key }}" role="list" hidden>
               {%- for child in children %}
-              {%- set childUrl = child.data.external_url or child.url %}
-              <li><a href="{{ childUrl }}"{% if child.url == page.url %} aria-current="page"{% endif %}>
+              {%- set childUrl = child | entryUrl %}
+              {%- set ext = childUrl | externalIcon %}
+              <li><a href="{{ childUrl }}"{% if child.url and child.url == page.url %} aria-current="page"{% endif %}>
                 {{- child.data.title -}}
-                {%- if "://" in childUrl %} {% icon "external-link", strings.a11y.externalCps %}{% endif -%}
+                {%- if ext %} {{ ext | safe }}{% endif -%}
               </a></li>
               {%- endfor %}
             </ul>

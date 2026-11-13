@@ -62,6 +62,17 @@
     if (!panel) return null;
     let closeTimer = 0;
     let inerted = [];
+    // The panel sits directly under the header bar, whatever height the bar wrapped to. The bar
+    // can change height while the menu is open (rotation, resize, alert text wrapping), so the
+    // offset is measured again on every resize and orientation change.
+    let frame = 0;
+    const placePanel = () => {
+      frame = 0;
+      panel.style.setProperty("--menu-top", `${header.getBoundingClientRect().bottom}px`);
+    };
+    const onViewportChange = () => {
+      if (api.isOpen() && !frame) frame = requestAnimationFrame(placePanel);
+    };
 
     const api = {
       isOpen: () => button.getAttribute("aria-expanded") === "true",
@@ -70,8 +81,7 @@
         if (desktop.matches || api.isOpen()) return;
         if (api.onOpen) api.onOpen();
         clearTimeout(closeTimer);
-        // The panel sits directly under the header bar, whatever height the bar wrapped to.
-        panel.style.setProperty("--menu-top", `${header.getBoundingClientRect().bottom}px`);
+        placePanel();
         panel.classList.add("is-mounted");
         panel.getBoundingClientRect(); // commit the start state so the enter transition runs
         panel.classList.add("is-open");
@@ -84,6 +94,8 @@
         ];
         inerted.forEach((el) => { el.inert = true; });
         document.addEventListener("keydown", onKeydown);
+        window.addEventListener("resize", onViewportChange);
+        window.addEventListener("orientationchange", onViewportChange);
       },
       close(returnFocus = true) {
         if (!api.isOpen()) return;
@@ -93,6 +105,10 @@
         inerted.forEach((el) => { el.inert = false; });
         inerted = [];
         document.removeEventListener("keydown", onKeydown);
+        window.removeEventListener("resize", onViewportChange);
+        window.removeEventListener("orientationchange", onViewportChange);
+        cancelAnimationFrame(frame);
+        frame = 0;
         clearTimeout(closeTimer);
         const unmount = () => panel.classList.remove("is-mounted");
         if (reducedMotion.matches) unmount();
@@ -186,11 +202,18 @@
         if (!t.parentElement.contains(event.target)) setOpen(t, false);
       });
     });
+    // Esc closes an open dropdown first and puts focus on its toggle; it does not reach the
+    // mobile menu's own Esc handler on document. So in the mobile menu, with a section open,
+    // the first Esc closes that section and the second Esc closes the menu.
+    // Desktop: only the dropdown that holds focus (focus leaving one already closes it).
     header.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") return;
-      const t = toggles.find((x) => x.getAttribute("aria-expanded") === "true" && x.parentElement.contains(document.activeElement));
-      if (t) { setOpen(t, false); t.focus(); event.stopPropagation(); }
+      const open = toggles.filter((x) => x.getAttribute("aria-expanded") === "true");
+      const t = open.find((x) => x.parentElement.contains(document.activeElement)) || (!desktop.matches && open[0]);
+      if (t) { setOpen(t, false); t.focus(); event.preventDefault(); event.stopPropagation(); }
     });
+    // Crossing the desktop breakpoint starts every section closed.
+    desktop.addEventListener("change", () => toggles.forEach((t) => setOpen(t, false)));
     // Leaving a dropdown by keyboard closes it.
     header.addEventListener("focusout", (event) => {
       if (!desktop.matches) return;

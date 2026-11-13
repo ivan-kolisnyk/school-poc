@@ -5,7 +5,8 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import { formatDate, formatTime } from "./lib/dates.js";
 import { isAlertActive } from "./lib/alert.js";
 import { chicagoLocalToDate } from "./lib/dates.js";
-import { icon, placeholder, headingClass, linkPhrase } from "./lib/shortcodes.js";
+import { icon, placeholder, headingClass, linkPhrase, externalKind, externalIcon, docLink, callout } from "./lib/shortcodes.js";
+import loadStrings from "./src/_data/strings.js";
 import { eventWhen, eventsWithin, groupByMonth, chicagoDay } from "./lib/events.js";
 import { nextHeadlines, newsDay, hasPhoto, photoIssue } from "./lib/news.js";
 
@@ -78,6 +79,48 @@ export default function (eleventyConfig) {
   eleventyConfig.addShortcode("icon", icon);
   eleventyConfig.addShortcode("placeholder", placeholder);
   eleventyConfig.addFilter("linkPhrase", linkPhrase);
+
+  // ---------- Inner pages (DESIGN.md 10.2, 10.4, 10.10) ----------
+  // Pages say which section they belong to (`section`) and where they sit in its menu (`order`).
+  // A section's hub is its nav.json URL; every other page with that section is a child. Menu-only
+  // entries (`permalink: false`) link elsewhere through `external_url` (another site) or
+  // `menu_url` (a page built elsewhere, e.g. /staff/).
+  const nav = JSON.parse(readFileSync(path.join(inputDir, "_data/nav.json"), "utf8"));
+  for (const { key, url } of nav) {
+    eleventyConfig.addCollection(`section_${key}`, (api) =>
+      api.getAll()
+        .filter((item) => item.data.section === key && item.url !== url)
+        .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999) || a.data.title.localeCompare(b.data.title))
+    );
+  }
+  eleventyConfig.addFilter("entryUrl", (item) => item.data.external_url || item.data.menu_url || item.url);
+
+  // External links show the "opens CPS site" / "opens another site" icon, in templates and in
+  // Markdown bodies alike. Links open in the same tab (DESIGN.md 10.2).
+  const strings = loadStrings();
+  const externalLabels = { cps: strings.a11y.externalCps, other: strings.a11y.external };
+  eleventyConfig.addFilter("externalKind", externalKind);
+  eleventyConfig.addFilter("externalIcon", (href) => externalIcon(externalLabels, href));
+  let md;
+  eleventyConfig.amendLibrary("md", (lib) => {
+    md = lib;
+    const render = (tokens, idx, options, env, self) => self.renderToken(tokens, idx, options);
+    const open = lib.renderer.rules.link_open || render;
+    const close = lib.renderer.rules.link_close || render;
+    const stack = []; // rendering is synchronous, so open/close pairs nest on one stack
+    lib.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+      stack.push(externalIcon(externalLabels, tokens[idx].attrGet("href")));
+      return open(tokens, idx, options, env, self);
+    };
+    lib.renderer.rules.link_close = (tokens, idx, options, env, self) => {
+      const ext = stack.pop();
+      return ext + close(tokens, idx, options, env, self);
+    };
+  });
+  // {% doc "LSC minutes, Oct 2026", "/files/minutes.pdf", "PDF", "220 KB" %}
+  eleventyConfig.addShortcode("doc", (label, url, type, size) => docLink(externalLabels, label, url, type, size));
+  // {% callout %}Markdown…{% endcallout %} or {% callout "Deadline" %}…{% endcallout %}
+  eleventyConfig.addPairedShortcode("callout", (content, title) => callout(md.render(String(content).trim()), title));
 
   // Events from Google Calendar (DESIGN.md 10.9); data in src/_data/events.js.
   eleventyConfig.addFilter("eventWhen", eventWhen);
