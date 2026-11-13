@@ -1,8 +1,7 @@
 {
   "brand": {
     "wordmark": "Courtenay Tigers",
-    "descriptor": "Language Arts Center · Pre-K–8",
-    "home": "Courtenay Tigers home"
+    "descriptor": "Language Arts Center · Pre-K–8"
   },
   "nav": {
     "label": "Main",
@@ -25,11 +24,8 @@
     ]
   },
   "buttons": {
-    "readMore": "Read more",
-    "viewAll": "View all",
     "search": "Search",
-    "menu": "Menu",
-    "close": "Close"
+    "menu": "Menu"
   },
   "alertLabels": {
     "notice": "Notice",
@@ -42,8 +38,7 @@
   },
   "empty": {
     "news": "No news yet. Check back soon.",
-    "events": "No events scheduled — see the CPS calendar for district dates.",
-    "search": "No results found."
+    "events": "No events scheduled — see the CPS calendar for district dates."
   },
   "news": {
     "heading": "News",
@@ -92,14 +87,12 @@
     "mentalHealth": "Mental health resources",
     "staffLinks": "Staff",
     "social": "Courtenay on Instagram",
-    "rights": "Mary E. Courtenay Language Arts Center"
+    "copyrightHolder": "Mary E. Courtenay Language Arts Center"
   },
   "search": {
     "label": "Search Courtenay",
-    "placeholder": "Search",
     "submit": "Search",
     "pageTitle": "Search",
-    "loading": "Searching",
     "count_one": "1 result for \u201c{q}\u201d.",
     "count_other": "{n} results for \u201c{q}\u201d.",
     "none": "No results for \u201c{q}\u201d. Try the Families page or call the office.",
@@ -108,8 +101,6 @@
   },
   "a11y": {
     "skipToContent": "Skip to main content",
-    "openMenu": "Open menu",
-    "closeMenu": "Close menu",
     "externalCps": "opens CPS site",
     "external": "opens another site"
   },

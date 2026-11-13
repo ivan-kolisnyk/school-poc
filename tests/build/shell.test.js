@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { build, page } from "../helpers/build.js";
@@ -156,4 +156,14 @@ test("icons render as hidden inline SVG; site script is loaded", () => {
   assert.ok(home.querySelector("script[src='/school-poc/js/site.js']"));
   assert.ok(existsSync(path.join(out, "js/site.js")));
   assert.ok(home.querySelector("link[href='/school-poc/css/components.css']"));
+});
+
+test("the five self-hosted font files are published (DESIGN.md 6)", () => {
+  const fonts = readdirSync(path.join(out, "fonts")).filter((f) => f.endsWith(".woff2")).sort();
+  assert.deepEqual(fonts, [
+    "barlow-latin-400-normal.woff2", "barlow-latin-500-normal.woff2", "barlow-latin-600-normal.woff2",
+    "oswald-latin-500-normal.woff2", "oswald-latin-700-normal.woff2",
+  ]);
+  const tokens = readFileSync(path.join(out, "css/tokens.css"), "utf8");
+  for (const f of fonts) assert.ok(tokens.includes(`../fonts/${f}`), `${f} referenced by tokens.css`);
 });

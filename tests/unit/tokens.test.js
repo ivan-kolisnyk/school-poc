@@ -47,3 +47,37 @@ test("every semantic token resolves to a primitive", () => {
     assert.ok(m && prim[m[1]], `${n} -> ${v}`);
   }
 });
+
+test("every token DESIGN.md 5-7 and 12 names is defined", () => {
+  const defined = new Set([...css.matchAll(/--([a-z0-9-]+):/g)].map((m) => m[1]));
+  const required = [
+    // 5.1 primitives
+    "navy", "navy-deep", "gold", "gold-text", "ink", "muted", "surface", "line", "white", "alert-red",
+    // 5.2 semantic
+    "color-text-primary", "color-text-secondary", "color-text-brand", "color-text-accent", "color-text-on-dark",
+    "color-text-accent-on-dark", "color-text-on-accent", "color-surface-page", "color-surface-alt",
+    "color-surface-brand", "color-surface-brand-strong", "color-surface-accent", "color-border-subtle",
+    "color-border-control", "color-action-primary-bg", "color-action-primary-fg", "color-action-secondary-bg",
+    "color-action-secondary-fg", "color-focus-on-light", "color-focus-on-dark", "color-status-emergency-bg",
+    "color-status-emergency-fg", "color-status-error-fg",
+    // 6 type
+    "font-display", "font-body", "fs-display", "fs-h1", "fs-h2", "fs-h3", "fs-body", "fs-small", "fs-label",
+    "lh-display", "lh-h1", "lh-h2", "lh-h3", "lh-body", "lh-small",
+    // 7 layout
+    "space-1", "space-2", "space-3", "space-4", "space-5", "space-6", "space-7", "space-8", "space-9",
+    "radius-none", "radius-sm", "shadow-header", "z-header", "z-menu", "z-skip", "container-max", "gutter",
+    // 12 motion
+    "dur-fast", "dur-base", "dur-enter", "ease-out",
+  ];
+  assert.deepEqual(required.filter((n) => !defined.has(n)), []);
+});
+
+test("heading line-heights tighten on desktop (DESIGN.md 6: display 1.0 to 0.95, H1 1.05 to 1.0)", () => {
+  const value = (block, name) => new RegExp(`--${name}:\\s*([0-9.]+)`).exec(block)?.[1];
+  const base = css.slice(css.indexOf(":root {"), css.indexOf("}", css.indexOf(":root {")));
+  assert.equal(Number(value(base, "lh-display")), 1);
+  assert.equal(Number(value(base, "lh-h1")), 1.05);
+  const desktop = /@media \(min-width: 1024px\) \{([^@]*)\}\s*$/m.exec(css)?.[1] ?? "";
+  assert.equal(Number(value(desktop, "lh-display")), 0.95, "display line-height at desktop");
+  assert.equal(Number(value(desktop, "lh-h1")), 1, "H1 line-height at desktop");
+});

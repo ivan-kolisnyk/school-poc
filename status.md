@@ -71,10 +71,10 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 ### 14a (steps 1–2 + carry-over items 1–13)
 - **Status:** in progress
 - **Agent:** implementer (opus), started 2026-11-13
-- **Steps done:** Step 1 (a11y suite green: tap targets, axe settle); carry-over 1, 2, 3, 4, 5, 12, 13
-- **Files touched:** tests/a11y/{site.spec.js,serve.js}, src/css/{components,pages}.css, src/staff/index.njk, src/js/site.js, partials/{footer,hero}.njk, eleventy.config.js, lib/home.js, strings.en.json, tests (unit/home, build/home, staff, shell), tests/fixtures/home/
-- **Last command:** npm test -> PASS 185/185; npm run test:a11y -> PASS 95/95
-- **Next:** commit a11y chunk; then carry-over 6–9 (strings, tokens, fonts test, line-heights, PAC posts)
+- **Steps done:** Step 1 (a11y suite green); carry-over 1–9, 12, 13 (commit 174b717 + cleanup commit)
+- **Files touched:** strings.en.json, footer.njk, tokens.css, PAC news posts, tests/unit/{strings,tokens}.test.js, tests/build/shell.test.js
+- **Last command:** npm test -> PASS 190/190
+- **Next:** Step 2 — tests/fixtures/strings-es-sample.json, es build + 320 overflow check (test:a11y:es); then CI 10–11
 - **Blockers:** —
 ### 14b (steps 3–8)
 - **Status:** todo
