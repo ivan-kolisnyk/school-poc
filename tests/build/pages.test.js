@@ -230,7 +230,7 @@ test("a portrait placeholder comes from the front matter, above the body", () =>
   if (principal?.data.portrait_placeholder) {
     assert.ok(page("about/principal/index.html").querySelector("main .page-body > .page-portrait .ph"));
   }
-  assert.doesNotMatch(readFileSync(path.join(root, "src/about/principal.md"), "utf8"), /page-portrait/, "no layout markup in the rich-text body");
+  if (principal) assert.doesNotMatch(readFileSync(path.join(root, principal.file), "utf8"), /page-portrait/, "no layout markup in the rich-text body");
 });
 
 test("inline images: an existing one is a responsive picture; missing ones are left out with a warning", () => {

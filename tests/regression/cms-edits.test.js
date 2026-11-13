@@ -6,7 +6,7 @@
 import { test, after } from "node:test";
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { cpSync, mkdtempSync, readFileSync, rmSync, symlinkSync, unlinkSync, writeFileSync, copyFileSync, mkdirSync, realpathSync } from "node:fs";
+import { cpSync, existsSync, readdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, unlinkSync, writeFileSync, copyFileSync, mkdirSync, realpathSync } from "node:fs";
 import { createServer } from "node:http";
 import os from "node:os";
 import path from "node:path";
@@ -49,9 +49,10 @@ const fieldNames = (name) => entry(name).fields.map((f) => f.name);
 const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 function splitFile(file) {
-  const raw = readFileSync(file, "utf8");
+  const raw = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
   const m = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  return { data: parseYaml(m[1]), body: m[2] };
+  assert.ok(m, `${path.relative(copy, file)}: no YAML front matter (--- … ---) at the top of the file`);
+  return { data: parseYaml(m[1]) ?? {}, body: m[2] };
 }
 function writeEntry(file, data, body) {
   writeFileSync(file, `---\n${stringifyYaml(data)}---\n${body}`);
@@ -105,8 +106,12 @@ cmsEdit("home", "src/index.md", {
   welcome_link: "https://www.cps.edu/",
 }, "# Welcome back\n\nWe are glad you are here.\n\n#### See you soon\n\nThe principal\n");
 
-// News: back-dated posts until the list needs a second page, one with a photo and an inline
-// image, one with template-looking text, one with an inline image that was later deleted.
+// Everything below edits only file entries the CMS cannot delete (homepage, Enroll, School
+// details, Alert) or entries this test creates first, so it never depends on today's posts,
+// staff or pages.
+
+// News: back-dated posts, one with a photo and an inline image, one with template-looking text,
+// one with an inline image that was later deleted, then fillers until the list needs a second page.
 const posts = [
   { title: "Book fair thank you", date: "2026-11-02", summary: "Thank you for a great book fair.",
     image: newsPhoto, image_alt: "Students choosing books at the fair",
@@ -119,21 +124,36 @@ const posts = [
   { title: "Coat drive", date: "2026-10-15", summary: "Bring a coat for a neighbor." },
   { title: "Science fair winners", date: "2026-03-20", summary: "Congratulations to our winners." },
 ];
+const newsDir = path.join(copy, "src/news");
+const postCount = () => readdirSync(newsDir).filter((f) => f.endsWith(".md")).length;
+for (let i = 1; postCount() + posts.length < 13; i++) {
+  posts.push({ title: `Class news ${i}`, date: `2026-02-${String(i).padStart(2, "0")}`, summary: "A short class update." });
+}
 for (const { body = "Story text.\n", ...data } of posts) cmsCreate("news", data, body);
+const POSTS = postCount(); // what the list must hold after the edits
 
-// Staff: an email for the principal, a new teacher with a photo.
-cmsEdit("staff", "src/staff/people/keri-mendez.md", { email: "kmendez@cps.edu" });
+// Staff: someone added and later given an email, a new teacher with a photo, someone removed.
+const staffDir = path.join(copy, entry("staff").path);
+const later = cmsCreate("staff", { name: "Mr. Later Email", role: "Teacher", group: "3–5" });
+cmsEdit("staff", path.join(entry("staff").path, later), { email: "later.email@cps.edu" });
 cmsCreate("staff", { name: "Ms. New Teacher", role: "Teacher", group: "K–2", email: "newteacher@cps.edu",
   photo: staffPhoto, photo_alt: "Ms. New Teacher smiling" });
+unlinkSync(path.join(staffDir, cmsCreate("staff", { name: "Mr. Moved Away", role: "Teacher", group: "6–8" })));
 
 // Pages: a new About page, a renamed one, a deleted Families page, a rich-text body saved as
 // HTML with an H1 and an H4, and an inline image in a page body.
 cmsCreate("about", { title: "Our history", intro: "How Courtenay began.", order: 2 }, "<h1>Our history</h1><p>Courtenay opened long ago.</p><h4>Today</h4><p>We keep growing.</p>");
-cmsEdit("about", "src/about/tours.md", { title: "Visit us" });
-unlinkSync(path.join(copy, "src/families/athletics.md"));
+const renamed = cmsCreate("about", { title: "Come and see", intro: "Tours of the school.", order: 4 }, "Call to book.\n");
+cmsEdit("about", path.join(entry("about").path, renamed), { title: "Visit us" });
+unlinkSync(path.join(copy, entry("families").path, cmsCreate("families", { title: "Summer camp", intro: "Gone soon.", order: 20 }, "Camp.\n")));
 cmsEdit("enroll", "src/enroll/index.md", { intro: "Enroll today." },
   "<h1>Enroll now</h1><p>Call the office.</p><h4>Documents</h4><p>Bring proof of address.</p>\n");
-cmsEdit("about", "src/about/principal.md", {}, `![Principal Mendez](${staffPhoto})\n\nDear families, welcome!\n`);
+// A page with a portrait placeholder, then its rich-text body replaced (as an editor's save
+// could): the portrait comes from the front matter, not from markup in the body.
+const letter = cmsCreate("about", { title: "Welcome letter", intro: "From the principal.", order: 3,
+  portrait_placeholder: "Principal Mendez" }, "<div class=\"page-portrait\">old wrapper</div>\n\nDear families,\n");
+cmsEdit("about", path.join(entry("about").path, letter), { portrait_placeholder: "Principal Mendez" },
+  `![Principal Mendez](${staffPhoto})\n\nDear families, welcome!\n`);
 
 // School details: the calendar feed address, new hours, a changed staff link list.
 const site = JSON.parse(readFileSync(path.join(copy, "src/_data/site.json"), "utf8"));
@@ -172,7 +192,7 @@ test("the deploy-gating suite passes after routine CMS edits", { timeout: 300000
 
 // ---------- …and the edits really are in that build (so the pass above is not vacuous) ----------
 
-await build({ name: "cms-edited-copy", root: copy, env: { ALERT_FILE: "src/_settings/alert.json" } });
+const editedOut = await build({ name: "cms-edited-copy", root: copy, env: { ALERT_FILE: "src/_settings/alert.json" } });
 const edited = (p) => page(p, "cms-edited-copy");
 
 test("homepage: new headline, hero photo, real pride numbers, new welcome", () => {
@@ -186,10 +206,15 @@ test("homepage: new headline, hero photo, real pride numbers, new welcome", () =
   assert.ok(welcome.querySelectorAll("a").some((a) => a.getAttribute("href") === "https://www.cps.edu/"));
 });
 
-test("news: 13 posts paginate, the photo post has its photo and inline image, story text stays text", () => {
-  assert.equal(edited("news/index.html").querySelectorAll("main .news-card").length, 12);
-  assert.equal(edited("news/2/index.html").querySelectorAll("main .news-card").length, 1);
-  const card = edited("news/index.html").querySelectorAll("main .news-card")
+test("news: the posts paginate 12 per page, the photo post has its photo and inline image, story text stays text", () => {
+  const pages = Math.ceil(POSTS / 12);
+  assert.ok(POSTS >= 13 && pages >= 2, `${POSTS} posts need a second page`);
+  const listFile = (i) => (i === 0 ? "news/index.html" : `news/${i + 1}/index.html`);
+  const cards = Array.from({ length: pages }, (_, i) => edited(listFile(i)).querySelectorAll("main .news-card"));
+  assert.equal(cards[0].length, Math.min(12, POSTS));
+  assert.equal(cards.flat().length, POSTS, "every post is listed once");
+  assert.ok(!existsSync(path.join(editedOut, listFile(pages))), "no empty extra page");
+  const card = cards.flat()
     .find((c) => c.querySelector(".news-card__link").getAttribute("href") === `${PREFIX}/news/book-fair-thank-you/`);
   assert.ok(card.classList.contains("news-card--photo"));
   const post = edited("news/book-fair-thank-you/index.html");
@@ -202,7 +227,8 @@ test("news: 13 posts paginate, the photo post has its photo and inline image, st
 
 test("staff: the new email and the new teacher's photo show", () => {
   const staff = edited("staff/index.html");
-  assert.ok(staff.querySelector('a[href="mailto:kmendez@cps.edu"]'));
+  assert.ok(staff.querySelector('a[href="mailto:later.email@cps.edu"]'), "an email added later shows");
+  assert.ok(!/Mr\. Moved Away/.test(staff.text), "a removed person is gone");
   const card = staff.querySelectorAll(".staff-card").find((c) => /Ms\. New Teacher/.test(c.text));
   assert.equal(card.querySelector("img").getAttribute("alt"), "Ms. New Teacher smiling");
 });
@@ -210,17 +236,18 @@ test("staff: the new email and the new teacher's photo show", () => {
 test("pages: the dropdowns follow the edits; pasted H1/H4 headings are demoted", () => {
   const nav = edited("index.html").querySelector("header nav");
   const about = nav.querySelectorAll("#subnav-about a").map(text);
-  assert.ok(about.includes("Our history") && about.includes("Visit us") && !about.includes("Tours"));
+  assert.ok(about.includes("Our history") && about.includes("Visit us") && !about.includes("Come and see"));
   // A page created in the CMS gets a clean URL from its title, not a dated one.
   const history = nav.querySelectorAll("#subnav-about a").find((a) => text(a) === "Our history");
   assert.equal(history.getAttribute("href"), `${PREFIX}/about/our-history/`);
   assert.equal(text(edited("about/our-history/index.html").querySelector("h1")), "Our history");
-  assert.ok(!nav.querySelectorAll("#subnav-families a").map(text).includes("Athletics"));
+  assert.ok(!nav.querySelectorAll("#subnav-families a").map(text).includes("Summer camp"), "a deleted page leaves the menu");
   const enroll = edited("enroll/index.html");
   assert.equal(enroll.querySelectorAll("h1").length, 1);
   assert.deepEqual(enroll.querySelectorAll("main .page-body h2, main .page-body h3, main .page-body h4").map((h) => h.tagName), ["H2", "H3"]);
-  assert.ok(edited("about/principal/index.html").querySelector("main .page-portrait .ph"), "portrait comes from the layout");
-  assert.ok(edited("about/principal/index.html").querySelector("main .page-body picture img"));
+  const welcome = edited("about/welcome-letter/index.html");
+  assert.equal(welcome.querySelector("main .page-portrait .ph").getAttribute("aria-label"), "Photo placeholder: Principal Mendez", "portrait comes from the layout");
+  assert.ok(welcome.querySelector("main .page-body picture img"), "inline image in a page body");
 });
 
 test("school details and alert: new hours shown, unsafe alert link dropped with a warning", () => {

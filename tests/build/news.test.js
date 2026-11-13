@@ -119,7 +119,7 @@ test("a card and its post show the photo exactly when the post has a photo, alt 
 
 test("13+ posts paginate at 12 per page", () => {
   const total = realPosts.length + fixturePosts.length;
-  assert.ok(total > PER_PAGE);
+  assert.ok(fixturePosts.length > PER_PAGE, "the fixtures alone need a second page, however many real posts there are");
   const pages = listPages(total);
   for (let i = 0; i < pages; i++) {
     const n = cardsOn(listFile(i), "news-fixtures").length;

@@ -112,11 +112,15 @@ test("every CMS field is read by a template, the config or lib/", async () => {
   const root = new URL("../../", import.meta.url).pathname;
   const walk = (dir) => rd(path.join(root, dir), { withFileTypes: true })
     .flatMap((e) => (e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]));
+  // Code only, never content: a page an editor deletes must not make a field look unread, and a
+  // field's own key in a content file's front matter must not count as the template reading it.
   const code = [...walk("src/_includes"), ...walk("src/_data"), ...walk("lib"), "eleventy.config.js",
-    ...walk("src").filter((f) => /\.(njk|md)$/.test(f))]
-    .filter((f) => /\.(njk|js|md)$/.test(f))
+    ...walk("src").filter((f) => f.endsWith(".njk"))]
+    .filter((f) => /\.(njk|js)$/.test(f))
     .map((f) => readFileSync(path.join(root, f), "utf8"))
     .join("\n");
+  // School details meant for page bodies ({{ site.email }} on Contact, the tour form on Tours).
+  const BODY_ONLY = new Set(["site.email", "site.tourForm"]);
   const unread = [];
   for (const e of cfg.content) {
     const prefix = e.name === "site" ? "site." : e.name === "alert" ? "alert." : "";
@@ -125,7 +129,7 @@ test("every CMS field is read by a template, the config or lib/", async () => {
       for (const f of fields) {
         if (f.name === "body") continue; // the rich-text body is the template's `content`
         const read = f.list && f.fields ? new RegExp(`\\b${f.name}\\b`) : new RegExp(`${pre.replaceAll(".", "\\.")}${f.name}\\b`);
-        if (!read.test(code)) unread.push(`${e.name}.${f.name}`);
+        if (!read.test(code) && !BODY_ONLY.has(`${e.name}.${f.name}`)) unread.push(`${e.name}.${f.name}`);
         if (f.fields && !f.list) checkFields(f.fields, `${pre}${f.name}.`);
       }
     }

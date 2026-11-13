@@ -104,3 +104,4 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - 2026-11-13 — Final review fixes started (final-fix-brief.md).
 - 2026-11-13 — Final review fixes done (67720c6, 80c0202); report in final-fix-report.md.
 - 2026-11-13 — Final review follow-up: new About/Families pages get slug-only file names (clean URLs).
+- 2026-11-13 — Re-review fix: CMS-edit regression test no longer depends on real content (post count derived, test-created entries); proof runs with +2 posts / deleted pages pass.
