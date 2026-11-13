@@ -15,6 +15,7 @@ export default function () {
     events: "/events/",
     tours: "/about/tours/",
     beforeAfterCare: "/families/before-after-care/",
+    lunchMenu: "/families/lunch-menu/",
     staff: "/staff/", // built by Task 10
   };
 }

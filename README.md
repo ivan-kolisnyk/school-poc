@@ -63,9 +63,9 @@ Headings in **Content** fit under the page title by themselves: a "Heading 1" sh
 
 Write plainly: short sentences, and headings that name the thing ("Lunch menu", not "Nourishing young minds"). When you link to a PDF, say what it is and its size, for example "LSC minutes, Oct 2026 (PDF, 220 KB)".
 
-The **Homepage** entry holds the headline, the three pride numbers and the principal's welcome. The pride numbers are placeholders (`000`, `00:1`) until the school confirms the real figures. Use real numbers only.
+The **Homepage** entry holds the headline, the three pride numbers and the principal's welcome. The pride numbers are hidden on the site for now, until the school confirms the real figures. Use real numbers only.
 
-**School details** holds the address, phone, office hours and the links behind the quick tasks (parent portal, lunch menu). These appear on every page.
+**School details** holds the address, phone, office hours and the links behind the quick tasks (parent portal, and the full lunch menu on MealViewer). These appear on every page.
 
 ### Update staff
 
@@ -94,6 +94,14 @@ Events are not entered in Pages CMS. The site reads the school's Google Calendar
 - Changes appear after the next rebuild: every morning (about 4–5 am Chicago time), or straight after anyone saves something in Pages CMS. Need it sooner? Ask an admin to run a build.
 - **The calendar must stay public** ("Make available to public — see all event details"). If it is made private, the site keeps showing the last copy it read, and new events stop appearing.
 - Only events on that one calendar appear on the site.
+
+### The lunch menu comes from CPS
+
+The lunch menu is not entered in Pages CMS. CPS publishes every school's menu on MealViewer, and the site reads Courtenay's menu at every rebuild:
+
+- The homepage shows **Today's menu** on a gold band: the lunch (Pre-K to 8th grade all eat the same lunch) and the Pre-K snack. On a weekend or a day off it shows the next school day.
+- The **Lunch menu** page (Families → Lunch menu) shows breakfast, lunch and snacks for each day of this school week. On a weekend it shows the coming week.
+- The menu updates at the daily rebuild. CPS can change a menu with little notice. For allergens and nutrition, the page links to the full menu on MealViewer.
 
 ---
 
@@ -155,6 +163,12 @@ The `a11y` job runs after each build. **It never blocks publishing**, so an edit
 
 Until an address is set, the site shows the sample events in `src/_data/sample-calendar.ics`. If the feed cannot be read during a build, the build keeps the last good copy (cached in GitHub Actions) instead of failing.
 
+### The lunch menu (MealViewer)
+
+The build asks MealViewer for this week's and next week's menu for the school in `site.mealViewerSchool` (`src/_data/site.json`, not editable in the CMS). Courtenay's value is `610355-51073`. To find another school's value, open `https://api.mealviewer.com/api/v4/physicalLocation/search/<school name>` and copy its `physicalLocationLookup`.
+
+If MealViewer cannot be reached, the build keeps the last copy of this week's menu (cached like the calendar) instead of failing. With no copy at all, the homepage card hides and the Lunch menu page links to MealViewer. The link to the full menu is **School details** → **Full lunch menu link (MealViewer)**.
+
 ### Path prefix and custom domain
 
 The POC lives under a path prefix: `https://<owner>.github.io/school-poc/`. The deploy job sets `PATH_PREFIX` to `/<repository name>/`, and every link, image and search file is built under it. Editors never type the prefix: links in the CMS start with a slash, like `/news/`.
@@ -172,7 +186,7 @@ To move to a custom domain (for example `courtenay.cps.edu`):
 - **Repository ownership:** move the repository from a personal account to a GitHub organization the school controls, with at least two admins.
 - **Logo:** the vector shield file from the school (the POC uses the 118×128 PNG from the old site).
 - **Photos:** real Courtenay photos with media releases, to replace the labeled placeholders (hero, principal, preschool and others).
-- **Pride facts:** the real numbers for the pride band (`000` students, `00:1` ratio are placeholders; `PRE-K–8` is real).
+- **Pride facts:** the real numbers for the pride band. The band is hidden until then; to show it, put `{% include "partials/pride.njk" %}` back in `src/_includes/layouts/home.njk` after the quick tasks.
 - **Google Calendar:** the public iCal address (see above).
 - **Spanish (phase 2):** Spanish pages written by bilingual staff. Interface text already lives in `src/_settings/strings.en.json`, and layouts are checked with longer Spanish labels.
 

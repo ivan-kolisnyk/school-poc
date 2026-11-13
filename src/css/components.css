@@ -1205,3 +1205,44 @@ html:not(.js) [data-search-toggle] { display: none; }
   .search-form__spinner { animation: none; } /* a static ring still marks the loading state */
   .search-form__submit:active { transform: none; }
 }
+
+/* ---------- Meal menus (issue #3) ---------- */
+/* One meal: name, an optional note from CPS ("Holiday meal"), then Main / Vegetables / Fruit
+   rows (breakfast, lunch) or a plain list (snacks). A gold bar marks each meal, as on the
+   text-only news card. */
+.meal {
+  min-width: 0;
+  padding-left: var(--space-4);
+  border-left: 6px solid var(--color-surface-accent);
+}
+.meal__title {
+  margin: 0;
+  color: var(--color-text-brand);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+}
+.meal__note {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-accent);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.meal__groups { margin: var(--space-2) 0 0; }
+.meal__group { margin-top: var(--space-2); }
+.meal__group dt {
+  color: var(--color-text-secondary);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.meal__group dd,
+.meal__items {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.meal__items { margin-top: var(--space-2); }

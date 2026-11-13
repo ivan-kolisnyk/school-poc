@@ -13,6 +13,7 @@ const logs = new Map();
 const baseEnv = {
   SITE_NOW: "2026-11-13T12:00:00-06:00",
   CALENDAR_ICS_FILE: "tests/fixtures/calendar.ics",
+  MENU_JSON_FILE: "tests/fixtures/menus.json",
   ALERT_FILE: "tests/fixtures/alert-on.json",
 };
 
@@ -21,6 +22,8 @@ const baseEnv = {
  * (the CMS-edit regression test builds an edited copy of the repo).
  * Every test build reads its events from a file: CALENDAR_ICS_FILE must be set (it defaults to
  * the fixture calendar), so a feed address an admin pastes into site.json is never fetched by tests.
+ * Menus likewise: MENU_JSON_FILE must be set (it defaults to the fixture menu), so tests never
+ * call MealViewer.
  */
 export function build(variant = { name: "default", env: {} }) {
   const name = variant.name || "default";
@@ -28,6 +31,9 @@ export function build(variant = { name: "default", env: {} }) {
     const env = { ...process.env, ...baseEnv, ...(variant.env || {}) };
     if (!String(env.CALENDAR_ICS_FILE ?? "").trim()) {
       throw new Error(`build "${name}": CALENDAR_ICS_FILE must name a calendar file; tests never fetch the live feed.`);
+    }
+    if (!String(env.MENU_JSON_FILE ?? "").trim()) {
+      throw new Error(`build "${name}": MENU_JSON_FILE must name a menu file; tests never fetch MealViewer.`);
     }
     const siteRoot = variant.root ? path.resolve(variant.root) : root;
     // One folder per test process: node --test runs test files in parallel, and two files

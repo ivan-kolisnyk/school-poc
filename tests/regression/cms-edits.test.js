@@ -195,11 +195,11 @@ test("the deploy-gating suite passes after routine CMS edits", { timeout: 300000
 const editedOut = await build({ name: "cms-edited-copy", root: copy, env: { ALERT_FILE: "src/_settings/alert.json" } });
 const edited = (p) => page(p, "cms-edited-copy");
 
-test("homepage: new headline, hero photo, real pride numbers, new welcome", () => {
+test("homepage: new headline, hero photo, new welcome (pride numbers saved but hidden for now)", () => {
   const home = edited("index.html");
   assert.match(text(home.querySelector("h1")), /Welcome to Courtenay, a school where every child belongs\./);
   assert.equal(home.querySelector(".hero__media img, .hero__media picture img").getAttribute("alt"), "Students reading together in the library");
-  assert.deepEqual(home.querySelectorAll(".pride__value").map(text), ["412", "K–8", "14:1"]);
+  assert.equal(home.querySelector(".pride"), null);
   const welcome = home.querySelector('[data-home-section="welcome"]');
   assert.equal(text(welcome.querySelector("h2")), "Hello from our principal");
   assert.equal(home.querySelectorAll("h1").length, 1, "the welcome's pasted H1 is not a second h1");

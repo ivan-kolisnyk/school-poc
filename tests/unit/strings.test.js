@@ -15,8 +15,8 @@ const walk = (dir) => readdirSync(path.join(root, dir), { withFileTypes: true })
 const files = [...walk("src"), ...walk("lib"), "eleventy.config.js"].filter((f) => /\.(njk|md|js)$/.test(f));
 const source = files.map((f) => readFileSync(path.join(root, f), "utf8")).join("\n");
 
-// Groups read with a computed key, e.g. strings.nav[item.key], strings.alertLabels[level].
-const DYNAMIC = new Set(["nav", "alertLabels"]);
+// Groups read with a computed key, e.g. strings.nav[item.key], strings.menu.meals[meal.key].
+const DYNAMIC = ["nav", "alertLabels", "menu.meals", "menu.groups"];
 
 function leaves(obj, prefix = []) {
   return Object.entries(obj).flatMap(([k, v]) =>
@@ -29,7 +29,8 @@ test("every interface string is used by a template or script", () => {
     const dotted = `.${p.join(".")}`;
     const bracket = `.${[group, ...rest.slice(0, -1)].join(".")}["${rest.at(-1)}"]`;
     if (source.includes(dotted) || source.includes(bracket)) return false;
-    return !(DYNAMIC.has(group) && source.includes(`strings.${group}[`));
+    const dynamic = DYNAMIC.find((d) => p.join(".").startsWith(`${d}.`));
+    return !(dynamic && source.includes(`strings.${dynamic}[`));
   });
   assert.deepEqual(unused.map((p) => p.join(".")), []);
 });

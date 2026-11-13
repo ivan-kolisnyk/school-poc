@@ -1,0 +1,22 @@
+{#- One meal from the menus data (lib/menus.js). Set before including:
+      meal       a Meal: breakfast and lunch come grouped (Main, Vegetables, Fruit); a snack is a list
+      mealLevel  heading level of the meal name (optional, default 3) -#}
+{%- set _level = mealLevel or 3 -%}
+<div class="meal">
+  <h{{ _level }} class="meal__title">{{ strings.menu.meals[meal.key] or meal.name }}</h{{ _level }}>
+  {%- if meal.note %}
+  <p class="meal__note">{{ meal.note }}</p>
+  {%- endif %}
+  {%- if meal.groups.length %}
+  <dl class="meal__groups">
+    {%- for group in meal.groups %}
+    <div class="meal__group">
+      <dt>{{ strings.menu.groups[group.key] }}</dt>
+      <dd>{{ group.items | join(", ") }}</dd>
+    </div>
+    {%- endfor %}
+  </dl>
+  {%- else %}
+  <p class="meal__items">{{ meal.items | join(", ") }}</p>
+  {%- endif %}
+</div>

@@ -9,7 +9,7 @@ if (!existsSync("_site/news")) {
 const post = readdirSync("_site/news", { withFileTypes: true }).find((d) => d.isDirectory() && d.name !== "page")?.name;
 if (!post) throw new Error("_site/news has no post folders: the a11y suite needs at least one news post.");
 const pages = [
-  "/", "/news/", `/news/${post}/`, "/events/", "/about/", "/families/preschool/",
+  "/", "/news/", `/news/${post}/`, "/events/", "/about/", "/families/preschool/", "/families/lunch-menu/",
   "/enroll/", "/staff/", "/contact/", "/search/", "/404.html",
 ];
 const widths = [320, 390, 768, 1024, 1440];
@@ -271,4 +271,49 @@ test("/: an event that ends while the page is open leaves without a reload", asy
   const count = await page.locator("[data-events] .event").count();
   await page.clock.runFor(61000);
   await expect(page.locator("[data-events] .event")).toHaveCount(count - ends.filter((t) => t === ends[0]).length);
+});
+
+// Issue #3: the lunch menu never shows a past day. The page holds every coming school day
+// (homepage) or week (menu page); the browser shows the first one not yet over in Chicago.
+const chicagoNoon = (day) => new Date(`${day}T18:00:00Z`); // noon in Chicago, standard or daylight time
+// Read from the served HTML: by the time a test could look, site.js has removed the other days.
+const builtDates = async (page, p, attr) => {
+  const html = await (await page.request.get(BASE + p)).text();
+  return [...html.matchAll(new RegExp(`${attr}="([0-9-]+)"`, "g"))].map((m) => m[1]);
+};
+
+test("/: the lunch card moves on to the next school day and goes once none is left", async ({ page }) => {
+  const days = await builtDates(page, "/", "data-meals-day");
+  test.skip(days.length < 2, "the build has fewer than two menu days");
+  await page.clock.install({ time: chicagoNoon(days[1]) });
+  await page.goto(`${BASE}/`);
+  await expect(page.locator("[data-meals-day]")).toHaveCount(1);
+  await expect(page.locator(`[data-meals-day="${days[1]}"]`)).toBeVisible();
+  await expect(page.locator("#home-menu-title [data-meals-heading]:visible")).toHaveText("Today's menu");
+
+  // The Saturday before a Monday menu day: the card says it is the next school day's menu.
+  const monday = days.find((d) => new Date(`${d}T12:00:00Z`).getUTCDay() === 1);
+  if (monday) {
+    const saturday = new Date(new Date(`${monday}T18:00:00Z`).getTime() - 2 * 86400000);
+    await page.clock.setSystemTime(saturday);
+    await page.reload();
+    await expect(page.locator(`[data-meals-day="${monday}"]`)).toBeVisible();
+    await expect(page.locator("#home-menu-title [data-meals-heading]:visible")).toHaveText("Next school day's menu");
+  }
+
+  await page.clock.setSystemTime(chicagoNoon(days.at(-1)).getTime() + 2 * 86400000);
+  await page.reload();
+  await expect(page.locator('[data-home-section="menu"]')).toHaveCount(0);
+});
+
+test("/families/lunch-menu/: once every week is over, the empty line shows", async ({ page }) => {
+  const ends = await builtDates(page, "/families/lunch-menu/", "data-meals-week-end");
+  test.skip(ends.length === 0, "the build lists no menu weeks");
+  await page.goto(`${BASE}/families/lunch-menu/`);
+  await expect(page.locator(".menu-week:visible")).toHaveCount(1);
+  await expect(page.locator(".menu-empty")).toBeHidden();
+  await page.clock.install({ time: chicagoNoon(ends.at(-1)).getTime() + 2 * 86400000 });
+  await page.reload();
+  await expect(page.locator(".menu-week")).toHaveCount(0);
+  await expect(page.locator(".menu-empty")).toBeVisible();
 });

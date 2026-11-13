@@ -310,6 +310,7 @@ Top of every page, above the header, full width.
 - Placed directly after the hero on the homepage and repeated at the bottom of the mobile menu.
 
 ### 10.7 Pride band
+- **Hidden for now (2026-11-13)** until the school confirms real numbers; the component and its CMS fields stay.
 - Gold band with the stripe motif; three facts in Oswald 700 (32–48px) with a small uppercase label below.
 - Facts **must** be real and come from the school (e.g. enrollment, grades served, a program fact). No invented numbers.
 - **POC placeholders:** three slots, each with a placeholder value and label: `000` / STUDENTS · `PRE-K–8` / GRADES (this one is real) · `00:1` / STUDENT–TEACHER RATIO. The labels are editable too, so the school can swap in different facts. Placeholder values must be easy to spot in review and must be replaced before launch.
@@ -327,6 +328,12 @@ Top of every page, above the header, full width.
 - A date-block list: square navy block with month (gold, small) and day (white, large), then the event name, time and place.
 - Homepage shows the next 4 upcoming events only; past events are never shown. Link: "See full calendar".
 - If there are no upcoming events, show one line: "No events scheduled — see the CPS calendar for district dates."
+
+### 10.9a Lunch menu
+- Data from CPS's MealViewer (never typed in). A meal: name ("Lunch · K–8"), an optional CPS note in Oswald `--gold-text` ("Holiday meal!"), then Main / Vegetables / Fruit rows (small Oswald uppercase labels, muted) or a plain list for snacks. A 6px gold left bar marks each meal.
+- Homepage: "Today's menu", after the quick tasks, as the page's one gold band (the pride band is hidden), slim (space.6 / space.7 padding). On gold the title, its bar, the date, the link and the focus ring are navy-deep; each meal sits in a flat white card (radius.sm, no shadow) with the usual on-white colours. The date, then the Pre-K–8 lunch (wide) beside the Pre-K snack; stacked on mobile. Titled "Today's menu", or "Next school day's menu" when the day shown is not today (weekends, days off). Link: "See this week's menu". No menu → the section hides.
+- Menu page (`/families/lunch-menu/`): Monday to Friday of the school week, every meal per day; a day with no meals says "No menu posted."; links to MealViewer for allergens.
+- Never shows a past day: the browser picks the current day or week from the ones built into the page.
 
 ### 10.10 Content page body
 - White background, reading column max ~680px, standard heading styles.
@@ -375,7 +382,7 @@ Order on every screen size:
 │Calendar │ Lunch   │ Portal    │  quick tasks
 │Enroll   │ Care    │ Contact   │
 ├─────────┴─────────┴───────────┤
-│ 000  ·  PRE-K–8  ·  00:1       │  gold pride band + stripes
+│ ▌TODAY'S MENU    This week →  │  gold band: lunch + Pre-K snack
 ├───────────────────────────────┤
 │ ▌TIGER NEWS        See all →  │  3 latest, as cards
 ├───────────────────────────────┤

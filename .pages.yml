@@ -25,7 +25,7 @@ content:
         type: object
         fields:
           - { name: parentPortal, label: Parent portal link, type: string }
-          - { name: lunchMenu, label: Lunch menu link, type: string }
+          - { name: lunchMenu, label: Full lunch menu link (MealViewer), type: string }
           - { name: cpsCalendar, label: CPS calendar link, type: string }
           - { name: tourForm, label: Tour request form link, type: string }
           - { name: cps, label: CPS website link, type: string }
@@ -109,7 +109,7 @@ content:
         label: Pride numbers
         type: object
         list: { min: 3, max: 3 }
-        description: Exactly three. Use real numbers only.
+        description: Not shown on the site for now. Exactly three. Use real numbers only.
         fields:
           - name: value
             label: Number or short text
@@ -186,7 +186,7 @@ content:
     label: Families pages
     type: collection
     path: src/families
-    exclude: [families.json, events.md, cps-calendar.md, parent-portal.md, lunch-menu.md]
+    exclude: [families.json, events.md, cps-calendar.md, parent-portal.md, lunch-menu.njk]
     # Slug-only file names, so a new page gets a clean URL (/families/new-page/), not a dated one.
     filename: "{primary}.md"
     format: yaml-frontmatter

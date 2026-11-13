@@ -365,3 +365,75 @@
 }
 .staff-card__email { margin: var(--space-1) 0 0; }
 .staff-card__email a { display: inline-block; min-height: 44px; padding-block: 10px; }
+
+/* ---------- Lunch menu: homepage card and the week page (issue #3) ---------- */
+/* The homepage card is the page's one gold band (DESIGN.md 5.4; the pride band is hidden),
+   kept slim. On gold only navy-deep passes (10.7:1, DESIGN.md 5.3): the title, its bar, the
+   date, the link and the focus ring. Each meal sits in a flat white card (radius.sm, no
+   shadow, DESIGN.md 7) so the dishes read in the usual colours on white. */
+.home-menu {
+  padding-block: var(--space-6);
+  background: var(--color-surface-accent);
+  color: var(--color-text-on-accent);
+}
+@media (min-width: 1024px) { .home-menu { padding-block: var(--space-7); } }
+.home-menu .section-head { margin-bottom: var(--space-4); }
+.home-menu .section-title,
+.home-menu .section-head a,
+.home-menu .section-head a:active,
+.home-menu .menu-today__date { color: var(--color-text-on-accent); }
+.home-menu .section-title { border-left-color: var(--color-text-on-accent); }
+.home-menu :focus-visible { outline-color: var(--color-text-on-accent); }
+.home-menu .menu-today__date { margin-bottom: var(--space-3); }
+.home-menu .meal {
+  padding: var(--space-4);
+  border-left: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-page);
+  color: var(--color-text-primary);
+}
+@media (min-width: 768px) {
+  .home-menu .menu-today__meals { gap: var(--space-4); }
+  .home-menu .meal { padding: var(--space-5); }
+}
+.menu-today__date {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-accent);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.menu-today__meals {
+  display: grid;
+  gap: var(--space-5);
+}
+@media (min-width: 768px) {
+  .menu-today__meals { grid-template-columns: 2fr 1fr; gap: var(--space-6); }
+}
+
+.menu-day {
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.menu-day__title {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+/* Under a day heading the meal names step down to body size. */
+.menu-day .meal__title { font-size: var(--fs-body); }
+.menu-day__meals {
+  display: grid;
+  gap: var(--space-5);
+}
+@media (min-width: 640px) {
+  .menu-day__meals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.menu-day__none { margin: 0; color: var(--color-text-secondary); }
+.menu-empty,
+.menu-notes { margin-top: var(--space-5); }
+.menu-notes { color: var(--color-text-secondary); }

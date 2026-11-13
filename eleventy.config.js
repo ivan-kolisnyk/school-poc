@@ -11,6 +11,7 @@ import { eventWhen, eventsWithin, groupByMonth, chicagoDay } from "./lib/events.
 import { staffGroups, initials, staffPhotoIssue } from "./lib/staff.js";
 import { nextHeadlines, newsDay, hasPhoto, photoIssue } from "./lib/news.js";
 import { heroPhotoIssue } from "./lib/home.js";
+import { homeMenuDays, menuWeeks } from "./lib/menus.js";
 
 export default function (eleventyConfig) {
   const inputDir = "src";
@@ -218,6 +219,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("eventMonths", groupByMonth);
   eleventyConfig.addFilter("eventsWithin", eventsWithin);
   eleventyConfig.addFilter("chicagoDay", chicagoDay);
+
+  // School meal menus from CPS's MealViewer (lib/menus.js); data in src/_data/menus.js.
+  eleventyConfig.addFilter("homeMenuDays", homeMenuDays);
+  eleventyConfig.addFilter("menuWeeks", menuWeeks);
 
   return {
     dir: { input: "src", includes: "_includes", data: "_data", output: "_site" },

@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 ---
-{#- Homepage (DESIGN.md 11): hero → button pair → quick tasks → pride band → Tiger news →
+{#- Homepage (DESIGN.md 11): hero → button pair → quick tasks → lunch menu → Tiger news →
     Upcoming events → principal's welcome. Sections with no content hide, heading included. -#}
 {% include "partials/hero.njk" %}
 
@@ -21,7 +21,10 @@ layout: layouts/base.njk
   </div>
 </section>
 
-{% include "partials/pride.njk" %}
+{#- Pride band hidden for now, until the school confirms real numbers (partials/pride.njk;
+    the facts stay in the homepage front matter). To show it again, include it here. -#}
+
+{% include "partials/menu-today.njk" %}
 
 {%- set latestNews = collections.newsDesc.slice(0, 3) %}
 {%- if latestNews.length %}

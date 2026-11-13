@@ -86,7 +86,7 @@ test("every nav link and dropdown child resolves (internal file or marked extern
 test("menu-only entries point at their destinations", () => {
   const nav = page("index.html").querySelector("header nav");
   const href = (label) => nav.querySelectorAll(".site-nav__sub a").find((a) => text(a) === label)?.getAttribute("href");
-  assert.equal(href("Lunch menu"), site.links.lunchMenu);
+  assert.equal(href("Lunch menu"), `${PREFIX}/families/lunch-menu/`);
   assert.equal(href("Parent portal"), site.links.parentPortal);
   assert.equal(href("CPS calendar"), site.links.cpsCalendar);
   assert.equal(href("Events"), `${PREFIX}/events/`);
@@ -108,7 +108,7 @@ test("dropdown marks the current page; the section link is current for its child
 });
 
 test("menu-only entries build no page of their own", () => {
-  for (const p of ["families/lunch-menu", "families/parent-portal", "families/cps-calendar", "families/events", "about/staff", "contact/staff-directory"]) {
+  for (const p of ["families/parent-portal", "families/cps-calendar", "families/events", "about/staff", "contact/staff-directory"]) {
     assert.equal(existsSync(path.join(out, p, "index.html")), false, p);
   }
 });

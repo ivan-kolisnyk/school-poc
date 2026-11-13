@@ -15,7 +15,7 @@ Replace the vendor-hosted courtenay.cps.edu (Educational Networks) with a site t
 | Lock-in | Content must stay as plain files the school owns; any tool must be swappable. |
 | Accessibility | WCAG 2.1 AA is a legal requirement for CPS under ADA Title II (deadline currently April 26, 2027). `DESIGN.md` targets WCAG 2.2 AA, which covers it. |
 | Language | POC is English only. Spanish follows in phase 2, written by bilingual staff. The build must be Spanish-ready. |
-| Scope | No logins, no student data, no comments, no newsletter sending. Parent portal, lunch menu and CPS calendar stay as links to CPS systems. |
+| Scope | No logins, no student data, no comments, no newsletter sending. Parent portal and CPS calendar stay as links to CPS systems. The lunch menu is read from CPS's MealViewer at build (issue #3). |
 
 ## 3. Approaches considered
 
@@ -61,9 +61,11 @@ Every image field has a **required** alt-text field next to it. All dates use th
 | **Pages** | Title, intro line, section (About / Families / Enroll / Contact), menu order, body, optional documents | Drives the inner pages and the navigation dropdowns. Body supports the callout box and document links from `DESIGN.md`. |
 | **Staff directory** | Name, role, group, email, optional photo + alt | Groups: Administration, Pre-K, K–2, 3–5, 6–8, Specials, Support. |
 | **Documents** | Uploaded through the CMS media library (PDFs) | Linked from pages with type and size shown. |
-| **Quick links** | Fixed six tasks in code; their URLs (parent portal, lunch menu, care) editable in School details | Keeps the homepage grid stable. |
+| **Quick links** | Fixed six tasks in code; their URLs (parent portal, care) editable in School details; Lunch menu goes to the site's own menu page | Keeps the homepage grid stable. |
 
 **Events** come from the school's existing **Google Calendar** (requirement, confirmed 2026-11-13). Staff keep adding events there as they do today; nothing is entered twice. The build reads the calendar's public iCal feed, shows the next 4 events on the homepage and a full upcoming list on the Events page, and links to the CPS district calendar. Event title, date/time, location and description come from the calendar entry. If the feed can't be fetched, the build keeps the last successful copy rather than failing. The CMS `calendar.json` list is retired.
+
+**Lunch menus** come from CPS's **MealViewer** (issue #3). The build reads the school's menu for this week and next from MealViewer's public JSON API (`api.mealviewer.com/api/v4/school/<lookup>/<from>/<to>/0`), using the same cached fetcher as the calendar. The homepage shows today's K–8 lunch and Pre-K menu; `/families/lunch-menu/` shows the school week. Pages hold every coming day or week, and the browser shows the current one, so a page older than today never shows a past menu. If the fetch fails, the build keeps the last copy; with none, the card hides.
 
 The calendar must be set to public ("Make available to public — see all event details") for its iCal feed to be readable; only events on that calendar appear on the site.
 
