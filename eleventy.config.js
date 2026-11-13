@@ -6,7 +6,7 @@ import { formatDate, formatTime } from "./lib/dates.js";
 import { isAlertActive } from "./lib/alert.js";
 import { chicagoLocalToDate } from "./lib/dates.js";
 import { icon, placeholder, headingClass, linkPhrase } from "./lib/shortcodes.js";
-import { eventWhen, groupByMonth, chicagoDay } from "./lib/events.js";
+import { eventWhen, eventsWithin, groupByMonth, chicagoDay } from "./lib/events.js";
 import { nextHeadlines, newsDay, hasPhoto, photoIssue } from "./lib/news.js";
 
 export default function (eleventyConfig) {
@@ -80,6 +80,7 @@ export default function (eleventyConfig) {
   // Events from Google Calendar (DESIGN.md 10.9); data in src/_data/events.js.
   eleventyConfig.addFilter("eventWhen", eventWhen);
   eleventyConfig.addFilter("eventMonths", groupByMonth);
+  eleventyConfig.addFilter("eventsWithin", eventsWithin);
   eleventyConfig.addFilter("chicagoDay", chicagoDay);
 
   return {

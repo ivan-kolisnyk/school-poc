@@ -59,8 +59,7 @@
     "allDay": "All day",
     "seeFullCalendar": "See full calendar",
     "cpsCalendarLink": "see the CPS calendar",
-    "cpsCalendar": "CPS district calendar",
-    "cpsCalendarNote": "Holidays and district dates are on the CPS district calendar."
+    "cpsCalendar": "See the CPS district calendar"
   },
   "breadcrumb": {
     "label": "Breadcrumb",

@@ -39,10 +39,9 @@
   border-left: 6px solid var(--color-surface-accent);
 }
 .events-month .event-list { max-width: calc(var(--measure) + 72px + var(--space-4)); }
-.events-note {
-  max-width: var(--measure);
+.events-cps {
   margin: var(--space-7) 0 0;
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-border-subtle);
-  color: var(--color-text-secondary);
+  font-weight: 600;
 }

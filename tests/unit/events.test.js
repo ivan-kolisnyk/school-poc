@@ -3,16 +3,17 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { formatDate, formatTime } from "../../lib/dates.js";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, readdirSync, rmSync } from "node:fs";
 import http from "node:http";
 import os from "node:os";
 import path from "node:path";
-import { upcomingEvents, eventWhen, groupByMonth, chicagoDay, loadCalendar, feedFetcher } from "../../lib/events.js";
+import { upcomingEvents, eventWhen, groupByMonth, chicagoDay, loadCalendar, feedFetcher, eventsWithin } from "../../lib/events.js";
 
 const ics = readFileSync(new URL("../fixtures/calendar.ics", import.meta.url), "utf8");
 const now = new Date("2026-11-13T18:00:00Z");
 const events = upcomingEvents(ics, now);
 const titles = events.map((e) => e.title);
+const ALL = 8; // upcoming fixture events within the default 365 days
 const day = (e) => chicagoDay(e.start);
 
 test("past and cancelled events are absent", () => {
@@ -39,6 +40,7 @@ test("exactly the upcoming fixture events, in order", () => {
       "2026-12-03 PAC meeting",
       "2026-12-10 PAC meeting",
       "2026-12-17 PAC meeting",
+      "2027-03-04 Spring concert",
     ]
   );
 });
@@ -105,6 +107,7 @@ test("limit and days options", () => {
   assert.equal(upcomingEvents(ics, now, { limit: 4 }).length, 4);
   const week = upcomingEvents(ics, now, { days: 7 }).map((e) => e.title);
   assert.deepEqual(week, ["Fall book fair", "Coffee with the principal"]);
+  assert.ok(!upcomingEvents(ics, now, { days: 90 }).some((e) => e.title === "Spring concert"));
 });
 
 test("malformed or empty ICS returns [] without throwing", () => {
@@ -127,10 +130,9 @@ test("eventWhen: a timed event without an end shows its start time only", () => 
 
 test("groupByMonth keeps order and labels months", () => {
   const groups = groupByMonth(events);
-  assert.deepEqual(groups.map((g) => g.key), ["2026-11", "2026-12"]);
-  assert.deepEqual(groups.map((g) => g.label), ["November 2026", "December 2026"]);
-  assert.equal(groups[0].items.length, 4);
-  assert.equal(groups[1].items.length, 3);
+  assert.deepEqual(groups.map((g) => g.key), ["2026-11", "2026-12", "2027-03"]);
+  assert.deepEqual(groups.map((g) => g.label), ["November 2026", "December 2026", "March 2027"]);
+  assert.deepEqual(groups.map((g) => g.items.length), [4, 3, 1]);
   assert.deepEqual(groupByMonth([]), []);
 });
 
@@ -141,7 +143,7 @@ const quiet = { warn: () => {} };
 test("loadCalendar: the env file wins and is read from disk", async () => {
   const r = await loadCalendar({ file: "tests/fixtures/calendar.ics", url: "https://x.test/a.ics", fetchText: () => { throw new Error("must not fetch"); }, sampleFile: "nope.ics", now, logger: quiet });
   assert.equal(r.source, "file");
-  assert.equal(r.items.length, 7);
+  assert.equal(r.items.length, ALL);
 });
 
 test("loadCalendar: a URL is fetched fresh (1h) and marked live", async () => {
@@ -153,7 +155,7 @@ test("loadCalendar: a URL is fetched fresh (1h) and marked live", async () => {
   });
   assert.equal(r.source, "live");
   assert.deepEqual(calls, ["1h"]);
-  assert.equal(r.items.length, 7);
+  assert.equal(r.items.length, ALL);
 });
 
 test("loadCalendar: on fetch error the cached copy is used", async () => {
@@ -170,7 +172,7 @@ test("loadCalendar: on fetch error the cached copy is used", async () => {
   });
   assert.equal(r.source, "cache");
   assert.deepEqual(calls, ["1h", "*"]);
-  assert.equal(r.items.length, 7);
+  assert.equal(r.items.length, ALL);
   assert.equal(warnings.length, 1);
 });
 
@@ -188,7 +190,7 @@ test("loadCalendar: no feed, no cache -> empty list with a warning, never throws
 test("loadCalendar: an empty URL uses the sample calendar", async () => {
   const r = await loadCalendar({ url: "", sampleFile: "tests/fixtures/calendar.ics", fetchText: () => { throw new Error("must not fetch"); }, now, logger: quiet });
   assert.equal(r.source, "file");
-  assert.equal(r.items.length, 7);
+  assert.equal(r.items.length, ALL);
 });
 
 test("loadCalendar: a missing env file or sample gives none, not a crash", async () => {
@@ -212,15 +214,63 @@ test("feedFetcher: live copy, then the cached copy once the feed is down, then n
 
   const live = await loadCalendar({ url, fetchText: short, now, logger: quiet });
   assert.equal(live.source, "live");
-  assert.equal(live.items.length, 7);
+  assert.equal(live.items.length, ALL);
 
   await new Promise((ok) => server.close(ok));
   await new Promise((ok) => setTimeout(ok, 1100));
   const cached = await loadCalendar({ url, fetchText: short, now, logger: quiet });
   assert.equal(cached.source, "cache");
-  assert.equal(cached.items.length, 7);
+  assert.equal(cached.items.length, ALL);
 
   await assert.rejects(fetchText(url.replace("feed", "never"), "*"), /nothing cached/);
+});
+
+test("eventsWithin keeps events starting within the window, in-progress ones included", () => {
+  const within = eventsWithin(events, now, 90).map((e) => e.title);
+  assert.equal(within.length, 7);
+  assert.equal(within[0], "Fall book fair");
+  assert.ok(!within.includes("Spring concert"));
+  assert.deepEqual(eventsWithin(events, now, 7).map((e) => e.title), ["Fall book fair", "Coffee with the principal"]);
+  assert.deepEqual(eventsWithin(undefined, now, 90), []);
+});
+
+test("feedFetcher: a 200 HTML page (private calendar) is a failure and never replaces the good copy", async (t) => {
+  const dir = mkdtempSync(path.join(os.tmpdir(), "events-cache-"));
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  let mode = "ics";
+  const server = http.createServer((req, res) => {
+    res.writeHead(200, { "content-type": mode === "ics" ? "text/calendar" : "text/html" });
+    res.end(mode === "ics" ? ics : "<!doctype html><title>Sign in - Google Calendar</title>");
+  });
+  await new Promise((ok) => server.listen(0, "127.0.0.1", ok));
+  t.after(() => server.close());
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const fetchText = feedFetcher(dir);
+  const short = (u, d) => fetchText(u, d === "1h" ? "1s" : d);
+
+  // Never cached + HTML: nothing to show, with a warning that names the problem.
+  mode = "html";
+  const warnings = [];
+  const none = await loadCalendar({ url: `${base}/private.ics`, fetchText: short, now, logger: { warn: (m) => warnings.push(m) } });
+  assert.deepEqual(none, { items: [], source: "none" });
+  assert.match(warnings.join("\n"), /not an iCalendar file/);
+  await assert.rejects(fetchText(`${base}/private.ics`, "*"), /nothing cached/);
+
+  // A good copy first, then the feed turns private.
+  mode = "ics";
+  const url = `${base}/feed.ics`;
+  assert.equal((await loadCalendar({ url, fetchText: short, now, logger: quiet })).source, "live");
+  mode = "html";
+  await new Promise((ok) => setTimeout(ok, 1100));
+  const warned = [];
+  const cached = await loadCalendar({ url, fetchText: short, now, logger: { warn: (m) => warned.push(m) } });
+  assert.equal(cached.source, "cache");
+  assert.equal(cached.items.length, ALL);
+  assert.match(warned.join("\n"), /not an iCalendar file/);
+  // The good copy is still the one on disk (what a fresh build process would read).
+  const bodies = readdirSync(dir).filter((f) => f.endsWith(".text")).map((f) => readFileSync(path.join(dir, f), "utf8"));
+  assert.equal(bodies.length, 1);
+  assert.match(bodies[0], /BEGIN:VCALENDAR/);
 });
 
 test("the shipped sample calendar always has upcoming events, invented names only", () => {

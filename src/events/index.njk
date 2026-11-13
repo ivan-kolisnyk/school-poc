@@ -1,10 +1,14 @@
 ---
 layout: layouts/base.njk
 permalink: /events/
+# How far ahead this page lists events (the homepage shows the next 4 regardless).
+eventsDays: 90
 eleventyComputed:
   title: "{{ strings.events.heading }}"
 ---
-{#- All upcoming events from the school's Google Calendar, grouped by month (DESIGN.md 10.9). -#}
+{#- Upcoming events from the school's Google Calendar for the next `eventsDays` days,
+    grouped by month (DESIGN.md 10.9). -#}
+{%- set pageEvents = events.items | eventsWithin(now, eventsDays) -%}
 {%- set headerTitle = strings.events.heading -%}
 {%- set headerSentence = false -%}
 {%- set headerCrumbs = [] -%}
@@ -16,16 +20,15 @@ eleventyComputed:
     {%- set eventLevel = 3 %}
     {%- set limit = false %}
     {%- set showDescription = true %}
-    {%- if events.items.length %}
-    {%- for group in events.items | eventMonths %}
+    {%- if pageEvents.length %}
+    {%- for group in pageEvents | eventMonths %}
     <section class="events-month" aria-labelledby="events-{{ group.key }}">
       <h2 class="events-month__title" id="events-{{ group.key }}">{{ group.label }}</h2>
       {%- set items = group.items %}
       {% include "partials/events-list.njk" %}
     </section>
     {%- endfor %}
-    {%- set _ext %}{% icon "external-link", strings.a11y.externalCps %}{% endset %}
-    <p class="events-note">{{ strings.events.cpsCalendarNote | linkPhrase(strings.events.cpsCalendar, site.links.cpsCalendar, _ext) | safe }}</p>
+    <p class="events-cps"><a href="{{ site.links.cpsCalendar }}">{{ strings.events.cpsCalendar }} {% icon "external-link", strings.a11y.externalCps %}</a></p>
     {%- else %}
     {%- set items = [] %}
     {% include "partials/events-list.njk" %}

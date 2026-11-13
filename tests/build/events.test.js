@@ -91,9 +91,23 @@ test("the date block is navy with a gold month and a white day (semantic tokens)
   assert.match(rule(".event__day"), /color:\s*var\(--color-text-on-dark\)/);
 });
 
-test("/events/ links to the CPS district calendar", () => {
-  const links = page("events/index.html").querySelectorAll("main a").filter((a) => a.getAttribute("href") === site.links.cpsCalendar);
-  assert.ok(links.length >= 1);
+test("/events/ shows the next 90 days only", () => {
+  const doc = page("events/index.html");
+  assert.doesNotMatch(doc.querySelector("main").toString(), /Spring concert/);
+  assert.deepEqual(doc.querySelectorAll("main .events-month h2").map(text), ["November 2026", "December 2026"]);
+  const front = readFileSync(path.join(root, "src/events/index.njk"), "utf8");
+  assert.match(front, /^eventsDays: 90$/m, "the window is a named option on the page");
+});
+
+test("/events/ ends with a See the CPS district calendar link after the months", () => {
+  const container = page("events/index.html").querySelector("main .events");
+  const kids = container.childNodes.filter((n) => n.nodeType === 1);
+  const last = kids[kids.length - 1];
+  assert.ok(kids[kids.length - 2].classList.contains("events-month"), "link follows the month groups");
+  const link = last.querySelector("a");
+  assert.equal(text(link), strings.events.cpsCalendar);
+  assert.equal(strings.events.cpsCalendar, "See the CPS district calendar");
+  assert.equal(link.getAttribute("href"), site.links.cpsCalendar);
 });
 
 test("with no upcoming events the page shows the one-line empty state linking to the CPS calendar", () => {

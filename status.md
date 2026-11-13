@@ -41,6 +41,7 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Steps done:** 1-7 (RED/GREEN recorded in task-6-report.md)
 - **Files touched:** lib/events.js, lib/dates.js (+monthYear), lib/shortcodes.js (+linkPhrase), src/_data/events.js, src/_data/sample-calendar.ics, src/_data/calendar.json (deleted), src/_includes/partials/events-list.njk, src/events/index.njk, src/_includes/layouts/home.njk (interim events block), eleventy.config.js, src/_settings/strings.en.json, src/css/{components,pages}.css, package.json/lock (+node-ical, @11ty/eleventy-fetch), tests/{unit,build}/events.test.js, tests/unit/shortcodes.test.js, tests/fixtures/{calendar,empty}.ics
 - **Last command:** npm test -> PASS 107/107
+- **Fix round 1 (controller rulings):** done — (1) /events/ shows next 90 days (`eventsDays: 90` in page front matter, `eventsWithin` filter) + "See the CPS district calendar" link; (2) feed body must contain BEGIN:VCALENDAR before Eleventy Fetch caches it (function source), else cache fallback / none. Files: lib/events.js, src/events/index.njk, eleventy.config.js, strings.en.json, pages.css, tests/{unit,build}/events.test.js, tests/fixtures/calendar.ics (+Spring concert 2027-03-04). npm test -> PASS 110/110
 - **Next:** — (awaiting review)
 - **Blockers:** —
 - **Commit / review:** 42f71d0
