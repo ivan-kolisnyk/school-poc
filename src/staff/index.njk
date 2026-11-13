@@ -19,6 +19,10 @@ permalink: /staff/
       <button type="button" class="staff-filter__btn" aria-pressed="false" data-group="{{ group.name }}">{{ group.name }}</button>
       {%- endfor %}
     </div>
+    {#- Filled by site.js after each filter change; the visible cards are the count. #}
+    <p class="visually-hidden" data-staff-status role="status" aria-live="polite"
+      data-count-one="{{ strings.staff.count_one }}" data-count-other="{{ strings.staff.count_other }}"
+      data-count-all="{{ strings.staff.countAll }}"></p>
     {%- for group in collections.staffGroups %}
     <section class="staff-group" data-staff-group="{{ group.name }}" aria-labelledby="staff-{{ loop.index }}">
       <h2 class="section-title" id="staff-{{ loop.index }}">{{ group.name }}</h2>
@@ -33,7 +37,7 @@ permalink: /staff/
           <h3 class="staff-card__name">{{ person.name }}</h3>
           <p class="staff-card__role">{{ person.role }}</p>
           {%- if person.email %}
-          <p class="staff-card__email"><a href="mailto:{{ person.email }}" aria-label="{{ strings.staff.emailLabel | replace('{name}', person.name) }}">{{ person.email }}</a></p>
+          <p class="staff-card__email"><a href="mailto:{{ person.email }}">{{ person.email }}<span class="visually-hidden"> {{ strings.staff.emailFor | replace('{name}', person.name) }}</span></a></p>
           {%- endif %}
         </li>
         {%- endfor %}

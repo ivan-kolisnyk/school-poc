@@ -159,3 +159,15 @@ test("nothing animates or rotates except the hero entrance", () => {
     }
   }
 });
+
+// ---- Hero photo set without alt text (HOME_FIXTURE replaces src/index.md) ----
+import { buildLog } from "../helpers/build.js";
+await build({ name: "hero-no-alt", env: { HOME_FIXTURE: "tests/fixtures/home/hero-without-alt.md" } });
+
+test("a hero photo without alt text shows the placeholder and warns at build time", () => {
+  const hero = section("hero", "hero-no-alt");
+  assert.equal(hero.querySelectorAll("img, picture").length, 0, "no photo without alt text");
+  assert.ok(hero.querySelector(".ph"), "the labeled placeholder shows instead");
+  assert.match(buildLog("hero-no-alt"), /\[home\].*index\.md.*no hero_alt/);
+  assert.doesNotMatch(buildLog(), /\[home\]/, "the real homepage raises no warning");
+});

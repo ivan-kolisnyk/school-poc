@@ -66,7 +66,10 @@
     "intro": "Meet the teachers and staff of Courtenay.",
     "filterLabel": "Show staff by group",
     "all": "All",
-    "emailLabel": "Email {name}",
+    "emailFor": "(email {name})",
+    "count_one": "Showing {n} person in {group}.",
+    "count_other": "Showing {n} people in {group}.",
+    "countAll": "Showing all {n} staff.",
     "groups": ["Administration", "Pre-K", "K–2", "3–5", "6–8", "Specials", "Support"]
   },
   "pages": {

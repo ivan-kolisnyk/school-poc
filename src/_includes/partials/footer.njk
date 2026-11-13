@@ -43,9 +43,9 @@
       <div class="site-footer__group">
         <h2 class="site-footer__heading">{{ strings.footer.cpsHeading }}</h2>
         <ul class="site-footer__links" role="list">
-          <li><a href="{{ site.links.cps }}">{{ strings.footer.cps }} {% icon "external-link", strings.a11y.externalCps %}</a></li>
-          <li><a href="{{ site.links.nondiscrimination }}">{{ strings.footer.nondiscrimination }} {% icon "external-link", strings.a11y.externalCps %}</a></li>
-          <li><a href="{{ site.links.mentalHealth }}">{{ strings.footer.mentalHealth }} {% icon "external-link", strings.a11y.externalCps %}</a></li>
+          <li><a href="{{ site.links.cps }}">{{ strings.footer.cps }} {{ site.links.cps | externalIcon | safe }}</a></li>
+          <li><a href="{{ site.links.nondiscrimination }}">{{ strings.footer.nondiscrimination }} {{ site.links.nondiscrimination | externalIcon | safe }}</a></li>
+          <li><a href="{{ site.links.mentalHealth }}">{{ strings.footer.mentalHealth }} {{ site.links.mentalHealth | externalIcon | safe }}</a></li>
         </ul>
       </div>
       {%- if site.staffLinks.length %}
@@ -53,7 +53,7 @@
         <h2 class="site-footer__heading">{{ strings.footer.staffLinks }}</h2>
         <ul class="site-footer__links" role="list">
           {%- for link in site.staffLinks %}
-          <li><a href="{{ link.url }}">{{ link.label }} {% icon "external-link", strings.a11y.externalCps %}</a></li>
+          <li><a href="{{ link.url }}">{{ link.label }} {{ link.url | externalIcon | safe }}</a></li>
           {%- endfor %}
         </ul>
       </div>

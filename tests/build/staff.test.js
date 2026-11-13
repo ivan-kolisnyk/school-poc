@@ -61,6 +61,14 @@ test("filter buttons: hidden by default, All plus one per group, aria-pressed", 
   assert.deepEqual(buttons.map((b) => b.text.trim()), [strings.staff.all, ...GROUPS]);
   for (const b of buttons) assert.ok(["true", "false"].includes(b.getAttribute("aria-pressed")));
   assert.equal(buttons[0].getAttribute("aria-pressed"), "true");
+  // A polite live region announces how many people the filter shows.
+  const status = doc.querySelector("[data-staff-status]");
+  assert.ok(status, "live region");
+  assert.equal(status.getAttribute("aria-live"), "polite");
+  assert.equal(status.text.trim(), "", "empty until the filter is used");
+  assert.ok(status.getAttribute("data-count-one").includes("{n}"));
+  assert.ok(status.getAttribute("data-count-other").includes("{n}"));
+  assert.ok(status.getAttribute("data-count-all").includes("{n}"));
   // Without JavaScript every group is visible.
   assert.equal(doc.querySelectorAll("[data-staff-group][hidden]").length, 0);
 });
@@ -76,10 +84,17 @@ await build({ name: "staff-fixtures", env: { STAFF_FIXTURES_DIR: "tests/fixtures
 const fx = page("staff/index.html", "staff-fixtures");
 const cardOf = (name) => fx.querySelectorAll(".staff-card").find((c) => c.querySelector(".staff-card__name").text.includes(name));
 
-test("email renders as a mailto link named after the person", () => {
+test("email renders as a mailto link whose name starts with the visible address (WCAG 2.5.3)", () => {
   const a = cardOf("Fixture Email").querySelector('a[href^="mailto:"]');
   assert.equal(a.getAttribute("href"), "mailto:fixture.email@cps.edu");
-  assert.equal(a.getAttribute("aria-label"), "Email Ms. Fixture Email");
+  assert.ok(!a.hasAttribute("aria-label"), "no aria-label replacing the visible text");
+  const hidden = a.querySelector(".visually-hidden");
+  assert.ok(hidden, "the person's name is added as visually hidden text");
+  const visible = a.text.replace(hidden.text, "").trim();
+  assert.equal(visible, "fixture.email@cps.edu");
+  const name = a.text.replace(/\s+/g, " ").trim();
+  assert.ok(name.startsWith("fixture.email@cps.edu"), name);
+  assert.match(name, /Ms\. Fixture Email/);
 });
 
 test("photo with alt renders a 1:1 image and no initials circle", () => {

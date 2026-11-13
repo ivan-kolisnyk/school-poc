@@ -67,6 +67,7 @@
   border-top: 1px solid var(--color-border-subtle);
   font-weight: 600;
 }
+.events-cps a { display: inline-flex; align-items: center; gap: .25em; min-height: 44px; }
 
 /* ======================= Homepage (DESIGN.md 11) ======================= */
 

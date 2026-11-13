@@ -10,6 +10,7 @@ import loadStrings from "./src/_data/strings.js";
 import { eventWhen, eventsWithin, groupByMonth, chicagoDay } from "./lib/events.js";
 import { staffGroups, initials, staffPhotoIssue } from "./lib/staff.js";
 import { nextHeadlines, newsDay, hasPhoto, photoIssue } from "./lib/news.js";
+import { heroPhotoIssue } from "./lib/home.js";
 
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
@@ -95,6 +96,24 @@ export default function (eleventyConfig) {
     for (const file of readdirSync(dir).filter((f) => f.endsWith(".md"))) {
       eleventyConfig.addTemplate(`news/${file}`, readFileSync(path.join(dir, file), "utf8"));
     }
+  }
+
+  // Homepage hero photo (DESIGN.md 10.3): shown only with alt text and an existing file;
+  // otherwise the placeholder shows and the build warns once.
+  const heroWarned = new Set();
+  eleventyConfig.addFilter("heroPhoto", function (data) {
+    const inputPath = this.page?.inputPath ?? "src/index.md";
+    const issue = heroPhotoIssue(data, (src) => imageExists(src, { page: { inputPath } }));
+    if (issue && !heroWarned.has(inputPath)) {
+      heroWarned.add(inputPath);
+      console.warn(`[home] ${inputPath}: ${issue}; showing the placeholder.`);
+    }
+    return Boolean(String(data?.hero_image ?? "").trim()) && issue === null;
+  });
+  // Test-only hook: build the homepage from HOME_FIXTURE instead of src/index.md.
+  if (process.env.HOME_FIXTURE) {
+    eleventyConfig.ignores.add("src/index.md");
+    eleventyConfig.addTemplate("index.md", readFileSync(path.resolve(process.env.HOME_FIXTURE), "utf8"));
   }
 
   eleventyConfig.addShortcode("icon", icon);

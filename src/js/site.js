@@ -38,11 +38,18 @@
     if (!bar) return;
     const buttons = Array.from(bar.querySelectorAll("button"));
     const groups = Array.from(document.querySelectorAll("[data-staff-group]"));
+    const status = document.querySelector("[data-staff-status]");
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
         const wanted = button.getAttribute("data-group");
         buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
         groups.forEach((g) => { g.hidden = Boolean(wanted) && g.getAttribute("data-staff-group") !== wanted; });
+        if (!status) return;
+        // Announce what the filter now shows, counting the cards left visible.
+        const n = groups.filter((g) => !g.hidden).reduce((sum, g) => sum + g.querySelectorAll(".staff-card").length, 0);
+        const d = status.dataset;
+        const tpl = !wanted ? d.countAll : n === 1 ? d.countOne : d.countOther;
+        status.textContent = tpl.replace("{n}", String(n)).replace("{group}", wanted);
       });
     });
     bar.hidden = false;

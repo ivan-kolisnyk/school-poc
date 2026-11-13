@@ -529,11 +529,14 @@ html.menu-open { overflow: hidden; }
 .site-footer__facts > div { margin-bottom: var(--space-3); }
 .site-footer__facts dt { font-weight: 600; }
 .site-footer__facts dd { margin: 0; }
+/* The phone number is a standalone link: a full 44px tap target (DESIGN.md A4). */
+.site-footer__facts dd a { display: inline-flex; align-items: center; min-height: 44px; }
 .site-footer__links { margin: 0; }
 .site-footer__links li { margin: 0; }
 .site-footer__links a {
   display: inline-flex;
   align-items: center;
+  min-width: 44px;
   min-height: 44px;
 }
 .site-footer__group + .site-footer__group { margin-top: var(--space-5); }

@@ -1,7 +1,7 @@
 # Build status — Courtenay site POC
 
 **Plan:** `docs/superpowers/plans/2026-11-13-courtenay-site-poc.md` · **Branch:** `redesign`
-**Current:** Task 13 in progress
+**Current:** Task 14 in progress
 
 Protocol: see the plan's "Progress log" section. Update after every step; resume from **Next**.
 
@@ -65,11 +65,19 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 
 ## Task 13: CI — tests, daily rebuild, Pagefind, accessibility report
 - **Status:** done
-- **Commit / review:** see git log (ci: tests, daily rebuild, search index, accessibility report); a11y suite 79 pass / 11 fail (tap targets), left for Task 14
+- **Commit / review:** 7420cab · review: approved (local a11y run: 11 tap-target failures handed to Task 14)
 
 ## Task 14: Quality pass with the design skills
+### 14a (steps 1–2 + carry-over items 1–13)
+- **Status:** in progress
+- **Agent:** implementer (opus), started 2026-11-13
+- **Steps done:** Step 1 (a11y suite green: tap targets, axe settle); carry-over 1, 2, 3, 4, 5, 12, 13
+- **Files touched:** tests/a11y/{site.spec.js,serve.js}, src/css/{components,pages}.css, src/staff/index.njk, src/js/site.js, partials/{footer,hero}.njk, eleventy.config.js, lib/home.js, strings.en.json, tests (unit/home, build/home, staff, shell), tests/fixtures/home/
+- **Last command:** npm test -> PASS 185/185; npm run test:a11y -> PASS 95/95
+- **Next:** commit a11y chunk; then carry-over 6–9 (strings, tokens, fonts test, line-heights, PAC posts)
+- **Blockers:** —
+### 14b (steps 3–8)
 - **Status:** todo
-- **Next:** Step 1
 
 ---
 

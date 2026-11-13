@@ -27,7 +27,14 @@ async function resolveFile(urlPath) {
 
 createServer(async (req, res) => {
   const { pathname } = new URL(req.url, "http://localhost");
-  let file = pathname.startsWith(PREFIX) ? await resolveFile(pathname) : null;
+  let file;
+  try {
+    file = pathname.startsWith(PREFIX) ? await resolveFile(pathname) : null;
+  } catch (e) {
+    // A malformed escape such as /school-poc/%E0%A4%A must not crash the server.
+    if (e instanceof URIError) { res.writeHead(400, { "content-type": "text/plain" }).end("Bad request"); return; }
+    throw e;
+  }
   let status = 200;
   if (!file) { file = path.join(root, "404.html"); status = 404; }
   try {

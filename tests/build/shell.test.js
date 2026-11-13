@@ -131,6 +131,20 @@ test("footer carries the contact block, Instagram, and a Staff group", () => {
   }
 });
 
+test("footer external links say which kind of site they open", () => {
+  const footer = page("index.html").querySelector("footer");
+  const external = footer.querySelectorAll("a").filter((a) => /^https?:/.test(a.getAttribute("href")) && a.querySelector("svg.icon-external-link"));
+  assert.ok(external.length >= 6);
+  for (const a of external) {
+    const host = new URL(a.getAttribute("href")).hostname;
+    const cps = host === "cps.edu" || host.endsWith(".cps.edu");
+    const label = a.querySelector("svg.icon-external-link").getAttribute("aria-label");
+    assert.equal(label, cps ? strings.a11y.externalCps : strings.a11y.external, `${host}: ${label}`);
+  }
+  const frontline = external.find((a) => /Frontline/.test(text(a)));
+  assert.equal(frontline.querySelector("svg.icon-external-link").getAttribute("aria-label"), strings.a11y.external);
+});
+
 test("icons render as hidden inline SVG; site script is loaded", () => {
   const home = page("index.html");
   const icons = home.querySelectorAll("svg.icon");

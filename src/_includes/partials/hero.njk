@@ -6,7 +6,7 @@
 {%- set _heroWords = hero_heading + (" " + hero_highlight if hero_highlight else "") -%}
 <section class="hero on-dark" data-home-section="hero" aria-labelledby="hero-title">
   <div class="hero__media">
-    {%- if hero_image and hero_alt %}
+    {%- if { hero_image: hero_image, hero_alt: hero_alt } | heroPhoto %}
     <img class="hero__img" src="{{ hero_image }}" alt="{{ hero_alt }}" sizes="100vw" loading="eager" fetchpriority="high">
     {%- else %}
     {% placeholder hero_placeholder, "4 / 5" %}
