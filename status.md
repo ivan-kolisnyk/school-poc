@@ -32,8 +32,9 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Commit / review:** 38c00b1, 09325b3 · review: approved after 1 fix round (invalid dates, dismiss focus, prefixed link test)
 
 ## Task 5: Images, news cards, news list and post pages
-- **Status:** done
+- **Status:** done (fix round 1 applied: missing image file falls back to text-only + warning)
 - **Agent:** implementer (opus), started 2026-11-13
+- **Fix round 1:** lib/news.js photoIssue/hasPhoto(exists), eleventy.config.js imageExists, post.njk uses hasPhoto, fixture 2026-06-04-missing-image.md; npm test -> PASS 71/71
 - **Steps done:** 1-6 (news already fetched: docs/content-import/task5-news.md)
 - **Files touched:** package.json/lock (+@11ty/eleventy-img), eleventy.config.js, lib/news.js, src/news/{news.json,index.njk,5 new posts, 2 samples +summary}, src/_includes/layouts/{post,base,home}.njk, src/_includes/partials/{news-card,page-header}.njk, header/footer.njk (logo eleventy:ignore), src/_settings/strings.en.json (news, breadcrumb), src/css/components.css, src/css/pages.css, tests/{unit,build}/news.test.js, tests/fixtures/news/, tests/helpers/build.js (+buildLog)
 - **Last command:** npm test -> PASS 68/68

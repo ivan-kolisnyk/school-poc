@@ -141,6 +141,18 @@ test("a photo without alt text falls back to the text-only card and warns", () =
   assert.doesNotMatch(buildLog(), /image_alt/, "real posts raise no warning");
 });
 
+test("a missing image file falls back to the text-only card, warns, and does not fail the build", () => {
+  const card = fixtureCard("missing-image");
+  assert.ok(card.classList.contains("news-card--text"));
+  assert.equal(card.querySelectorAll("img, picture").length, 0);
+  const post = page("news/missing-image/index.html", "news-fixtures");
+  assert.equal(post.querySelectorAll("main .post img, main .post picture").length, 0);
+  assert.equal(post.querySelectorAll("main .post__photo").length, 0);
+  const log = buildLog("news-fixtures");
+  assert.match(log, /2026-06-04-missing-image\.md/);
+  assert.match(log, /\/images\/news\/does-not-exist\.jpg/);
+});
+
 test("a photo with alt text goes through the image pipeline", () => {
   const card = fixtureCard("photo-with-alt");
   assert.ok(card.classList.contains("news-card--photo"));

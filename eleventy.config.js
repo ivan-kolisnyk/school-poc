@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { EleventyHtmlBasePlugin } from "@11ty/eleventy";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
@@ -6,7 +6,7 @@ import { formatDate, formatTime } from "./lib/dates.js";
 import { isAlertActive } from "./lib/alert.js";
 import { chicagoLocalToDate } from "./lib/dates.js";
 import { icon, placeholder, headingClass } from "./lib/shortcodes.js";
-import { nextHeadlines, newsDay, hasPhoto } from "./lib/news.js";
+import { nextHeadlines, newsDay, hasPhoto, photoIssue } from "./lib/news.js";
 
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
@@ -39,20 +39,30 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("chicagoIso", (local) => chicagoLocalToDate(local).toISOString());
 
   // News (DESIGN.md 10.8). Posts are tagged "news" by src/news/news.json.
+  // A photo needs alt text and an existing file; otherwise the post falls back to text-only
+  // (a photo deleted in the CMS must never fail the build — the image plugin would).
+  const inputDir = "src";
+  const imageExists = (src, data) => {
+    if (/^(https?:)?\/\//i.test(src) || src.startsWith("data:")) return true;
+    const clean = decodeURI(src.split(/[?#]/)[0]);
+    const base = clean.startsWith("/") ? inputDir : path.dirname(data?.page?.inputPath ?? path.join(inputDir, "x"));
+    return existsSync(path.join(base, clean));
+  };
   const warned = new Set();
   eleventyConfig.addCollection("newsDesc", (api) => {
     const posts = api.getFilteredByTag("news").slice().reverse();
     for (const post of posts) {
-      if (post.data.image && !hasPhoto(post.data) && !warned.has(post.inputPath)) {
+      const issue = photoIssue(post.data, imageExists);
+      if (issue && !warned.has(post.inputPath)) {
         warned.add(post.inputPath);
-        console.warn(`[news] ${post.inputPath}: has an image but no image_alt; showing the text-only card.`);
+        console.warn(`[news] ${post.inputPath}: ${issue}; showing the text-only card.`);
       }
     }
     return posts;
   });
   eleventyConfig.addFilter("nextHeadlines", nextHeadlines);
   eleventyConfig.addFilter("newsDay", newsDay);
-  eleventyConfig.addFilter("hasPhoto", hasPhoto);
+  eleventyConfig.addFilter("hasPhoto", (data) => hasPhoto(data, imageExists));
 
   // Test-only hook: add the fixture posts in NEWS_FIXTURES_DIR as if they were in src/news/.
   if (process.env.NEWS_FIXTURES_DIR) {

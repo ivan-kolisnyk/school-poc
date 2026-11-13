@@ -12,7 +12,7 @@ layout: layouts/base.njk
 <div class="section">
   <div class="container">
     <article class="post prose">
-      {%- if image and image_alt %}
+      {%- if { image: image, image_alt: image_alt, page: page } | hasPhoto %}
       <figure class="post__photo">
         <img src="{{ image }}" alt="{{ image_alt }}" sizes="(min-width: 744px) 680px, 100vw" loading="eager" fetchpriority="high">
       </figure>

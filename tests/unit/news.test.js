@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { nextHeadlines, newsDay } from "../../lib/news.js";
+import { nextHeadlines, newsDay, hasPhoto, photoIssue } from "../../lib/news.js";
 
 // Newest first, as collections.newsDesc provides them.
 const posts = ["/news/e/", "/news/d/", "/news/c/", "/news/b/", "/news/a/"].map((url) => ({ url }));
@@ -54,4 +54,22 @@ test("newsDay does not depend on the machine time zone", () => {
     );
     assert.equal(out, "2026-11-12", tz);
   }
+});
+
+test("hasPhoto needs an image, its alt text and an existing file", () => {
+  const yes = () => true;
+  const no = () => false;
+  assert.equal(hasPhoto({ image: "/images/a.jpg", image_alt: "Kids reading" }, yes), true);
+  assert.equal(hasPhoto({ image: "/images/a.jpg", image_alt: "  " }, yes), false);
+  assert.equal(hasPhoto({ image: "", image_alt: "Kids reading" }, yes), false);
+  assert.equal(hasPhoto({ image: "/images/a.jpg", image_alt: "Kids reading" }, no), false);
+  assert.equal(hasPhoto({}, yes), false);
+});
+
+test("photoIssue explains why a set image is not shown", () => {
+  const no = () => false;
+  assert.equal(photoIssue({}), null);
+  assert.equal(photoIssue({ image: "/images/a.jpg", image_alt: "Kids" }, () => true), null);
+  assert.match(photoIssue({ image: "/images/a.jpg" }), /image_alt/);
+  assert.match(photoIssue({ image: "/images/a.jpg", image_alt: "Kids" }, no), /not found: \/images\/a\.jpg/);
 });
