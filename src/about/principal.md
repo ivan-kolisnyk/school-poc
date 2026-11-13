@@ -2,9 +2,8 @@
 title: A message from the principal
 intro: A welcome to Courtenay families from Principal Keri Mendez.
 order: 2
+portrait_placeholder: Principal Mendez
 ---
-<div class="page-portrait">{% placeholder "Principal Mendez", "1 / 1" %}</div>
-
 Dear families,
 
 Welcome to a new school year! Our teachers and staff are excited to work with your children as they learn, grow and explore.

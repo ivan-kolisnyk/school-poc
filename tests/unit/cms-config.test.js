@@ -102,3 +102,33 @@ test("menu-only files (menu_url / external_url) are excluded from collections", 
     }
   }
 });
+
+// Final review (ledger Task 12 #1): a field the CMS offers must be one the site reads, so a
+// renamed field in .pages.yml or a template cannot silently stop an editor's change showing.
+// tests/regression writes entries with these field names and checks the edits appear on the site.
+test("every CMS field is read by a template, the config or lib/", async () => {
+  const { readdirSync: rd } = await import("node:fs");
+  const path = await import("node:path");
+  const root = new URL("../../", import.meta.url).pathname;
+  const walk = (dir) => rd(path.join(root, dir), { withFileTypes: true })
+    .flatMap((e) => (e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]));
+  const code = [...walk("src/_includes"), ...walk("src/_data"), ...walk("lib"), "eleventy.config.js",
+    ...walk("src").filter((f) => /\.(njk|md)$/.test(f))]
+    .filter((f) => /\.(njk|js|md)$/.test(f))
+    .map((f) => readFileSync(path.join(root, f), "utf8"))
+    .join("\n");
+  const unread = [];
+  for (const e of cfg.content) {
+    const prefix = e.name === "site" ? "site." : e.name === "alert" ? "alert." : "";
+    checkFields(e.fields, prefix);
+    function checkFields(fields, pre) {
+      for (const f of fields) {
+        if (f.name === "body") continue; // the rich-text body is the template's `content`
+        const read = f.list && f.fields ? new RegExp(`\\b${f.name}\\b`) : new RegExp(`${pre.replaceAll(".", "\\.")}${f.name}\\b`);
+        if (!read.test(code)) unread.push(`${e.name}.${f.name}`);
+        if (f.fields && !f.list) checkFields(f.fields, `${pre}${f.name}.`);
+      }
+    }
+  }
+  assert.deepEqual(unread, []);
+});

@@ -32,6 +32,34 @@
     if (wait < 2147483647) setTimeout(() => alert.remove(), wait);
   }
 
+  // Events: like the alert, an event leaves the page once it has ended, even when the page is
+  // older than the event (cached, or the daily rebuild stopped). A month heading with no events
+  // left goes too; when a list empties, the empty-state line shows instead.
+  function initEvents() {
+    document.querySelectorAll("[data-events]").forEach((box) => {
+      const prune = () => {
+        const now = Date.now();
+        let next = Infinity;
+        box.querySelectorAll(".event[data-event-end]").forEach((item) => {
+          const end = Date.parse(item.getAttribute("data-event-end"));
+          if (Number.isNaN(end)) return;
+          if (now >= end) item.remove(); else next = Math.min(next, end);
+        });
+        box.querySelectorAll(".event-list").forEach((list) => { if (!list.querySelector(".event")) list.remove(); });
+        box.querySelectorAll(".events-month").forEach((month) => { if (!month.querySelector(".event")) month.remove(); });
+        if (!box.querySelector(".event")) {
+          box.querySelectorAll("[data-events-more]").forEach((el) => el.remove());
+          const empty = box.querySelector("[data-events-empty]");
+          if (empty) empty.hidden = false;
+        }
+        // Check again when the next event ends while the page is open.
+        const wait = next - Date.now();
+        if (Number.isFinite(next) && wait < 2147483647) setTimeout(prune, Math.max(0, wait));
+      };
+      prune();
+    });
+  }
+
   // Staff directory: filter by group. Without JavaScript the buttons stay hidden and every group shows.
   function initStaffFilter() {
     const bar = document.querySelector("[data-staff-filter]");
@@ -146,6 +174,7 @@
 
   function init() {
     initAlert();
+    initEvents();
     initStaffFilter();
     initSearchPage();
     const header = document.querySelector("[data-header]");

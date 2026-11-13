@@ -122,6 +122,8 @@ html.menu-open { overflow: hidden; }
 }
 .header-btn:hover,
 .header-btn[aria-expanded="true"] { color: var(--color-text-accent-on-dark); }
+/* The search button only opens the search panel with JavaScript; without it, hide it at every width. */
+html:not(.js) [data-search-toggle] { display: none; }
 .header-btn--menu .icon-x,
 .header-btn--menu[aria-expanded="true"] .icon-menu { display: none; }
 .header-btn--menu[aria-expanded="true"] .icon-x { display: block; }

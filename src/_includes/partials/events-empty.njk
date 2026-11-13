@@ -1,0 +1,5 @@
+{#- The events empty-state line (DESIGN.md 10.9), linking to the CPS calendar. Set before including:
+      emptyHidden  true to render it hidden, for site.js to show once every listed event has
+                   ended (the page can outlive its events when the daily rebuild stops). -#}
+{%- set _ext %}{% icon "external-link", strings.a11y.externalCps %}{% endset -%}
+<p class="events-empty"{% if emptyHidden %} data-events-empty hidden{% endif %}>{{ strings.empty.events | linkPhrase(strings.events.cpsCalendarLink, site.links.cpsCalendar, _ext) | safe }}</p>

@@ -6,7 +6,9 @@
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy && pagefind --site _site",
-    "test": "node --test tests/unit tests/build",
+    "test": "node --test tests/unit tests/build tests/regression",
+    "test:gating": "node --test tests/unit tests/build",
+    "test:content": "node --test tests/content",
     "build:ci": "eleventy --pathprefix=${PATH_PREFIX:-/school-poc/} && pagefind --site _site",
     "test:a11y": "playwright test",
     "build:es-sample": "STRINGS_FILE=tests/fixtures/strings-es-sample.json eleventy --pathprefix=/school-poc/ --output=_site_es --quiet",

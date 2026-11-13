@@ -13,8 +13,10 @@ const PREFIX = "/school-poc";
 
 await build();
 await build({ name: "no-events", env: { CALENDAR_ICS_FILE: "tests/fixtures/empty.ics" } });
-// No env file and no feed URL: the shipped sample calendar is used.
-await build({ name: "sample-events", env: { CALENDAR_ICS_FILE: "" } });
+// The shipped sample calendar (what shows until an admin pastes the feed address). Read from the
+// file so a feed address in site.json is never fetched by tests; the fallback order itself
+// (env file -> feed -> cache -> sample) is unit-tested in tests/unit/events.test.js.
+await build({ name: "sample-events", env: { CALENDAR_ICS_FILE: "src/_data/sample-calendar.ics" } });
 
 const eventsOn = (p, variant) => page(p, variant).querySelectorAll("main .event");
 const summary = (el) => ({
@@ -101,7 +103,7 @@ test("/events/ shows the next 90 days only", () => {
 
 test("/events/ ends with a See the CPS district calendar link after the months", () => {
   const container = page("events/index.html").querySelector("main .events");
-  const kids = container.childNodes.filter((n) => n.nodeType === 1);
+  const kids = container.childNodes.filter((n) => n.nodeType === 1 && !n.hasAttribute("hidden"));
   const last = kids[kids.length - 1];
   assert.ok(kids[kids.length - 2].classList.contains("events-month"), "link follows the month groups");
   const link = last.querySelector("a");
@@ -141,10 +143,41 @@ test("the homepage shows the empty line when nothing is scheduled", () => {
   assert.equal(text(doc.querySelector("main .events-empty")), strings.empty.events);
 });
 
-test("without a feed or env file the sample calendar fills the page", () => {
+test("the shipped sample calendar fills the page", () => {
   const doc = page("events/index.html", "sample-events");
   assert.equal(doc.querySelector("main [data-events-source]").getAttribute("data-events-source"), "file");
   const titles = eventsOn("events/index.html", "sample-events").map((e) => text(e.querySelector(".event__title")));
   assert.ok(titles.length >= 4);
   assert.ok(titles.includes("Library open early"));
+});
+
+test("every test build reads its calendar from a file (the live feed is never fetched)", () => {
+  assert.throws(() => build({ name: "no-calendar-file", env: { CALENDAR_ICS_FILE: "" } }), /CALENDAR_ICS_FILE/);
+});
+
+test("each event carries its end time for the browser to drop it once it has ended", () => {
+  const items = eventsOn("events/index.html");
+  assert.equal(items[1].getAttribute("data-event-end"), "2026-11-16T15:30:00.000Z", "Coffee with the principal ends 9:30 am Chicago");
+  for (const el of [...items, ...eventsOn("index.html")]) {
+    assert.match(el.getAttribute("data-event-end"), /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+  }
+});
+
+test("with events listed, a hidden empty-state line waits for the browser to show it", () => {
+  for (const p of ["events/index.html", "index.html"]) {
+    const box = page(p).querySelector("main [data-events]");
+    assert.ok(box, `${p}: events container`);
+    const empty = box.querySelectorAll("[data-events-empty]");
+    assert.equal(empty.length, 1, p);
+    assert.ok(empty[0].hasAttribute("hidden"), `${p}: hidden while events are listed`);
+    assert.ok(empty[0].classList.contains("events-empty"));
+    assert.equal(text(empty[0]), strings.empty.events);
+  }
+  assert.ok(page("events/index.html").querySelector("main [data-events-more]"), "the CPS link goes when the list empties");
+  // With nothing scheduled, the visible empty state is the only one.
+  for (const p of ["events/index.html", "index.html"]) {
+    const empty = page(p, "no-events").querySelectorAll("main .events-empty");
+    assert.equal(empty.length, 1, p);
+    assert.ok(!empty[0].hasAttribute("hidden"), p);
+  }
 });

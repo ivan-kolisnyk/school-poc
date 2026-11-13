@@ -3,26 +3,32 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { build, page } from "../helpers/build.js";
+import { build, page, buildLog } from "../helpers/build.js";
+import { root, staffPeople, showsPhoto } from "../helpers/content.js";
+import { initials } from "../../lib/staff.js"; // its honorific rule is pinned by the "FA" fixture test below
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const strings = JSON.parse(readFileSync(path.join(root, "src/_settings/strings.en.json"), "utf8"));
 await build();
 const doc = page("staff/index.html");
 const GROUPS = ["Administration", "Pre-K", "K–2", "3–5", "6–8", "Specials", "Support"];
+const people = staffPeople().map((p) => p.data).filter((d) => GROUPS.includes(d.group));
+const groupsInUse = GROUPS.filter((g) => people.some((p) => p.group === g));
+const byOrderThenName = (a, b) => (a.order ?? 1e9) - (b.order ?? 1e9) || String(a.name).localeCompare(String(b.name));
+const cardName = (card) => card.querySelector(".staff-card__name").text.trim();
 
-test("one h2 per group, in the fixed order, with a card per person", () => {
+test("the seven CMS groups are the directory's groups", () => {
+  assert.deepEqual(strings.staff.groups, GROUPS);
+});
+
+test("one h2 per group that has people, in the fixed order, with a card per staff file", () => {
   const h2s = doc.querySelectorAll("main h2").map((h) => h.text.trim());
-  assert.deepEqual(h2s, GROUPS);
-  const cards = doc.querySelectorAll(".staff-card");
-  assert.equal(cards.length, 80);
-  for (const section of doc.querySelectorAll("[data-staff-group]")) {
-    assert.ok(section.querySelectorAll(".staff-card").length > 0);
+  assert.deepEqual(h2s, groupsInUse);
+  assert.equal(doc.querySelectorAll(".staff-card").length, people.length);
+  for (const group of groupsInUse) {
+    const section = doc.querySelector(`[data-staff-group="${group}"]`);
+    const expected = people.filter((p) => p.group === group).sort(byOrderThenName).map((p) => String(p.name).trim());
+    assert.deepEqual(section.querySelectorAll(".staff-card").map(cardName), expected, `${group}: by order, then name`);
   }
-  const admin = doc.querySelector('[data-staff-group="Administration"]');
-  assert.match(admin.querySelectorAll(".staff-card__name")[0].text, /Keri Mendez/);
-  assert.match(admin.querySelectorAll(".staff-card__role")[0].text, /Principal/);
 });
 
 test("title, intro and page header", () => {
@@ -30,35 +36,40 @@ test("title, intro and page header", () => {
   assert.equal(doc.querySelector(".page-header__intro").text.trim(), strings.staff.intro);
 });
 
-test("people without a photo get an initials circle and no img", () => {
-  for (const card of doc.querySelectorAll(".staff-card")) {
-    const circle = card.querySelector(".staff-card__initials");
-    assert.ok(circle, "initials circle");
-    assert.equal(circle.getAttribute("aria-hidden"), "true");
-    assert.match(circle.text.trim(), /^[A-Z]{2}$/);
-    assert.equal(card.querySelector("img"), null);
+test("a card shows the photo only with alt text and an existing file, else the initials circle", () => {
+  for (const group of groupsInUse) {
+    const cards = doc.querySelector(`[data-staff-group="${group}"]`).querySelectorAll(".staff-card");
+    const expected = people.filter((p) => p.group === group).sort(byOrderThenName);
+    expected.forEach((person, i) => {
+      const card = cards[i];
+      const circle = card.querySelector(".staff-card__initials");
+      if (showsPhoto(person.photo, person.photo_alt)) {
+        assert.equal(card.querySelector("img").getAttribute("alt"), String(person.photo_alt).trim(), person.name);
+        assert.equal(circle, null, person.name);
+      } else {
+        assert.equal(card.querySelector("img"), null, person.name);
+        assert.equal(circle.getAttribute("aria-hidden"), "true");
+        assert.equal(circle.text.trim(), initials(person.name), person.name);
+      }
+    });
   }
-  const first = doc.querySelector(".staff-card__initials").text.trim();
-  assert.equal(first, "KM");
+  // The build warns about exactly the people whose photo is set but cannot show.
+  const warned = new Set([...buildLog().matchAll(/\[staff\] \S*?([^/\s]+\.md):/g)].map((m) => m[1]));
+  const expected = new Set(staffPeople().filter((p) => String(p.data.photo ?? "").trim() && !showsPhoto(p.data.photo, p.data.photo_alt)).map((p) => p.file));
+  assert.deepEqual([...warned].sort(), [...expected].sort());
 });
 
-test("abbreviations are spelled out and no email is published", () => {
-  const html = doc.querySelector("main").text;
-  assert.doesNotMatch(html, /\bSECA\b|\bELPT\b|CPC Lead/);
-  assert.match(html, /Special Education Classroom Assistant/);
-  assert.equal(doc.querySelectorAll('a[href^="mailto:"]').length, 0);
-});
-
-test("people in several groups appear once per group", () => {
-  const n = doc.querySelectorAll(".staff-card__name").filter((e) => /Susan Mitchell/.test(e.text)).length;
-  assert.equal(n, 3);
+test("an email shows exactly for the people who have one", () => {
+  const mailto = doc.querySelectorAll('a[href^="mailto:"]').map((a) => a.getAttribute("href")).sort();
+  const expected = people.filter((p) => String(p.email ?? "").trim()).map((p) => `mailto:${String(p.email).trim()}`).sort();
+  assert.deepEqual(mailto, expected);
 });
 
 test("filter buttons: hidden by default, All plus one per group, aria-pressed", () => {
   const bar = doc.querySelector("[data-staff-filter]");
   assert.ok(bar.hasAttribute("hidden"), "hidden until JS runs");
   const buttons = bar.querySelectorAll("button");
-  assert.deepEqual(buttons.map((b) => b.text.trim()), [strings.staff.all, ...GROUPS]);
+  assert.deepEqual(buttons.map((b) => b.text.trim()), [strings.staff.all, ...groupsInUse]);
   for (const b of buttons) assert.ok(["true", "false"].includes(b.getAttribute("aria-pressed")));
   assert.equal(buttons[0].getAttribute("aria-pressed"), "true");
   // A polite live region announces how many people the filter shows.
@@ -79,10 +90,9 @@ test("staff menu entries point to /staff/", () => {
 });
 
 // ---- Editor-set email and photo (fixture people added through STAFF_FIXTURES_DIR) ----
-import { buildLog } from "../helpers/build.js";
 await build({ name: "staff-fixtures", env: { STAFF_FIXTURES_DIR: "tests/fixtures/staff" } });
 const fx = page("staff/index.html", "staff-fixtures");
-const cardOf = (name) => fx.querySelectorAll(".staff-card").find((c) => c.querySelector(".staff-card__name").text.includes(name));
+const cardOf = (name) => fx.querySelectorAll(".staff-card").find((c) => cardName(c).includes(name));
 
 test("email renders as a mailto link whose name starts with the visible address (WCAG 2.5.3)", () => {
   const a = cardOf("Fixture Email").querySelector('a[href^="mailto:"]');
@@ -113,5 +123,12 @@ test("photo without alt or with a missing file falls back to initials and warns"
   const log = buildLog("staff-fixtures");
   assert.match(log, /\[staff\].*photo-without-alt\.md.*no photo_alt/);
   assert.match(log, /\[staff\].*photo-missing-file\.md.*photo file not found/);
-  assert.doesNotMatch(buildLog(), /\[staff\]/);
+  assert.doesNotMatch(log, /\[staff\].*(email|photo-with-alt|order-[a-z]+)\.md/, "no warning for people without a photo or with a good one");
+});
+
+test("within a group: by order, ties by name, people without an order last; initials skip the honorific", () => {
+  const support = fx.querySelector('[data-staff-group="Support"]').querySelectorAll(".staff-card");
+  const names = support.map(cardName).filter((n) => /Fixture/.test(n));
+  assert.deepEqual(names, ["Mr. Fixture Abe", "Ms. Fixture Zed", "Ms. Fixture Aaron"]);
+  assert.equal(cardOf("Mr. Fixture Abe").querySelector(".staff-card__initials").text.trim(), "FA");
 });

@@ -2,16 +2,17 @@
 // translate dead text and the Spanish-ready file stays honest.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const strings = JSON.parse(readFileSync(path.join(root, "src/_settings/strings.en.json"), "utf8"));
-const files = execFileSync("git", ["ls-files", "src", "lib", "eleventy.config.js"], { cwd: root, encoding: "utf8" })
-  .split("\n")
-  .filter((f) => /\.(njk|md|js)$/.test(f));
+// Walk the folders (not `git ls-files`): new files count before they are committed, and the
+// suite runs in a copy without .git (tests/regression).
+const walk = (dir) => readdirSync(path.join(root, dir), { withFileTypes: true })
+  .flatMap((e) => (e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]));
+const files = [...walk("src"), ...walk("lib"), "eleventy.config.js"].filter((f) => /\.(njk|md|js)$/.test(f));
 const source = files.map((f) => readFileSync(path.join(root, f), "utf8")).join("\n");
 
 // Groups read with a computed key, e.g. strings.nav[item.key], strings.alertLabels[level].

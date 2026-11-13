@@ -48,3 +48,21 @@ test("Details link carries the path prefix", () => {
   const link = page("index.html").querySelector(".alert a");
   assert.equal(link.getAttribute("href"), "/school-poc/news/");
 });
+
+// ---- CMS-typed values: an unsafe link and an end time with stray spaces ----
+import { buildLog } from "../helpers/build.js";
+await build({ name: "alert-unsafe", env: { ALERT_FILE: "tests/fixtures/alert-unsafe-link.json" } });
+
+test("an alert link that is not a site path or web address is left out, with one build warning", () => {
+  const el = page("index.html", "alert-unsafe").querySelector(".alert");
+  assert.ok(el, "the alert still shows");
+  assert.equal(el.querySelector("a"), null);
+  assert.doesNotMatch(el.toString(), /javascript:/);
+  const warnings = buildLog("alert-unsafe").match(/\[links\].*alert link "javascript:alert\(1\)"/g) ?? [];
+  assert.equal(warnings.length, 1, "warned once, not once per page");
+});
+
+test("an end time with surrounding spaces still works (trimmed)", () => {
+  const el = page("index.html", "alert-unsafe").querySelector(".alert");
+  assert.equal(el.getAttribute("data-alert-end"), "2026-11-20T21:00:00.000Z");
+});

@@ -1,12 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { build, page } from "../helpers/build.js";
+import { siteData, strings, home, sitePages, pageFile } from "../helpers/content.js";
 
 await build();
+const site = siteData();
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 test("title ends with the official name and html lang is en", () => {
   const root = page("index.html");
-  assert.match(root.querySelector("title").text.trim(), /Mary E\. Courtenay Language Arts Center$/);
+  assert.match(root.querySelector("title").text.trim(), new RegExp(` · ${escapeRe(site.name)}$`));
   assert.equal(root.querySelector("html").getAttribute("lang"), "en");
 });
 
@@ -29,10 +32,12 @@ test("anchors are prefixed too", () => {
 });
 
 test("every page has a description and an icon for search results and shared links", () => {
+  // The homepage's supporting line, a content page's intro, else the site's own description.
+  const withIntro = sitePages().find((p) => p.url && p.data.layout === "layouts/page.njk" && String(p.data.intro ?? "").trim());
   const cases = [
-    ["index.html", "A neighborhood public school in Uptown where every child belongs."],
-    ["families/preschool/index.html", "Full-day Pre-K for 3- and 4-year-olds at the Courtenay Child-Parent Center."],
-    ["news/index.html", "A Chicago public school in Uptown for Pre-K to 8th grade."],
+    ["index.html", String(home().data.hero_sub ?? "").trim() || strings().meta.description],
+    ["news/index.html", strings().meta.description],
+    ...(withIntro ? [[pageFile(withIntro.url), String(withIntro.data.intro).trim()]] : []),
   ];
   for (const [file, description] of cases) {
     const root = page(file);

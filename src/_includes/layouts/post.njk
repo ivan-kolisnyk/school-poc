@@ -17,7 +17,7 @@ layout: layouts/base.njk
         <img src="{{ image }}" alt="{{ image_alt }}" sizes="(min-width: 744px) 680px, 100vw" loading="eager" fetchpriority="high">
       </figure>
       {%- endif %}
-      {{ content | safe }}
+      {{ content | bodyHeadings(1) | safe }}
     </article>
 
     <p class="post__back">

@@ -62,6 +62,6 @@
   </div>
 
   <div class="container site-footer__base">
-    <p>© {{ now.getFullYear() }} {{ strings.footer.copyrightHolder }}</p>
+    <p>© {{ now | dateFormat("year") }} {{ strings.footer.copyrightHolder }}</p>
   </div>
 </footer>

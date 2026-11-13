@@ -108,22 +108,23 @@ test("logo is decorative and the wordmark is live text", () => {
 test("footer carries the contact block, Instagram, and a Staff group", () => {
   const footer = page("index.html").querySelector("footer");
   const t = text(footer);
-  assert.match(t, /Mary E\. Courtenay Language Arts Center/);
-  assert.match(t, /4420 N\. Beacon St\./);
-  assert.ok(t.includes(site.phone), "phone");
-  assert.ok(t.includes("(773) 534-5799"), "fax");
-  assert.ok(t.includes(site.hours), "hours");
+  for (const [fact, value] of Object.entries({ name: site.name, address: site.address, phone: site.phone, fax: site.fax, hours: site.hours })) {
+    assert.ok(t.includes(String(value).replace(/\s+/g, " ").trim()), fact);
+  }
 
-  const ig = footer.querySelectorAll("a").find((a) => a.getAttribute("href") === "https://www.instagram.com/courtenaytigers/");
+  const ig = footer.querySelectorAll("a").find((a) => a.getAttribute("href") === site.instagram);
   assert.ok(ig, "Instagram link");
   assert.equal(ig.getAttribute("aria-label") || text(ig), "Courtenay on Instagram");
 
   const groups = footer.querySelectorAll("h2, h3");
-  const staff = groups.find((h) => /^Staff/.test(text(h)));
-  assert.ok(staff, "Staff heading");
-  const staffLinks = staff.parentNode.querySelectorAll("a").map(text);
-  for (const label of ["Frontline", "Aspen", "Kronos"]) {
-    assert.ok(staffLinks.some((l) => l.includes(label)), label);
+  const staff = groups.find((h) => text(h) === strings.footer.staffLinks);
+  if (site.staffLinks?.length) {
+    assert.ok(staff, "Staff heading");
+    const staffLinks = staff.parentNode.querySelectorAll("a");
+    assert.deepEqual(staffLinks.map(text), site.staffLinks.map((l) => String(l.label).trim()));
+    assert.deepEqual(staffLinks.map((a) => a.getAttribute("href")), site.staffLinks.map((l) => l.url));
+  } else {
+    assert.equal(staff, undefined, "no empty Staff group");
   }
 
   for (const a of footer.querySelectorAll("a")) {
@@ -134,15 +135,13 @@ test("footer carries the contact block, Instagram, and a Staff group", () => {
 test("footer external links say which kind of site they open", () => {
   const footer = page("index.html").querySelector("footer");
   const external = footer.querySelectorAll("a").filter((a) => /^https?:/.test(a.getAttribute("href")) && a.querySelector("svg.icon-external-link"));
-  assert.ok(external.length >= 6);
+  assert.ok(external.length >= 3, "at least the three CPS links");
   for (const a of external) {
     const host = new URL(a.getAttribute("href")).hostname;
     const cps = host === "cps.edu" || host.endsWith(".cps.edu");
     const label = a.querySelector("svg.icon-external-link").getAttribute("aria-label");
     assert.equal(label, cps ? strings.a11y.externalCps : strings.a11y.external, `${host}: ${label}`);
   }
-  const frontline = external.find((a) => /Frontline/.test(text(a)));
-  assert.equal(frontline.querySelector("svg.icon-external-link").getAttribute("aria-label"), strings.a11y.external);
 });
 
 test("icons render as hidden inline SVG; site script is loaded", () => {
@@ -166,4 +165,18 @@ test("the five self-hosted font files are published (DESIGN.md 6)", () => {
   ]);
   const tokens = readFileSync(path.join(out, "css/tokens.css"), "utf8");
   for (const f of fonts) assert.ok(tokens.includes(`../fonts/${f}`), `${f} referenced by tokens.css`);
+});
+
+test("the copyright year is the Chicago year, even when UTC has rolled over", async () => {
+  await build({ name: "new-years-eve", env: { SITE_NOW: "2026-12-31T19:00:00-06:00" } }); // 01:00 UTC, Jan 1 2027
+  assert.match(text(page("index.html", "new-years-eve").querySelector(".site-footer__base")), /^© 2026 /);
+});
+
+test("without JavaScript the search button is hidden at every width (it only opens the JS panel)", () => {
+  const css = readFileSync(path.join(root, "src/css/components.css"), "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
+  const at = css.search(/html:not\(\.js\) \[data-search-toggle\]\s*\{\s*display:\s*none;?\s*\}/);
+  assert.ok(at >= 0, "html:not(.js) [data-search-toggle] { display: none }");
+  let depth = 0;
+  for (const ch of css.slice(0, at)) depth += ch === "{" ? 1 : ch === "}" ? -1 : 0;
+  assert.equal(depth, 0, "the rule is not inside a media query");
 });

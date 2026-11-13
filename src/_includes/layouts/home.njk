@@ -41,7 +41,7 @@ layout: layouts/base.njk
 </section>
 {%- endif %}
 
-<section class="section home-events" data-home-section="events" aria-labelledby="home-events-title" data-events-source="{{ events.source }}">
+<section class="section home-events" data-home-section="events" aria-labelledby="home-events-title" data-events-source="{{ events.source }}" data-events>
   <div class="container">
     <div class="section-head">
       <h2 class="section-title" id="home-events-title">{{ strings.home.eventsHeading }}</h2>
@@ -52,6 +52,7 @@ layout: layouts/base.njk
     {%- set eventLevel = 3 %}
     {%- set showDescription = false %}
     {% include "partials/events-list.njk" %}
+    {%- if items.length %}{% set emptyHidden = true %}{% include "partials/events-empty.njk" %}{% endif %}
   </div>
 </section>
 
@@ -60,9 +61,10 @@ layout: layouts/base.njk
     <div class="home-welcome__photo">{% placeholder welcome_photo_placeholder, "1 / 1" %}</div>
     <div class="home-welcome__text">
       <h2 class="section-title {{ welcome_title | headingClass }}" id="home-welcome-title">{{ welcome_title }}</h2>
-      <div class="prose">{{ content | safe }}</div>
-      {%- if welcome_link %}
-      <p class="home-welcome__more"><a class="text-link" href="{{ welcome_link }}"><span>{{ strings.home.readFullMessage }}</span>{% icon "arrow-right" %}</a></p>
+      <div class="prose">{{ content | bodyHeadings(2) | safe }}</div>
+      {%- set welcomeHref = welcome_link | safeHref("welcome_link") %}
+      {%- if welcomeHref %}
+      <p class="home-welcome__more"><a class="text-link" href="{{ welcomeHref }}"><span>{{ strings.home.readFullMessage }}</span>{% icon "arrow-right" %}</a></p>
       {%- endif %}
     </div>
   </div>

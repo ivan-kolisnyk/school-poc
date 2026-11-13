@@ -4,7 +4,10 @@ layout: layouts/base.njk
 {#- Inner content page (DESIGN.md 10.4, 10.10): navy page header, then the body in the
     reading column. A section hub (the page at its nav.json URL) lists the section's pages
     as link rows under its body.
-    Front matter: title, intro?, section (about | families | enroll | contact), order. -#}
+    Front matter: title, intro?, section (about | families | enroll | contact), order,
+    portrait_placeholder? (a labeled square photo placeholder above the body, kept out of the
+    rich-text body so the CMS editor cannot drop its wrapper).
+    Editor headings in the body are re-levelled under the h1 (lib/content.js). -#}
 {%- set sectionUrl = paths[section] if section else false -%}
 {%- set isHub = sectionUrl and page.url == sectionUrl -%}
 {%- set headerTitle = title -%}
@@ -17,7 +20,10 @@ layout: layouts/base.njk
 <div class="section">
   <div class="container">
     <div class="page-body prose">
-      {{ content | safe }}
+      {%- if portrait_placeholder %}
+      <div class="page-portrait">{% placeholder portrait_placeholder, "1 / 1" %}</div>
+      {%- endif %}
+      {{ content | bodyHeadings(1) | safe }}
       {%- set children = (collections["section_" + section] or []) if isHub else [] %}
       {%- if children.length %}
       <section class="link-rows-block" aria-labelledby="in-section-heading">

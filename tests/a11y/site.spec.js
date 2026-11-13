@@ -226,3 +226,49 @@ test("mobile menu: Escape closes it and returns focus to the Menu button", async
   await expect(button).toHaveAttribute("aria-expanded", "false");
   await expect(button).toBeFocused();
 });
+
+// I3 (final review): events leave the page in the browser once they have ended, like the alert,
+// so a page older than its events (cached, or the daily rebuild stopped) never lists past events.
+for (const p of ["/events/", "/"]) {
+  test(`${p}: ended events disappear; the empty-state line shows once none are left`, async ({ page }) => {
+    await page.goto(BASE + p);
+    const ends = await page.locator("[data-events] .event").evaluateAll((els) =>
+      els.map((el) => Date.parse(el.getAttribute("data-event-end"))).sort((a, b) => a - b));
+    test.skip(ends.length === 0, "the build lists no events");
+    const empty = page.locator("[data-events] .events-empty");
+    await expect(empty).toBeHidden();
+
+    // Just after the first event ends: it is gone, later ones stay.
+    await page.clock.install({ time: new Date(ends[0]) });
+    await page.reload();
+    const later = ends.filter((t) => t > ends[0]).length;
+    await expect(page.locator("[data-events] .event")).toHaveCount(later);
+    if (later) {
+      await expect(empty).toBeHidden();
+      // Month headings with no events left go too.
+      const emptyMonths = await page.locator(".events-month").evaluateAll((els) => els.filter((m) => !m.querySelector(".event")).length);
+      expect(emptyMonths).toBe(0);
+    }
+
+    // After the last one ends: no events, no month headings, the one empty-state line.
+    await page.clock.setSystemTime(new Date(ends.at(-1) + 1000));
+    await page.reload();
+    await expect(page.locator("[data-events] .event")).toHaveCount(0);
+    await expect(page.locator(".events-month")).toHaveCount(0);
+    await expect(page.locator("[data-events-more]")).toHaveCount(0);
+    await expect(empty).toBeVisible();
+    await expect(empty.locator("a")).toHaveAttribute("href", /cps\.edu/);
+  });
+}
+
+test("/: an event that ends while the page is open leaves without a reload", async ({ page }) => {
+  await page.goto(`${BASE}/`);
+  const ends = await page.locator("[data-events] .event").evaluateAll((els) =>
+    els.map((el) => Date.parse(el.getAttribute("data-event-end"))).sort((a, b) => a - b));
+  test.skip(ends.length === 0, "the build lists no events");
+  await page.clock.install({ time: new Date(ends[0] - 60000) });
+  await page.reload();
+  const count = await page.locator("[data-events] .event").count();
+  await page.clock.runFor(61000);
+  await expect(page.locator("[data-events] .event")).toHaveCount(count - ends.filter((t) => t === ends[0]).length);
+});

@@ -1,5 +1,6 @@
 {
   "tags": "news",
   "layout": "layouts/post.njk",
-  "permalink": "/news/{{ page.fileSlug }}/"
+  "permalink": "/news/{{ page.fileSlug }}/",
+  "templateEngineOverride": "md"
 }

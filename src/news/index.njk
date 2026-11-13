@@ -1,5 +1,7 @@
 ---
 layout: layouts/base.njk
+# news.json renders posts as plain Markdown (editor text is never template code); this page is Nunjucks.
+templateEngineOverride: njk
 eleventyExcludeFromCollections: ["news"]
 pagination:
   data: collections.newsDesc

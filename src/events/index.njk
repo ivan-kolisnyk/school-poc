@@ -16,11 +16,13 @@ eleventyComputed:
 {% include "partials/page-header.njk" %}
 
 <div class="section">
-  <div class="container events" data-events-source="{{ events.source }}">
+  <div class="container events" data-events-source="{{ events.source }}" data-events>
     {%- set eventLevel = 3 %}
     {%- set limit = false %}
     {%- set showDescription = true %}
     {%- if pageEvents.length %}
+    {%- set emptyHidden = true %}
+    {% include "partials/events-empty.njk" %}
     {%- for group in pageEvents | eventMonths %}
     <section class="events-month" aria-labelledby="events-{{ group.key }}">
       <h2 class="events-month__title section-title" id="events-{{ group.key }}">{{ group.label }}</h2>
@@ -28,7 +30,7 @@ eleventyComputed:
       {% include "partials/events-list.njk" %}
     </section>
     {%- endfor %}
-    <p class="events-cps"><a href="{{ site.links.cpsCalendar }}">{{ strings.events.cpsCalendar }} {% icon "external-link", strings.a11y.externalCps %}</a></p>
+    <p class="events-cps" data-events-more><a href="{{ site.links.cpsCalendar }}">{{ strings.events.cpsCalendar }} {% icon "external-link", strings.a11y.externalCps %}</a></p>
     {%- else %}
     {%- set items = [] %}
     {% include "partials/events-list.njk" %}

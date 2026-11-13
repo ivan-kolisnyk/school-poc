@@ -11,7 +11,6 @@ content:
     format: json
     fields:
       - { name: name, label: School name, type: string }
-      - { name: tagline, label: Tagline, type: string }
       - { name: address, label: Address, type: string }
       - { name: phone, label: Phone, type: string }
       - { name: fax, label: Fax, type: string }
@@ -171,6 +170,10 @@ content:
       - { name: title, label: Page title, type: string, required: true }
       - { name: intro, label: Short introduction, type: text }
       - { name: section, type: string, hidden: true, default: about }
+      - name: portrait_placeholder
+        label: Portrait placeholder label (optional)
+        type: string
+        description: Shows a labeled square photo placeholder at the top of the page, for example "Principal Mendez". Leave empty for none.
       - name: order
         label: Menu order
         type: number
