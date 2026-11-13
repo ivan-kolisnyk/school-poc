@@ -1,0 +1,49 @@
+---
+layout: layouts/base.njk
+title: Our staff
+permalink: /staff/
+---
+{%- set headerTitle = strings.staff.title -%}
+{%- set headerSentence = false -%}
+{%- set headerCrumbs = [] -%}
+{%- set headerDate = false -%}
+{%- set headerIntro = strings.staff.intro -%}
+{% include "partials/page-header.njk" %}
+
+<div class="section">
+  <div class="container">
+    {%- if collections.staffGroups.length %}
+    <div class="staff-filter" data-staff-filter role="group" aria-label="{{ strings.staff.filterLabel }}" hidden>
+      <button type="button" class="staff-filter__btn" aria-pressed="true" data-group="">{{ strings.staff.all }}</button>
+      {%- for group in collections.staffGroups %}
+      <button type="button" class="staff-filter__btn" aria-pressed="false" data-group="{{ group.name }}">{{ group.name }}</button>
+      {%- endfor %}
+    </div>
+    {#- Filled by site.js after each filter change; the visible cards are the count. #}
+    <p class="visually-hidden" data-staff-status role="status" aria-live="polite"
+      data-count-one="{{ strings.staff.count_one }}" data-count-other="{{ strings.staff.count_other }}"
+      data-count-all="{{ strings.staff.countAll }}"></p>
+    {%- for group in collections.staffGroups %}
+    <section class="staff-group" data-staff-group="{{ group.name }}" aria-labelledby="staff-{{ loop.index }}">
+      <h2 class="section-title" id="staff-{{ loop.index }}">{{ group.name }}</h2>
+      <ul class="staff-grid" role="list">
+        {%- for person in group.people %}
+        <li class="staff-card">
+          {%- if person | staffPhoto %}
+          <img class="staff-card__photo" src="{{ person.photo }}" alt="{{ person.photo_alt }}" sizes="(min-width: 1024px) 264px, (min-width: 768px) 30vw, 45vw">
+          {%- else %}
+          <span class="staff-card__initials" aria-hidden="true">{{ person.name | initials }}</span>
+          {%- endif %}
+          <h3 class="staff-card__name">{{ person.name }}</h3>
+          <p class="staff-card__role">{{ person.role }}</p>
+          {%- if person.email %}
+          <p class="staff-card__email"><a href="mailto:{{ person.email }}">{{ person.email }}<span class="visually-hidden"> {{ strings.staff.emailFor | replace('{name}', person.name) }}</span></a></p>
+          {%- endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+    {%- endfor %}
+    {%- endif %}
+  </div>
+</div>

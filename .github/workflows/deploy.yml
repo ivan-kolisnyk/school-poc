@@ -3,6 +3,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # 10:00 UTC = 4-5 am Chicago: expired alerts and past events drop off before school.
+    - cron: '0 10 * * *'
 
 permissions:
   contents: read
@@ -11,10 +14,11 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  # A save during a deploy waits for it instead of cancelling it (GitHub's Pages starter setting).
+  cancel-in-progress: false
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -22,11 +26,76 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - run: npm install
-      - run: npx @11ty/eleventy --pathprefix="/${{ github.event.repository.name }}/"
+      - run: npm ci
+      # Content-independent: unit tests, build tests on fixtures and invariants, and the
+      # CMS-edit regression test. Content rules (tests/content) run in the a11y job instead.
+      - run: npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Last good calendar copy: a fresh key every run, newest cache restored by prefix and re-saved.
+      - uses: actions/cache@v6
+        with:
+          path: .cache
+          key: eleventy-fetch-${{ github.run_id }}
+          restore-keys: |
+            eleventy-fetch-
+      - run: npm run build:ci
+        env:
+          PATH_PREFIX: /${{ github.event.repository.name }}/
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
+
+  a11y:
+    needs: build
+    runs-on: ubuntu-latest
+    # Reports problems for an admin to review; never blocks publishing.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Restore only: the build job owns saving the calendar cache under this run's key.
+      - uses: actions/cache/restore@v6
+        with:
+          path: .cache
+          key: eleventy-fetch-${{ github.run_id }}
+          restore-keys: |
+            eleventy-fetch-
+      - run: npx playwright install --with-deps chromium
+      # The static server maps /school-poc/ to _site, so build with that fixed prefix.
+      - run: npm run build:ci
+        env:
+          PATH_PREFIX: /school-poc/
+      - run: npm run test:a11y
+      # Plain-language and migration rules on the real content (reported, never blocking).
+      - run: npm run test:content
+        if: ${{ !cancelled() }}
+      # Layouts with ~25% longer (sample Spanish) labels, built separately into _site_es.
+      - run: npm run test:a11y:es
+        if: ${{ !cancelled() }}
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: a11y-report
+          path: |
+            playwright-report/
+            playwright-report-es/
+            test-results/a11y.json
+            test-results/a11y-es.json
+          if-no-files-found: ignore
 
   deploy:
     needs: build

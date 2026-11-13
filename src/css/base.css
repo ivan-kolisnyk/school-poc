@@ -1,0 +1,109 @@
+/* Reset and base styles: DESIGN.md sections 6, 7, 12, 13. */
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-height) + var(--space-4));
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-surface-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  overflow-wrap: break-word;
+}
+img, svg, video { max-width: 100%; height: auto; }
+ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
+p, ul, ol, figure { margin: 0 0 var(--space-4); }
+
+h1, h2, h3, h4 {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-brand);
+  text-wrap: balance;
+}
+h1, h2 { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; }
+h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); }
+h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); }
+h3, h4 { font-family: var(--font-body); font-weight: 600; font-size: var(--fs-h3); line-height: var(--lh-h3); }
+/* Uppercase only for short headings; templates add .long via the headingClass filter (> 8 words). */
+.long { text-transform: none; }
+
+small, .small { font-size: var(--fs-small); font-weight: 500; line-height: var(--lh-small); }
+.label {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+a {
+  color: var(--color-text-brand);
+  text-decoration: underline;
+  text-underline-offset: .15em;
+  transition: color var(--dur-fast) var(--ease-out), text-decoration-color var(--dur-fast) var(--ease-out);
+}
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible {
+  outline: 3px solid var(--color-focus-on-light);
+  outline-offset: 2px;
+}
+.on-dark :focus-visible, [data-theme="dark"] :focus-visible { outline-color: var(--color-focus-on-dark); }
+/* main receives focus from the skip link, but it is not a control: no ring. */
+main:focus { outline: none; }
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container-max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.section { padding-block: var(--space-7); background: var(--color-surface-page); }
+.section--alt { background: var(--color-surface-alt); }
+@media (min-width: 768px) { .section { padding-block: var(--space-8); } }
+@media (min-width: 1024px) { .section { padding-block: var(--space-9); } }
+
+.prose { max-width: var(--measure); }
+.prose > :last-child { margin-bottom: 0; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: var(--z-skip);
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-4);
+  background: var(--color-action-secondary-bg);
+  color: var(--color-action-secondary-fg);
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; outline-color: var(--color-focus-on-dark); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

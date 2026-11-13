@@ -1,0 +1,1207 @@
+/* Layout shell components: icons, placeholder, header, navigation, mobile menu, search panel,
+   quick tasks, footer. DESIGN.md sections 8, 9, 10.2, 10.6, 10.12, 12, 13. */
+
+/* ---------- Icons (DESIGN.md 9: Lucide outline, 24px, 2px stroke) ---------- */
+.icon {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  stroke-width: 2;
+}
+/* "Opens another site" marker after a link label. */
+.icon-external-link {
+  width: 16px;
+  height: 16px;
+  margin-inline-start: .1em;
+  vertical-align: -.125em;
+}
+
+/* ---------- Photo placeholder (DESIGN.md 9) ---------- */
+.ph {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: var(--space-4);
+  background: repeating-linear-gradient(-55deg,
+    var(--color-surface-alt) 0 14px,
+    var(--color-border-subtle) 14px 28px);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+.ph > span {
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-surface-page);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  line-height: var(--lh-small);
+}
+
+/* ---------- Header (DESIGN.md 10.2) ---------- */
+html.menu-open { overflow: hidden; }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: var(--color-surface-brand);
+  color: var(--color-text-on-dark);
+}
+/* The shadow fades in once the page scrolls; opacity is the only property that animates. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  box-shadow: var(--shadow-header);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.site-header.is-scrolled::after { opacity: 1; }
+
+.site-header__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 64px;
+  padding-block: var(--space-2);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  min-height: 48px;
+  margin-inline-end: auto;
+  color: var(--color-text-on-dark);
+  text-decoration: none;
+}
+.brand__logo { width: auto; height: 40px; flex: none; }
+.brand__text { display: flex; flex-direction: column; min-width: 0; }
+.brand__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  overflow-wrap: normal;
+  line-height: 1.1;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.brand__descriptor {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: 1.25;
+  overflow-wrap: normal;
+}
+.brand:hover .brand__name { color: var(--color-text-accent-on-dark); }
+.brand__name { transition: color var(--dur-fast) var(--ease-out); }
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+}
+.header-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0 var(--space-2);
+  border: 0;
+  background: transparent;
+  color: var(--color-text-on-dark);
+  font: 500 16px/1 var(--font-display);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.header-btn:hover,
+.header-btn[aria-expanded="true"] { color: var(--color-text-accent-on-dark); }
+/* The search button only opens the search panel with JavaScript; without it, hide it at every width. */
+html:not(.js) [data-search-toggle] { display: none; }
+.header-btn--menu .icon-x,
+.header-btn--menu[aria-expanded="true"] .icon-menu { display: none; }
+.header-btn--menu[aria-expanded="true"] .icon-x { display: block; }
+
+/* Narrow phones: the Menu button stacks its label under the icon so the wordmark keeps its room. */
+@media (max-width: 459.98px) {
+  .brand { gap: var(--space-2); }
+  .brand__logo { height: 36px; }
+  .brand__name { font-size: 17px; }
+  .header-btn--menu { flex-direction: column; gap: var(--space-1); padding: 0; }
+  .header-btn--menu .header-btn__label { font-size: var(--fs-small); }
+}
+@media (max-width: 359.98px) {
+  .brand__name { font-size: 16px; letter-spacing: .01em; }
+}
+
+@media (min-width: 768px) {
+  .brand__logo { height: 48px; }
+  .brand__name { font-size: 20px; }
+}
+
+/* ---------- Navigation: shared ---------- */
+.site-nav__list { display: flex; margin: 0; }
+.site-nav__item { position: relative; margin: 0; }
+.site-nav__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--color-text-on-dark);
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.site-nav__link:active { color: var(--color-text-accent-on-dark); }
+/* Gold indicator: grows in on hover, stays on the current section. */
+.site-nav__link::after {
+  content: "";
+  position: absolute;
+  background: var(--color-surface-accent);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.site-nav__sub-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-on-dark);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.site-nav__sub-toggle:hover { color: var(--color-text-accent-on-dark); }
+.site-nav__sub-toggle .icon { transition: transform var(--dur-fast) var(--ease-out); }
+.site-nav__sub-toggle[aria-expanded="true"] .icon { transform: rotate(180deg); }
+.site-nav__sub { margin: 0; }
+.site-nav__sub a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  color: var(--color-text-on-dark);
+  font-weight: 500;
+  text-decoration: none;
+}
+.site-nav__sub a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+.site-nav__sub a:active,
+.site-nav__sub a[aria-current="page"] { color: var(--color-text-accent-on-dark); }
+
+.site-menu__label {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-accent-on-dark);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* ---------- Mobile menu (< 1024px): full-screen navy panel under the bar ---------- */
+@media (max-width: 1023.98px) {
+  .site-menu {
+    position: fixed;
+    inset: var(--menu-top, var(--header-height)) 0 0 0;
+    z-index: var(--z-menu);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--space-2) var(--gutter) var(--space-7);
+    background: var(--color-surface-brand);
+    border-top: 1px solid color-mix(in srgb, var(--color-text-on-dark) 20%, transparent);
+  }
+  /* With JS the panel is closed until the Menu button opens it.
+     Enter: 200ms fade + 8px settle. Exit: 150ms, quicker than the enter (DESIGN.md 12). */
+  .js .site-menu {
+    display: none;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+  .js .site-menu.is-mounted { display: block; }
+  .js .site-menu.is-open {
+    opacity: 1;
+    transform: none;
+    transition-duration: var(--dur-base);
+  }
+  /* Without JS the menu simply follows the bar, always open. */
+  html:not(.js) .site-header__bar { flex-wrap: wrap; }
+  html:not(.js) .site-menu { position: static; flex-basis: 100%; order: 3; margin-inline: calc(-1 * var(--gutter)); }
+  html:not(.js) .site-header__actions { display: none; }
+
+  .site-nav__list { flex-direction: column; }
+  .site-nav__item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-text-on-dark) 20%, transparent);
+  }
+  .site-nav__link {
+    flex: 1;
+    min-height: 56px;
+    padding-inline-start: var(--space-4);
+    font-size: 20px;
+  }
+  .site-nav__link:hover { color: var(--color-text-accent-on-dark); }
+  .site-nav__link::after {
+    inset: var(--space-3) auto var(--space-3) 0;
+    width: 4px;
+    transform: scaleY(0);
+  }
+  .site-nav__link[aria-current]::after { transform: none; }
+  .site-nav__sub-toggle { min-width: 56px; min-height: 56px; }
+  /* .site-nav prefix: outranks the ul[role="list"] reset, so the pages sit indented under their section. */
+  .site-nav .site-nav__sub {
+    flex-basis: 100%;
+    padding: 0 0 var(--space-3) var(--space-6);
+  }
+  .site-nav__sub a { font-size: 18px; }
+
+  .site-menu__tasks { margin-top: var(--space-6); }
+}
+
+/* ---------- Desktop navigation (>= 1024px) ---------- */
+@media (min-width: 1024px) {
+  .site-header__bar {
+    min-height: var(--header-height);
+    padding-block: 0;
+    align-items: stretch;
+    gap: var(--space-4);
+  }
+  .brand, .site-header__actions { align-self: center; }
+  .header-btn--menu { display: none; }
+  .site-menu, .site-nav, .site-nav__list { display: flex; align-items: stretch; }
+  .site-nav__item { display: flex; align-items: center; }
+  .site-menu__tasks { display: none; }
+  .site-nav__list { gap: var(--space-1); }
+  /* 48px links keep the whole focus ring inside the bar; the indicator sits on the bar's bottom edge. */
+  .site-nav__link {
+    min-height: 48px;
+    padding-inline: var(--space-2);
+    font-size: 16px;
+  }
+  .site-nav__link::after {
+    inset: auto var(--space-2) calc((var(--header-height) - 48px) / -2);
+    height: 4px;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .site-nav__link:hover::after,
+  .site-nav__link[aria-current]::after { transform: none; }
+  .site-nav__sub-toggle { align-self: center; margin-inline-start: calc(-1 * var(--space-1)); }
+  .site-nav__sub {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: var(--z-menu);
+    width: max-content;
+    min-width: 240px;
+    max-width: 320px;
+    padding: var(--space-2) 0;
+    background: var(--color-surface-brand-strong);
+    border-top: 4px solid var(--color-surface-accent);
+  }
+  /* The last section's list opens leftward so it never runs past the right edge at 1024px. */
+  .site-nav__item:last-child .site-nav__sub { left: auto; right: 0; }
+  .site-nav__sub a { gap: var(--space-1); padding: var(--space-2) var(--space-4); font-size: 16px; }
+}
+
+/* ---------- Search field (header panel and /search/ page; DESIGN.md 10.0, 10.13) ---------- */
+.site-search {
+  background: var(--color-surface-brand-strong);
+  padding-block: var(--space-4);
+}
+.site-search__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
+.site-search__row { display: flex; flex: 1; min-width: 0; gap: var(--space-2); }
+.site-search__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-none);
+  background: var(--color-surface-page);
+  color: var(--color-text-primary);
+  font: inherit;
+}
+.site-search__input:hover,
+.search-form__input:hover { border-color: var(--color-text-brand); }
+.site-search__submit {
+  min-height: 48px;
+  padding: 0 var(--space-5);
+  border: 0;
+  background: var(--color-action-primary-bg);
+  color: var(--color-action-primary-fg);
+  font: 500 16px/1 var(--font-display);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.site-search__submit:hover { background: color-mix(in srgb, var(--color-action-primary-bg) 92%, black); }
+.site-search__submit:active { transform: translateY(1px); }
+
+/* Mobile: a full-width field under the header. Desktop: the panel overlays the bar, so the
+   field opens inline to the left of the search button (the nav underneath is made inert). */
+@media (min-width: 1024px) {
+  .site-search {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    background: none;
+    pointer-events: none;
+  }
+  .site-search[hidden] { display: none; }
+  /* The field's background covers the nav; the wordmark stays above it. */
+  .site-header .brand { position: relative; z-index: 1; }
+  .site-search__form {
+    display: flex;
+    justify-content: flex-end;
+    align-self: stretch;
+    padding-inline-end: calc(var(--gutter) + 48px + var(--space-2));
+    pointer-events: none;
+  }
+  .site-search__field {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    padding-inline: var(--space-4) var(--space-2);
+    background: var(--color-surface-brand);
+    pointer-events: auto;
+  }
+  .site-search__label { margin: 0; white-space: nowrap; }
+  .site-search__row { flex: 0 1 460px; }
+}
+
+/* ---------- Quick tasks (DESIGN.md 10.6) ---------- */
+/* Tiles: white, navy icon above an uppercase label, 1px dividers; 3 columns, 6 on desktop. */
+.quick-tasks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: var(--color-border-subtle);
+  border: 1px solid var(--color-border-subtle);
+}
+.quick-tasks > li { display: flex; margin: 0; }
+.quick-task {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 88px;
+  padding: var(--space-3) var(--space-2);
+  background: var(--color-surface-page);
+  color: var(--color-text-brand);
+  text-align: center;
+  text-decoration: none;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.quick-task::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 4px;
+  background: var(--color-surface-accent);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.quick-task:hover, .quick-task:active { background: var(--color-surface-alt); }
+.quick-task:hover::after { opacity: 1; }
+.quick-task:focus-visible { z-index: 1; }
+.quick-task__label {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  line-height: 1.2;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+/* Tiles: the "opens CPS site" marker sits in the tile's corner, so it never wraps onto a line
+   of its own under the label. */
+.quick-task__label .icon-external-link {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 14px;
+  height: 14px;
+  margin: 0;
+}
+/* Narrow phones: the label gets the tile's full width, so a long word (Spanish runs ~25% longer,
+   e.g. "CONTÁCTENOS") never splits at 320px (DESIGN.md 10.0, 14). */
+@media (max-width: 359.98px) {
+  .quick-task { padding-inline: var(--space-1); }
+}
+@media (min-width: 1024px) {
+  .quick-tasks--tiles { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+/* Homepage tiles: icons on one line even when a label wraps to two (BEFORE & AFTER CARE at
+   1024px): content starts from the top, with the top padding that centres a one-line tile. */
+.quick-tasks--tiles .quick-task { justify-content: flex-start; padding-top: var(--space-4); }
+
+/* List: plain links with a gold icon, for the footer. */
+.quick-tasks--list { display: block; background: none; border: 0; }
+.quick-tasks--list > li { display: block; }
+.quick-tasks--list .quick-task {
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: 0;
+  background: none;
+  color: var(--color-text-on-dark);
+  text-align: start;
+  text-decoration: underline;
+  text-underline-offset: .15em;
+}
+.quick-tasks--list .quick-task::after { display: none; }
+.quick-tasks--list .quick-task:hover { background: none; text-decoration-thickness: 2px; }
+.quick-tasks--list .quick-task:active { background: none; color: var(--color-text-accent-on-dark); }
+.quick-tasks--list .quick-task > .icon { width: 20px; height: 20px; color: var(--color-text-accent-on-dark); }
+.quick-tasks--list .quick-task__label .icon-external-link { position: static; }
+.quick-tasks--list .quick-task__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* ---------- Footer (DESIGN.md 10.12) ---------- */
+.site-footer {
+  padding-block: var(--space-7) var(--space-5);
+  background: var(--color-surface-brand-strong);
+  border-top: 6px solid var(--color-surface-accent);
+  color: var(--color-text-on-dark);
+}
+.site-footer a { color: var(--color-text-on-dark); gap: var(--space-1); }
+.site-footer a:active { color: var(--color-text-accent-on-dark); }
+.site-footer__grid {
+  display: grid;
+  gap: var(--space-6);
+}
+/* Tablet and up: on the layout grid (DESIGN.md 7: 8 columns, then 12; gap 24px).
+   Desktop columns span 4 + 3 + 2 + 3 of 12. */
+@media (min-width: 768px) {
+  .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-5); }
+}
+@media (min-width: 1024px) {
+  .site-footer__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .site-footer__col { grid-column: span 3; }
+  .site-footer__contact { grid-column: span 4; }
+  .site-footer__col:nth-child(3) { grid-column: span 2; }
+}
+.site-footer__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.15;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.site-footer__logo { width: auto; height: 48px; flex: none; }
+.site-footer__heading {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-accent-on-dark);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  line-height: 1.3;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.site-footer address { font-style: normal; margin-bottom: var(--space-4); }
+.site-footer address a { display: inline-flex; align-items: center; min-height: 44px; }
+.site-footer__facts { margin: 0 0 var(--space-3); }
+.site-footer__facts > div { margin-bottom: var(--space-3); }
+.site-footer__facts dt { font-weight: 600; }
+.site-footer__facts dd { margin: 0; }
+/* The phone number is a standalone link: a full 44px tap target (DESIGN.md A4). */
+.site-footer__facts dd a { display: inline-flex; align-items: center; min-height: 44px; }
+.site-footer__links { margin: 0; }
+.site-footer__links li { margin: 0; }
+/* Inline flow, not flex: a label that wraps in a narrow column (CHICAGO PUBLIC SCHOOLS at 1024px)
+   keeps its "opens another site" marker after its last word. Padding keeps the 44px target (A4). */
+.site-footer__links a {
+  display: inline-block;
+  min-width: 44px;
+  min-height: 44px;
+  padding-block: var(--space-2);
+}
+/* The label carries the underline, so the no-break space that ties the marker to the last
+   word is not underlined. */
+.site-footer__links a { text-decoration: none; }
+.site-footer__links a > span { text-decoration: underline; text-underline-offset: .15em; }
+.site-footer__links a:hover > span { text-decoration-thickness: 2px; }
+.site-footer__group + .site-footer__group { margin-top: var(--space-5); }
+.site-footer__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-inline-start: calc(-1 * var(--space-3));
+}
+.site-footer__social .icon { color: var(--color-text-accent-on-dark); transition: color var(--dur-fast) var(--ease-out); }
+.site-footer__social:hover .icon { color: var(--color-text-on-dark); }
+.site-footer__base {
+  margin-top: var(--space-6);
+  font-size: var(--fs-small);
+}
+/* The rule sits on the content lines, not across the container's gutters (DESIGN.md 7). */
+.site-footer__base p {
+  margin: 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid color-mix(in srgb, var(--color-text-on-dark) 20%, transparent);
+}
+
+/* ---------- Reduced motion: everything rests, nothing stays hidden (DESIGN.md 12, A16) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .js .site-menu { transform: none; transition: none; }
+  .site-nav__link::after,
+  .site-nav__sub-toggle .icon,
+  .site-header::after { transition: none; }
+}
+
+/* ---------- Alert banner (DESIGN.md 10.1) ---------- */
+.alert {
+  background: var(--color-surface-brand-strong);
+  color: var(--color-text-on-dark);
+  border-bottom: 4px solid var(--color-surface-accent);
+}
+.alert--emergency {
+  background: var(--color-status-emergency-bg);
+  color: var(--color-status-emergency-fg);
+  border-bottom: 0;
+}
+.alert__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: var(--space-2) var(--gutter, var(--space-4));
+}
+.alert__text {
+  flex: 1;
+  margin: 0;
+  padding-block: var(--space-2);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  overflow-wrap: anywhere;
+}
+.alert__label {
+  margin-inline-end: var(--space-1);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--color-text-accent-on-dark);
+}
+.alert--emergency .alert__label { color: var(--color-status-emergency-fg); }
+.alert__link {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.alert__link:hover { text-decoration-thickness: 2px; }
+.alert--emergency :focus-visible { outline-color: var(--color-status-emergency-fg); }
+.alert__dismiss {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-block: calc(var(--space-1) * -1);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out, ease);
+}
+.alert__dismiss:hover { color: var(--color-text-accent-on-dark); }
+.alert__dismiss:active { transform: translateY(1px); }
+
+/* ---------- Text link with icon (DESIGN.md 10.5: navy, underlined, 600) ---------- */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  font-weight: 600;
+}
+.text-link .icon { width: 20px; height: 20px; }
+.text-link:active { color: var(--color-text-on-accent); }
+
+/* ---------- Inner page header (DESIGN.md 10.4) ---------- */
+/* Navy band; the stripe motif (8) sits in its own strip along the bottom edge, never behind text. */
+.page-header {
+  position: relative;
+  padding-block: var(--space-5) calc(var(--space-7) + var(--space-4));
+  background: var(--color-surface-brand);
+  color: var(--color-text-on-dark);
+}
+.page-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--space-4);
+  background: repeating-linear-gradient(-55deg,
+    color-mix(in srgb, var(--color-surface-accent) 15%, transparent) 0 10px,
+    transparent 10px 20px);
+  pointer-events: none;
+}
+@media (min-width: 1024px) {
+  .page-header { padding-block: var(--space-6) calc(var(--space-8) + var(--space-4)); }
+}
+.page-header__inner > :last-child { margin-bottom: 0; }
+.page-header__title {
+  max-width: 20ch;
+  margin-bottom: var(--space-3);
+  color: var(--color-text-on-dark);
+  overflow-wrap: anywhere;
+}
+/* Titles staff write (news posts) keep their sentence case (DESIGN.md 6). */
+.sentence-case { text-transform: none; }
+.page-header__title.sentence-case,
+.page-header__title.long { max-width: 28ch; }
+.page-header__meta,
+.page-header__intro { max-width: var(--measure); margin: 0; font-weight: 500; }
+
+.breadcrumb { margin-bottom: var(--space-2); }
+.breadcrumb__list { display: flex; flex-wrap: wrap; align-items: center; }
+.breadcrumb__list li { display: inline-flex; align-items: center; margin: 0; }
+.breadcrumb__list li + li::before {
+  content: "/" / "";
+  padding-inline: 0 var(--space-2);
+  color: var(--color-text-on-dark);
+  opacity: .6;
+}
+/* Labels start on the content line (centring HOME in its 44px target set it 5px in from the H1
+   below). The space before each "/" is the link's own end padding, so a short label still gets
+   an even gap on both sides of the slash. */
+.breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 44px;
+  padding-inline-end: var(--space-2);
+  min-height: 44px;
+  color: var(--color-text-accent-on-dark);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.breadcrumb a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+.breadcrumb a:active { color: var(--color-text-on-dark); }
+
+/* ---------- Callout (DESIGN.md 10.10): key info such as deadlines ---------- */
+.callout {
+  margin: var(--space-5) 0;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface-alt);
+  border-left: 6px solid var(--color-surface-accent);
+}
+.callout > :last-child { margin-bottom: 0; }
+.callout__title {
+  margin-bottom: var(--space-2);
+  color: var(--color-text-brand);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* ---------- Document link (DESIGN.md 10.10, A13): "Label (PDF, 220 KB)" ---------- */
+.doc-link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding-block: 10px;
+  font-weight: 600;
+}
+.doc-link > .icon-file-text { width: 20px; height: 20px; margin-top: .15em; }
+.doc-link__meta { color: var(--color-text-secondary); font-weight: 500; }
+.doc-link > .icon-external-link { margin-top: .3em; }
+
+/* ---------- Link rows: a section hub's pages (DESIGN.md 10.0 linked rows) ---------- */
+/* One row per page: title, one-line intro, chevron. The whole row is the tap target;
+   hover and press tint it surface and underline the title. */
+.link-rows-block { margin-top: var(--space-7); }
+.link-rows,
+.prose .link-rows { margin: 0; padding: 0; border-top: 1px solid var(--color-border-subtle); }
+.link-rows > li,
+.prose .link-rows > li + li { margin: 0; }
+.link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 64px;
+  padding: var(--space-3) var(--space-2) var(--space-3) var(--space-3);
+  border-bottom: 1px solid var(--color-border-subtle);
+  color: var(--color-text-brand);
+  text-decoration: none;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.link-row:hover,
+.link-row:active { background: var(--color-surface-alt); }
+.link-row:focus-visible { outline-offset: -3px; }
+.link-row__text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.link-row__title {
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  text-underline-offset: .15em;
+  overflow-wrap: anywhere;
+}
+.link-row:hover .link-row__title,
+.link-row:active .link-row__title { text-decoration: underline; text-decoration-thickness: 2px; }
+.link-row__intro {
+  color: var(--color-text-secondary);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: var(--lh-small);
+}
+/* The chevron stays put: hover answers with the row's background and the title's underline only
+   (DESIGN.md 12: hover transitions are colour, background and underline). */
+.link-row > .icon-chevron-right {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- News cards (DESIGN.md 10.8) ---------- */
+/* Mobile: stacked list, photo cards with a 120px thumbnail on the left. >= 1024px: 3 columns. */
+.news-grid {
+  display: grid;
+  /* minmax(0, …): line-clamped text must not widen the column past the viewport. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+@media (min-width: 1024px) {
+  .news-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+}
+
+.news-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  background: var(--color-surface-page);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+}
+.news-card--text { border-left: 6px solid var(--color-surface-accent); }
+.news-card--photo { grid-template-columns: 120px minmax(0, 1fr); }
+@media (min-width: 1024px) {
+  .news-card--photo { grid-template-columns: minmax(0, 1fr); }
+}
+
+.news-card__media {
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  background: var(--color-surface-alt);
+}
+@media (min-width: 1024px) {
+  .news-card__media { border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+}
+.news-card__media picture { display: contents; }
+.news-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.news-card__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--space-4);
+}
+@media (min-width: 1024px) {
+  .news-card__body { padding: var(--space-4) var(--space-5) var(--space-5); }
+}
+
+/* Date reads first visually; the title stays first in the source for heading navigation. */
+.news-card__date {
+  order: -1;
+  margin: 0 0 var(--space-1);
+  color: var(--color-text-accent);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* Card titles are h2 on /news/ and h3 elsewhere; both look like H3 (Barlow 600, sentence case). */
+.news-card__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  margin: 0;
+  color: var(--color-text-brand);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  text-transform: none;
+  overflow-wrap: anywhere;
+}
+.news-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+/* The title link covers the whole card, so the card is one tap target with one name. */
+.news-card__link::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-sm);
+}
+.news-card--text .news-card__link::after { left: -6px; }
+.news-card__link:focus-visible { outline: none; }
+.news-card__link:focus-visible::after {
+  outline: 3px solid var(--color-focus-on-light);
+  outline-offset: 2px;
+}
+
+.news-card__summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+/* Hover and press: the photo zooms 1.03 inside its frame and the title underlines. */
+.news-card:hover .news-card__link,
+.news-card:active .news-card__link {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .15em;
+}
+.news-card:hover .news-card__media img,
+.news-card:active .news-card__media img { transform: scale(1.03); }
+@media (prefers-reduced-motion: reduce) {
+  .news-card:hover .news-card__media img,
+  .news-card:active .news-card__media img { transform: none; }
+}
+
+/* ---------- Pagination (news list) ---------- */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-subtle);
+}
+.pagination__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  font-weight: 600;
+}
+.pagination__link .icon { width: 20px; height: 20px; }
+.pagination__link--next { margin-inline-start: auto; }
+.pagination__status {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-small);
+  font-weight: 500;
+}
+
+/* ---------- Events: date-block list (DESIGN.md 10.9) ---------- */
+/* Square navy block (gold month, white day), then the event name, time and place. */
+.event-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.event {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.event:first-child { padding-top: 0; }
+.event:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.event__date {
+  margin: 0;
+  background: var(--color-surface-brand);
+  border-radius: var(--radius-sm);
+}
+.event__date time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .event__date time { width: 72px; height: 72px; }
+}
+.event__month {
+  color: var(--color-text-accent-on-dark);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  line-height: 1;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.event__day {
+  margin-top: var(--space-1);
+  color: var(--color-text-on-dark);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: 1;
+}
+
+.event__body { min-width: 0; }
+.event__title {
+  margin: 0;
+  color: var(--color-text-brand);
+  overflow-wrap: anywhere;
+}
+.event__time,
+.event__place {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+.event__time { margin-top: var(--space-2); }
+.event__time .icon,
+.event__place .icon {
+  width: 18px;
+  height: 18px;
+  margin-top: .3em;
+}
+.event__desc {
+  max-width: var(--measure);
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+/* No upcoming events: one line (DESIGN.md 10.9). */
+.events-empty { margin: 0; }
+
+/* ---------- Buttons (DESIGN.md 10.5, 10.0) ---------- */
+/* Square, Oswald uppercase, ≥ 48px. Hover darkens the fill ~8% (secondary also shows a 2px gold
+   bottom bar); press moves down 1px. Only colour, opacity and transform change. */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 14px var(--space-5);
+  border: 0;
+  border-radius: var(--radius-none);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: .04em;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.btn:active { transform: translateY(1px); transition-duration: 0s; }
+.btn--primary {
+  background: var(--color-action-primary-bg);
+  color: var(--color-action-primary-fg);
+}
+.btn--primary:hover { background: color-mix(in srgb, var(--color-action-primary-bg) 92%, black); }
+/* Navy ring on gold buttons, wherever they sit (DESIGN.md 10.5). */
+.btn--primary:focus-visible { outline-color: var(--color-focus-on-light); }
+.btn--secondary {
+  background: var(--color-action-secondary-bg);
+  color: var(--color-action-secondary-fg);
+}
+.btn--secondary::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--color-surface-accent);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.btn--secondary:hover { background: color-mix(in srgb, var(--color-action-secondary-bg) 92%, black); }
+.btn--secondary:hover::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .btn:active { transform: none; }
+}
+
+/* ---------- Section heading row (DESIGN.md 8, 10.8, 10.9) ---------- */
+/* H2 with the 6px gold bar, and its "See all" link on the same line when it fits. */
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-5);
+  margin-bottom: var(--space-5);
+}
+@media (min-width: 1024px) { .section-head { margin-bottom: var(--space-6); } }
+.section-head .section-title { margin: 0; }
+/* The one gold-bar rule (DESIGN.md 8): section titles only. H2s inside page and news-post
+   bodies keep the plain heading style. */
+.section-title {
+  padding-left: var(--space-3);
+  border-left: 6px solid var(--color-surface-accent);
+}
+.section-head__more { flex: none; }
+
+/* Gold emphasis inside a display headline: on navy or photo overlays only (DESIGN.md 6, 5.4). */
+.on-dark .text-accent-on-dark { color: var(--color-text-accent-on-dark); }
+
+/* ---------- Hero entrance (DESIGN.md 12): the page's only load animation ---------- */
+/* Headline, then the button pair, fade up 12px once; all done within --dur-enter. Pure CSS,
+   so nothing waits for script and nothing stays hidden if the animation never runs. */
+@keyframes hero-enter {
+  from { opacity: 0; transform: translateY(12px); }
+}
+.hero-enter { animation: hero-enter calc(var(--dur-enter) - 80ms) var(--ease-out) both; }
+.hero-enter--late { animation-delay: 80ms; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter { animation: none; }
+}
+
+/* ---------- Search page (DESIGN.md 10.13) ---------- */
+.search-page { max-width: 760px; margin-inline: auto; }
+.search-form__label { display: block; margin-bottom: var(--space-2); font-weight: 600; }
+.search-form__row { display: flex; gap: var(--space-2); }
+.search-form__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-none);
+  background: var(--color-surface-page);
+  color: var(--color-text-primary);
+  font: inherit;
+}
+.search-form__input:focus-visible { outline: 3px solid var(--color-focus-on-light); outline-offset: 2px; }
+.search-form__input[aria-invalid="true"] { border-color: var(--color-status-error-fg); }
+.search-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 0 var(--space-5);
+  border: 0;
+  background: var(--color-action-primary-bg);
+  color: var(--color-action-primary-fg);
+  font: 500 16px/1 var(--font-display);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.search-form__submit:hover { background: color-mix(in srgb, var(--color-action-primary-bg) 92%, black); }
+.search-form__submit:active { transform: translateY(1px); }
+.search-form__submit:focus-visible { outline: 3px solid var(--color-focus-on-light); outline-offset: 2px; }
+.search-form__spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  animation: search-spin 700ms linear infinite;
+}
+.search-form[aria-busy="true"] .search-form__spinner { display: inline-block; }
+@keyframes search-spin { to { transform: rotate(360deg); } }
+.search-form__error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  color: var(--color-status-error-fg);
+  font-weight: 500;
+}
+.search-form__error[hidden] { display: none; }
+.search-form__error .icon { flex: none; width: 20px; height: 20px; margin-top: 2px; }
+
+/* With JavaScript the fallback line is not needed. */
+.js .search-nojs { display: none; }
+.search-nojs { margin: var(--space-5) 0 0; }
+
+.search-results { margin-top: var(--space-5); }
+.search-results__status { margin: 0 0 var(--space-4); color: var(--color-text-secondary); font-weight: 500; }
+.search-results__status:empty { display: none; }
+.search-results__list { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.search-result__excerpt { margin: var(--space-2) 0 0; color: var(--color-text-secondary); overflow-wrap: anywhere; }
+.search-result__excerpt mark { background: none; color: var(--color-text-primary); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) {
+  .search-form__spinner { animation: none; } /* a static ring still marks the loading state */
+  .search-form__submit:active { transform: none; }
+}

@@ -1,0 +1,49 @@
+---
+layout: layouts/base.njk
+title: Search
+permalink: /search/
+noIndex: true
+eleventyExcludeFromCollections: true
+---
+{#- Search results (DESIGN.md 10.13). The Pagefind JS API is driven by /js/site.js; without
+    JavaScript the page shows the form and links to the main sections. -#}
+{%- set headerTitle = strings.search.pageTitle -%}
+{%- set headerSentence = false -%}
+{%- set headerCrumbs = [] -%}
+{%- set headerDate = false -%}
+{%- set headerIntro = false -%}
+{% include "partials/page-header.njk" %}
+
+<div class="section">
+  <div class="container">
+    <div class="search-page" data-search-page
+      data-pagefind-src="{{ '/pagefind/pagefind.js' | url }}"
+      data-base="{{ '/' | url }}"
+      data-none="{{ strings.search["none"] }}"
+      data-count-one="{{ strings.search.count_one }}"
+      data-count-other="{{ strings.search.count_other }}"
+      data-error="{{ strings.search.error }}">
+      <form class="search-form" action="/search/" method="get" role="search">
+        <label class="search-form__label" for="search-page-q">{{ strings.search.label }}</label>
+        <div class="search-form__row">
+          <input class="search-form__input" id="search-page-q" type="search" name="q" autocomplete="off" aria-describedby="search-page-error">
+          <button class="search-form__submit" type="submit">
+            <span class="search-form__spinner" aria-hidden="true"></span>
+            <span class="search-form__submit-label">{{ strings.search.submit }}</span>
+          </button>
+        </div>
+        <p class="search-form__error" id="search-page-error" role="alert" data-search-error hidden>{% icon "triangle-alert" %}<span data-search-error-text></span></p>
+      </form>
+
+      <p class="search-nojs">
+        {{ strings.search.needsJs }}
+        <a href="/news/">{{ strings.nav.news }}</a>, <a href="/families/">{{ strings.nav.families }}</a>, <a href="/contact/">{{ strings.nav.contact }}</a>.
+      </p>
+
+      <div class="search-results" data-search-results>
+        <p class="search-results__status" data-search-status aria-live="polite"></p>
+        <ol class="search-results__list" role="list" data-search-list></ol>
+      </div>
+    </div>
+  </div>
+</div>

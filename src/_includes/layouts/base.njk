@@ -4,32 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title }} · {{ site.name }}</title>
-  <link rel="stylesheet" href="{{ '/css/style.css' | url }}">
+  {#- A search result and a shared link read this line: the post's summary, the page's intro,
+      the homepage's supporting line, else the site's own description. #}
+  {%- set metaDescription = summary or intro or hero_sub or strings.meta.description %}
+  <meta name="description" content="{{ metaDescription | striptags | escape }}">
+  <meta property="og:title" content="{{ title }} · {{ site.name }}">
+  <meta property="og:description" content="{{ metaDescription | striptags | escape }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <link rel="icon" href="/images/logo.png" type="image/png">
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <script src="/js/site.js" defer></script>
 </head>
 <body>
-  {% if site.alert.enabled and site.alert.message %}
-  <div class="alert" role="alert">{{ site.alert.message }}</div>
-  {% endif %}
+  <a class="skip-link" href="#main">{{ strings.a11y.skipToContent }}</a>
+  {% include "partials/alert.njk" %}
+  {% include "partials/header.njk" %}
 
-  <header class="site-header">
-    <div class="container bar">
-      <a class="brand" href="{{ '/' | url }}">{{ site.name }}</a>
-      <nav>
-        <a href="{{ '/' | url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Home</a>
-        <a href="{{ '/about/' | url }}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
-      </nav>
-    </div>
-  </header>
+  <main id="main" tabindex="-1"{% if not noIndex %} data-pagefind-body{% endif %}>{{ content | safe }}</main>
 
-  <main>{{ content | safe }}</main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <strong>{{ site.name }}</strong><br>
-      {{ site.address }}<br>
-      {{ site.phone }} · <a href="mailto:{{ site.email }}">{{ site.email }}</a><br>
-      {{ site.hours }}
-    </div>
-  </footer>
+  {% include "partials/footer.njk" %}
 </body>
 </html>

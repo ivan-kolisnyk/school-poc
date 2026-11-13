@@ -1,68 +1,269 @@
 media:
   input: src/images
   output: /images
+  extensions: [jpg, jpeg, png, webp]
 
 content:
   - name: site
-    label: School details & alert banner
+    label: School details
     type: file
     path: src/_data/site.json
+    format: json
     fields:
       - { name: name, label: School name, type: string }
-      - { name: tagline, label: Tagline, type: string }
       - { name: address, label: Address, type: string }
       - { name: phone, label: Phone, type: string }
+      - { name: fax, label: Fax, type: string }
       - { name: email, label: Email, type: string }
       - { name: hours, label: Office hours, type: string }
-      - name: alert
-        label: Alert banner
+      - name: instagram
+        label: Instagram link
+        type: string
+        description: The full web address of the school's Instagram page.
+      - name: links
+        label: Important links
         type: object
         fields:
-          - { name: enabled, label: Show banner, type: boolean }
-          - { name: message, label: Message, type: string }
+          - { name: parentPortal, label: Parent portal link, type: string }
+          - { name: lunchMenu, label: Lunch menu link, type: string }
+          - { name: cpsCalendar, label: CPS calendar link, type: string }
+          - { name: tourForm, label: Tour request form link, type: string }
+          - { name: cps, label: CPS website link, type: string }
+          - { name: nondiscrimination, label: Nondiscrimination notice link, type: string }
+          - { name: mentalHealth, label: Mental health resources link, type: string }
+      - name: staffLinks
+        label: Staff system links (footer)
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Name, type: string }
+          - { name: url, label: Link, type: string }
+      - name: calendarIcs
+        label: Google Calendar feed address
+        type: string
+        description: The public iCal address of the school Google Calendar. Leave as is unless the calendar changes.
+
+  - name: alert
+    label: Alert banner
+    type: file
+    path: src/_settings/alert.json
+    format: json
+    fields:
+      - name: show
+        label: Show the banner
+        type: boolean
+        description: Turn on to show the banner. It also needs a message and an end time.
+      - name: level
+        label: Type of alert
+        type: select
+        required: true
+        options:
+          values:
+            - { name: notice, label: Notice }
+            - { name: closed, label: School closed }
+            - { name: emergency, label: Emergency }
+      - name: message
+        label: Message
+        type: string
+        description: Keep it short. One or two sentences.
+      - name: link
+        label: Link (optional)
+        type: string
+        description: Use a full web address, or a page on this site starting with a slash, like /news/. Do not add /school-poc/ or any other prefix.
+      - name: start
+        label: Show from (optional)
+        type: date
+        default: ""
+        description: Leave empty to show right away. Times are Chicago time.
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm"
+      - name: end
+        label: Hide after
+        type: date
+        required: true
+        description: The banner disappears automatically after this time (Chicago time).
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm"
 
   - name: home
-    label: Home page
+    label: Homepage
     type: file
     path: src/index.md
     format: yaml-frontmatter
     fields:
-      - { name: hero_heading, label: Headline, type: string }
+      - { name: hero_heading, label: Headline, type: string, required: true }
+      - { name: hero_highlight, label: Highlighted headline words, type: string }
       - { name: hero_sub, label: Sub-headline, type: string }
+      - name: hero_image
+        label: Hero photo (optional)
+        type: image
+        description: Large photo at the top of the page. Without a photo a labeled placeholder is shown.
+      - name: hero_alt
+        label: Hero photo description
+        type: string
+        description: Describe what's happening in the photo for people who can't see it. The photo will not show without this.
+      - { name: hero_placeholder, label: Placeholder label (shown when there is no photo), type: string }
+      - name: pride
+        label: Pride numbers
+        type: object
+        list: { min: 3, max: 3 }
+        description: Exactly three. Use real numbers only.
+        fields:
+          - name: value
+            label: Number or short text
+            type: string
+            description: Use real numbers only. Do not guess.
+          - { name: label, label: Label, type: string }
+      - { name: welcome_title, label: Welcome title, type: string }
+      - { name: welcome_photo_placeholder, label: Welcome photo placeholder label, type: string }
+      - name: welcome_link
+        label: Welcome link
+        type: string
+        description: A page on this site starting with a slash, like /about/principal/. Do not add any prefix.
       - { name: body, label: Principal's welcome message, type: rich-text }
 
-  - name: about
-    label: About page
-    type: file
-    path: src/about.md
-    format: yaml-frontmatter
-    fields:
-      - { name: title, label: Page title, type: string }
-      - { name: body, label: Content, type: rich-text }
-
   - name: news
-    label: News & announcements
+    label: News
     type: collection
     path: src/news
+    exclude: [index.njk, news.json]
     filename: "{year}-{month}-{day}-{primary}.md"
+    format: yaml-frontmatter
     view:
       fields: [title, date]
-      sort: [date]
       primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
     fields:
       - { name: title, label: Title, type: string, required: true }
       - { name: date, label: Date, type: date, required: true }
+      - name: summary
+        label: Summary
+        type: text
+        required: true
+        description: One or two sentences shown on the news list and in search.
+      - name: image
+        label: Photo (optional)
+        type: image
+      - name: image_alt
+        label: Photo description
+        type: string
+        description: Describe what's happening in the photo for people who can't see it. The photo will not show without this.
       - { name: body, label: Story, type: rich-text }
 
-  - name: calendar
-    label: Upcoming dates
-    type: file
-    path: src/_data/calendar.json
+  - name: about
+    label: About pages
+    type: collection
+    path: src/about
+    exclude: [about.json, staff.md]
+    # Slug-only file names, so a new page gets a clean URL (/about/new-page/), not a dated one.
+    filename: "{primary}.md"
+    format: yaml-frontmatter
+    view:
+      fields: [title, order]
+      primary: title
+      sort: [order, title]
+      default: { sort: order, order: asc }
     fields:
-      - name: items
-        label: Dates
-        type: object
-        list: true
-        fields:
-          - { name: date, label: Date, type: date }
-          - { name: label, label: What's happening, type: string }
+      - { name: title, label: Page title, type: string, required: true }
+      - { name: intro, label: Short introduction, type: text }
+      - { name: section, type: string, hidden: true, default: about }
+      - name: portrait_placeholder
+        label: Portrait placeholder label (optional)
+        type: string
+        description: Shows a labeled square photo placeholder at the top of the page, for example "Principal Mendez". Leave empty for none.
+      - name: order
+        label: Menu order
+        type: number
+        description: Position in the section menu. Smaller numbers come first.
+      - { name: body, label: Content, type: rich-text }
+
+  - name: families
+    label: Families pages
+    type: collection
+    path: src/families
+    exclude: [families.json, events.md, cps-calendar.md, parent-portal.md, lunch-menu.md]
+    # Slug-only file names, so a new page gets a clean URL (/families/new-page/), not a dated one.
+    filename: "{primary}.md"
+    format: yaml-frontmatter
+    view:
+      fields: [title, order]
+      primary: title
+      sort: [order, title]
+      default: { sort: order, order: asc }
+    fields:
+      - { name: title, label: Page title, type: string, required: true }
+      - { name: intro, label: Short introduction, type: text }
+      - { name: section, type: string, hidden: true, default: families }
+      - name: order
+        label: Menu order
+        type: number
+        description: Position in the section menu. Smaller numbers come first.
+      - { name: body, label: Content, type: rich-text }
+
+  - name: enroll
+    label: Enroll page
+    type: file
+    path: src/enroll/index.md
+    format: yaml-frontmatter
+    fields:
+      - { name: title, label: Page title, type: string, required: true }
+      - { name: intro, label: Short introduction, type: text }
+      - { name: section, type: string, hidden: true, default: enroll }
+      - { name: body, label: Content, type: rich-text }
+
+  - name: contact
+    label: Contact page
+    type: file
+    path: src/contact/index.md
+    format: yaml-frontmatter
+    fields:
+      - { name: title, label: Page title, type: string, required: true }
+      - { name: intro, label: Short introduction, type: text }
+      - { name: section, type: string, hidden: true, default: contact }
+      - { name: body, label: Content, type: rich-text }
+
+  - name: staff
+    label: Staff
+    type: collection
+    path: src/staff/people
+    exclude: [people.json]
+    filename: "{primary}.md"
+    format: yaml-frontmatter
+    view:
+      fields: [name, role, group]
+      primary: name
+      sort: [name, group]
+    fields:
+      - { name: name, label: Name, type: string, required: true, description: "Include the title, for example Ms. Jane Smith." }
+      - { name: role, label: Job title, type: string, required: true }
+      - name: group
+        label: Group
+        type: select
+        required: true
+        description: Which group the person appears under in the staff directory.
+        options:
+          values:
+            - { name: Administration, label: Administration }
+            - { name: Pre-K, label: Pre-K }
+            - { name: K–2, label: "K–2" }
+            - { name: 3–5, label: "3–5" }
+            - { name: 6–8, label: "6–8" }
+            - { name: Specials, label: Specials }
+            - { name: Support, label: Support }
+      - { name: email, label: Email, type: string }
+      - name: photo
+        label: Photo (optional)
+        type: image
+      - name: photo_alt
+        label: Photo description
+        type: string
+        description: Describe the photo for people who can't see it, for example "Ms. Smith smiling in her classroom". The photo will not show without this.
+      - name: order
+        label: Order within group
+        type: number
+        description: Smaller numbers appear first within the group. Leave empty to sort by name.

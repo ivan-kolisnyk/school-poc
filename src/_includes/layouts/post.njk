@@ -1,0 +1,40 @@
+---
+layout: layouts/base.njk
+---
+{#- News post page (DESIGN.md 10.8): page header with the sentence-case title and date,
+    optional photo, the story (10.10), then "All news" and the next two headlines. -#}
+{%- set headerTitle = title -%}
+{%- set headerSentence = true -%}
+{%- set headerCrumbs = [{ label: strings.news.heading, url: "/news/" }] -%}
+{%- set headerDate = page.date | newsDay -%}
+{% include "partials/page-header.njk" %}
+
+<div class="section">
+  <div class="container">
+    <article class="post prose">
+      {%- if { image: image, image_alt: image_alt, page: page } | hasPhoto %}
+      <figure class="post__photo">
+        <img src="{{ image }}" alt="{{ image_alt }}" sizes="(min-width: 744px) 680px, 100vw" loading="eager" fetchpriority="high">
+      </figure>
+      {%- endif %}
+      {{ content | bodyHeadings(1) | safe }}
+    </article>
+
+    <p class="post__back">
+      <a class="text-link" href="{{ paths.news }}">{% icon "arrow-left" %}<span>{{ strings.news.allNews }}</span></a>
+    </p>
+
+    {%- set more = collections.newsDesc | nextHeadlines(page.url) %}
+    {%- if more.length %}
+    <section class="post-more" aria-labelledby="more-news-heading">
+      <h2 class="section-title" id="more-news-heading">{{ strings.news.moreNews }}</h2>
+      <div class="news-grid">
+        {%- set cardLevel = 3 %}
+        {%- for post in more %}
+        {% include "partials/news-card.njk" %}
+        {%- endfor %}
+      </div>
+    </section>
+    {%- endif %}
+  </div>
+</div>

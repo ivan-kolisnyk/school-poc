@@ -21,3 +21,11 @@ node_modules
 # counterproductive to check this file into the repository.
 # Details at https://github.com/github/pages-gem/issues/768
 Gemfile.lock
+
+_test_site/
+.cache/
+
+test-results/
+playwright-report/
+playwright-report-es/
+_site_es/

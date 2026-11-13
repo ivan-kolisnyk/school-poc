@@ -1,0 +1,47 @@
+---
+layout: layouts/base.njk
+# news.json renders posts as plain Markdown (editor text is never template code); this page is Nunjucks.
+templateEngineOverride: njk
+eleventyExcludeFromCollections: ["news"]
+pagination:
+  data: collections.newsDesc
+  size: 12
+  alias: posts
+  generatePageOnEmptyData: true
+permalink: "/news/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber + 1 }}/{% endif %}"
+eleventyComputed:
+  title: "{{ strings.news.heading }}{% if pagination.pageNumber > 0 %}, {{ strings.news.pageOf | replace('{n}', pagination.pageNumber + 1) | replace('{total}', pagination.pages.length) | lower }}{% endif %}"
+---
+{#- All news, newest first, 12 per page (DESIGN.md 10.8). -#}
+{%- set headerTitle = strings.news.heading -%}
+{%- set headerSentence = false -%}
+{%- set headerCrumbs = [] -%}
+{%- set headerDate = false -%}
+{% include "partials/page-header.njk" %}
+
+<div class="section">
+  <div class="container">
+    {%- if posts.length %}
+    <div class="news-grid news-grid--list">
+      {%- set cardLevel = 2 %}
+      {%- for post in posts %}
+      {% include "partials/news-card.njk" %}
+      {%- endfor %}
+    </div>
+    {%- else %}
+    <p>{{ strings.empty.news }}</p>
+    {%- endif %}
+
+    {%- if pagination.pages.length > 1 %}
+    <nav class="pagination" aria-label="{{ strings.news.pagination }}">
+      {%- if pagination.href.previous %}
+      <a class="pagination__link" href="{{ pagination.href.previous }}">{% icon "arrow-left" %}<span>{{ strings.news.newer }}</span></a>
+      {%- endif %}
+      <p class="pagination__status">{{ strings.news.pageOf | replace("{n}", pagination.pageNumber + 1) | replace("{total}", pagination.pages.length) }}</p>
+      {%- if pagination.href.next %}
+      <a class="pagination__link pagination__link--next" href="{{ pagination.href.next }}"><span>{{ strings.news.older }}</span>{% icon "arrow-right" %}</a>
+      {%- endif %}
+    </nav>
+    {%- endif %}
+  </div>
+</div>

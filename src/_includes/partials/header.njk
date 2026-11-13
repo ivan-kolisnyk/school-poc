@@ -1,0 +1,73 @@
+{#- Site header and navigation (DESIGN.md 10.2). Behaviour lives in /js/site.js. -#}
+<header class="site-header on-dark" data-header>
+  <div class="container site-header__bar">
+    <a class="brand" href="/">
+      <img class="brand__logo" src="/images/logo.png" eleventy:ignore alt="" width="44" height="48">
+      <span class="brand__text">
+        <span class="brand__name">{{ strings.brand.wordmark }}</span>
+        <span class="brand__descriptor">{{ strings.brand.descriptor }}</span>
+      </span>
+    </a>
+
+    <div class="site-menu" id="site-menu" data-menu>
+      <nav class="site-nav" aria-label="{{ strings.nav.label }}">
+        <ul class="site-nav__list" role="list">
+          {%- for item in nav %}
+          {%- set children = collections["section_" + item.key] or [] %}
+          {%- set inSection = page.url and page.url.indexOf(item.url) == 0 %}
+          <li class="site-nav__item{% if children.length %} has-sub{% endif %}">
+            <a class="site-nav__link" href="{{ item.url }}"
+              {%- if page.url == item.url %} aria-current="page"{% elif inSection %} aria-current="true"{% endif %}>{{ strings.nav[item.key] }}</a>
+            {%- if children.length %}
+            <button class="site-nav__sub-toggle" type="button" aria-expanded="false" aria-controls="subnav-{{ item.key }}" data-submenu-toggle>
+              {%- icon "chevron-down" -%}
+              <span class="visually-hidden">{{ strings.nav.submenu | replace("{label}", strings.nav[item.key]) }}</span>
+            </button>
+            <ul class="site-nav__sub" id="subnav-{{ item.key }}" role="list" hidden>
+              {%- for child in children %}
+              {%- set childUrl = child | entryUrl %}
+              {%- set ext = childUrl | externalIcon %}
+              <li><a href="{{ childUrl }}"{% if child.url and child.url == page.url %} aria-current="page"{% endif %}>
+                {{- child.data.title -}}
+                {%- if ext %} {{ ext | safe }}{% endif -%}
+              </a></li>
+              {%- endfor %}
+            </ul>
+            {%- endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </nav>
+      <div class="site-menu__tasks">
+        <p class="site-menu__label" id="menu-tasks-label">{{ strings.quickTasks.heading }}</p>
+        {%- set quickTasksVariant = "menu" %}
+        {%- set quickTasksLabelledBy = "menu-tasks-label" %}
+        {% include "partials/quick-tasks.njk" %}
+      </div>
+    </div>
+
+    <div class="site-header__actions">
+      <button class="header-btn header-btn--icon" type="button" data-search-toggle aria-expanded="false" aria-controls="site-search">
+        {%- icon "search" -%}
+        <span class="visually-hidden">{{ strings.buttons.search }}</span>
+      </button>
+      <button class="header-btn header-btn--menu" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-menu">
+        {%- icon "menu" -%}
+        {%- icon "x" -%}
+        <span class="header-btn__label">{{ strings.buttons.menu }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="site-search" id="site-search" data-search hidden>
+    <form class="container site-search__form" action="/search/" method="get" role="search">
+      <div class="site-search__field">
+        <label class="site-search__label" for="site-search-q">{{ strings.search.label }}</label>
+        <div class="site-search__row">
+          <input class="site-search__input" id="site-search-q" type="search" name="q" autocomplete="off">
+          <button class="site-search__submit" type="submit">{{ strings.search.submit }}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</header>

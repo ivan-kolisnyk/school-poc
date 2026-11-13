@@ -5,9 +5,29 @@
   "type": "module",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy && pagefind --site _site",
+    "test": "node --test tests/unit tests/build tests/regression",
+    "test:gating": "node --test tests/unit tests/build",
+    "test:content": "node --test tests/content",
+    "build:ci": "eleventy --pathprefix=${PATH_PREFIX:-/school-poc/} && pagefind --site _site",
+    "test:a11y": "playwright test",
+    "build:es-sample": "STRINGS_FILE=tests/fixtures/strings-es-sample.json eleventy --pathprefix=/school-poc/ --output=_site_es --quiet",
+    "test:a11y:es": "npm run build:es-sample && A11Y_VARIANT=es-sample playwright test"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0"
+    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy-fetch": "^6.0.1",
+    "@11ty/eleventy-img": "^7.1.1",
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0",
+    "lucide-static": "^1.72.0",
+    "node-html-parser": "^9.0.7",
+    "node-ical": "^0.27.6",
+    "pagefind": "1.6.0",
+    "yaml": "^2.9.1"
+  },
+  "dependencies": {
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/oswald": "^5.3.0"
   }
 }

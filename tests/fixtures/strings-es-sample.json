@@ -1,0 +1,119 @@
+{
+  "brand": {
+    "wordmark": "Courtenay Tigers",
+    "descriptor": "Centro de Artes del Lenguaje · Pre-K–8"
+  },
+  "nav": {
+    "label": "Principal",
+    "submenu": "Páginas de {label}",
+    "about": "Quiénes somos",
+    "families": "Para familias",
+    "enroll": "Inscripción",
+    "news": "Noticias y eventos",
+    "contact": "Contáctenos"
+  },
+  "quickTasks": {
+    "heading": "Tareas rápidas",
+    "items": [
+      { "key": "calendar", "label": "Calendario escolar" },
+      { "key": "lunchMenu", "label": "Menú del almuerzo" },
+      { "key": "parentPortal", "label": "Portal para padres" },
+      { "key": "enroll", "label": "Inscripción" },
+      { "key": "care", "label": "Cuidado antes y después de clases" },
+      { "key": "contact", "label": "Contáctenos" }
+    ]
+  },
+  "buttons": {
+    "search": "Buscar en el sitio",
+    "menu": "Menú"
+  },
+  "alertLabels": {
+    "notice": "Aviso",
+    "closed": "Cerrado",
+    "emergency": "Emergencia"
+  },
+  "alert": {
+    "details": "Más detalles",
+    "dismiss": "Cerrar este aviso"
+  },
+  "empty": {
+    "news": "Todavía no hay noticias. Vuelva a consultar pronto.",
+    "events": "No hay eventos programados — consulte el calendario de CPS para ver las fechas del distrito."
+  },
+  "news": {
+    "heading": "Noticias",
+    "allNews": "Todas las noticias",
+    "moreNews": "Más noticias",
+    "pagination": "Páginas de noticias",
+    "newer": "Publicaciones más recientes",
+    "older": "Publicaciones anteriores",
+    "pageOf": "Página {n} de {total}"
+  },
+  "events": {
+    "heading": "Eventos",
+    "allDay": "Todo el día",
+    "seeFullCalendar": "Ver el calendario completo",
+    "cpsCalendarLink": "consulte el calendario de CPS",
+    "cpsCalendar": "Ver el calendario del distrito de CPS"
+  },
+  "staff": {
+    "title": "Nuestro personal",
+    "intro": "Conozca a los maestros y al personal de Courtenay.",
+    "filterLabel": "Mostrar el personal por grupo",
+    "all": "Todos",
+    "emailFor": "(correo electrónico de {name})",
+    "count_one": "Se muestra {n} persona en {group}.",
+    "count_other": "Se muestran {n} personas en {group}.",
+    "countAll": "Se muestra todo el personal: {n} personas.",
+    "groups": ["Administration", "Pre-K", "K–2", "3–5", "6–8", "Specials", "Support"]
+  },
+  "pages": {
+    "inSection": "En esta sección"
+  },
+  "breadcrumb": {
+    "label": "Ruta de navegación",
+    "home": "Inicio"
+  },
+  "footer": {
+    "contactHeading": "Visítenos y llámenos",
+    "directions": "Cómo llegar",
+    "phone": "Teléfono",
+    "fax": "Fax",
+    "hours": "Horario de la oficina",
+    "explore": "Explorar el sitio",
+    "cpsHeading": "Escuelas Públicas de Chicago",
+    "cps": "Sitio web de las Escuelas Públicas de Chicago",
+    "nondiscrimination": "Declaración de no discriminación",
+    "mentalHealth": "Recursos de salud mental",
+    "staffLinks": "Personal",
+    "social": "Courtenay en Instagram",
+    "copyrightHolder": "Mary E. Courtenay Language Arts Center"
+  },
+  "search": {
+    "label": "Buscar en Courtenay",
+    "submit": "Buscar",
+    "pageTitle": "Búsqueda",
+    "count_one": "1 resultado para “{q}”.",
+    "count_other": "{n} resultados para “{q}”.",
+    "none": "No hay resultados para “{q}”. Pruebe la página Para familias o llame a la oficina.",
+    "error": "La búsqueda no funciona en este momento. Inténtelo de nuevo o llame a la oficina.",
+    "needsJs": "La búsqueda necesita JavaScript. Aquí puede encontrar lo que necesita:"
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido principal",
+    "externalCps": "abre el sitio de CPS",
+    "external": "abre otro sitio"
+  },
+  "home": {
+    "enrollNow": "Inscribir ahora",
+    "bookTour": "Agendar una visita",
+    "prideHeading": "Courtenay en cifras",
+    "newsHeading": "Noticias de los Tigres",
+    "seeAllNews": "Ver todas las noticias",
+    "eventsHeading": "Próximos eventos",
+    "readFullMessage": "Leer el mensaje completo"
+  },
+  "meta": {
+    "description": "Una escuela pública de Chicago en Uptown, de Pre-K a 8.º grado."
+  }
+}

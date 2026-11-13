@@ -1,0 +1,82 @@
+[
+  {
+    "check": "screen-short",
+    "target": "section.home-tasks",
+    "reason": "DESIGN.md 11 and 10.3: the homepage is a stacked blueprint (hero, buttons, quick tasks, pride band, news, events, welcome); the quick tasks must peek in under a 640px hero. One-section-per-screen conflicts with it. Covers screen-short, screen-height, section-height, section-tile, section-air, one-section, one-heading, neighbour, neighbour-ground, sparse, one-screen and section-gaps on every homepage section."
+  },
+  {
+    "check": "hero-fold",
+    "target": "section.hero",
+    "reason": "DESIGN.md 10.3: hero is ~70% of the screen on phones and at most 640px on desktop so the button pair and quick tasks show on the first screen; a full-screen hero is ruled out. Covers hero-fill, hero-screen and flush (the button pair sits directly under the photo by design) and row-gap (DESIGN.md 10.5: the pair is full width only on phones). Inner pages open with the navy page-title band (DESIGN.md 10.4), not a full-screen hero. right-edge at 390 is the same rule: the button pair and quick tasks run edge to edge on phones (DESIGN.md 10.3, 11)."
+  },
+  {
+    "check": "cta",
+    "target": "section.hero",
+    "reason": "DESIGN.md 10.3 and 11: the ENROLL NOW / BOOK A TOUR pair sits directly below the photo, not inside it; the last section is the principal's welcome with a text link (DESIGN.md 11), not a closing call to action. Inner pages end with their content (DESIGN.md 10.10); actions live in the body text and the header."
+  },
+  {
+    "check": "street-number",
+    "target": "address",
+    "reason": "DESIGN.md 10.12 and A17 (WCAG 3.2.6): the school's real address, phone and fax must appear in the footer on every page. The taste rule against real house numbers, ZIP codes and dialable phones is for invented clients. Covers street-number, postcode and phone-number."
+  },
+  {
+    "check": "no-visual",
+    "target": "section.section--alt",
+    "reason": "DESIGN.md 9 and 10.8: no stock photos; a news post without a photo uses the text-only card (6px gold bar); events are a date-block list (10.9). Labeled placeholders stand in until real photos exist. Covers no-visual and card-visual."
+  },
+  {
+    "check": "copy-headline",
+    "target": "h1#hero-title",
+    "reason": "DESIGN.md 6 and 11 set the display headline 'Curious minds. Kind hearts.' with one gold phrase; event titles come from the school's Google Calendar and news titles from the CMS (architecture spec 5). Covers copy-headline, copy-headings, copy-buttons and copy-actions."
+  },
+  {
+    "check": "heading-scale",
+    "target": "span.pride__value",
+    "reason": "DESIGN.md 10.7: pride facts are set in Oswald 700 at 32-48px, larger than H2 on purpose."
+  },
+  {
+    "check": "off-grid",
+    "target": "h2#home-news-title",
+    "reason": "DESIGN.md 8: section H2s carry a 6px gold bar on their left, so the bar sits on the content line and the letters 18px in. Same for h2#home-events-title and h2#home-welcome-title. On inner pages, list items in the reading column are indented by their bullets (DESIGN.md 10.10)."
+  },
+  {
+    "check": "edge-left",
+    "target": "news-card",
+    "reason": "The checker's grid is always 12 columns with --gutter as the gap. In DESIGN.md 7 --gutter is the side gutter (16/24/32px) and the grid is 8 columns on tablet and 12 on desktop with a 24px gap. The welcome text (columns 4 of 8 / 5 of 12) and the footer columns (4+3+2+3 of 12) sit on the design's lines, which the checker does not draw. Text inside bordered news cards (DESIGN.md 10.8) starts at the card's padding; the card sits on the column line."
+  },
+  {
+    "check": "nav",
+    "target": "a.brand",
+    "reason": "DESIGN.md 4 and 10.2: the header wordmark is two lines by design (COURTENAY TIGERS / Language Arts Center · Pre-K-8). Also covers nav-family: the 13-14px second line is part of the wordmark, not a nav link. menu-toggle is waived too: the Menu button flips aria-expanded on click and Esc (verified in Playwright at 390, 768 and 820; a11y suite A10); the checker looks for the kit's .nav__toggle."
+  },
+  {
+    "check": "focus-ring",
+    "target": "main:focus",
+    "reason": "DESIGN.md A7: main is the skip link's programmatic target (tabindex=-1), never a Tab stop; a ring round the whole page would not help. .news-card__link:focus-visible moves its ring to the whole card (DESIGN.md 10.0 'ring around whole card'). focus-visible on the skip link is a false reading: it is navy-deep with a 3px gold ring over the navy header (DESIGN.md 10.0, A7)."
+  },
+  {
+    "check": "hero-enter",
+    "target": "section.hero",
+    "reason": "DESIGN.md 12: the hero entrance is the site's own CSS (.hero-enter, 320ms fade-up, buttons 80ms later), not the kit's data-enter/motion.js. moment-none is waived too: DESIGN.md 12 and 15 forbid extra load or scroll motion."
+  },
+  {
+    "check": "cut-text",
+    "target": "p.news-card__summary",
+    "reason": "DESIGN.md 10.0 and 10.8: card titles clamp at 3 lines and the excerpt at 2 with an ellipsis; the full text is on the post page. The clamped overflow is hidden on purpose."
+  },
+  {
+    "check": "button-styles",
+    "target": "div.home-actions",
+    "reason": "DESIGN.md 10.3, 10.5 and 11: the hero's button pair is the page's main action and stands 56-64px tall under the photo (buttons are 'minimum 48px'); the 44px 'Calendar' item the checker pairs it with is a footer list link, not a button."
+  },
+  {
+    "check": "edge-right",
+    "target": "site-footer__contact",
+    "reason": "The footer's contact column spans 4 of the DESIGN.md 7 12-column grid (gap 24px); the checker measures against its own 12 columns with a 32px gap. Its last column ends on the right content line."
+  },
+  {
+    "check": "same-action",
+    "target": "quick-task",
+    "reason": "DESIGN.md 10.6 and 10.2: the six quick tasks repeat at the bottom of the mobile menu, styled for the navy menu; they are one component in two contexts, not two looks of one button. button-contrast on the white tiles is covered too: tiles are separated by 1px --line dividers inside a bordered grid (DESIGN.md 10.6)."
+  }
+]

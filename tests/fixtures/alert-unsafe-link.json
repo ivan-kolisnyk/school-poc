@@ -1,0 +1,8 @@
+{
+  "show": true,
+  "level": "notice",
+  "message": "Picture day is Friday.",
+  "link": "javascript:alert(1)",
+  "start": "",
+  "end": " 2026-11-20T15:00 "
+}

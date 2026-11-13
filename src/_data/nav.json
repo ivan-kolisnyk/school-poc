@@ -1,0 +1,7 @@
+[
+  { "key": "about", "url": "/about/" },
+  { "key": "families", "url": "/families/" },
+  { "key": "enroll", "url": "/enroll/" },
+  { "key": "news", "url": "/news/" },
+  { "key": "contact", "url": "/contact/" }
+]

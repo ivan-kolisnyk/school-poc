@@ -1,0 +1,119 @@
+{
+  "brand": {
+    "wordmark": "Courtenay Tigers",
+    "descriptor": "Language Arts Center · Pre-K–8"
+  },
+  "nav": {
+    "label": "Main",
+    "submenu": "{label} pages",
+    "about": "About",
+    "families": "Families",
+    "enroll": "Enroll",
+    "news": "News & Events",
+    "contact": "Contact"
+  },
+  "quickTasks": {
+    "heading": "Quick tasks",
+    "items": [
+      { "key": "calendar", "label": "Calendar" },
+      { "key": "lunchMenu", "label": "Lunch menu" },
+      { "key": "parentPortal", "label": "Parent portal" },
+      { "key": "enroll", "label": "Enroll" },
+      { "key": "care", "label": "Before & after care" },
+      { "key": "contact", "label": "Contact" }
+    ]
+  },
+  "buttons": {
+    "search": "Search",
+    "menu": "Menu"
+  },
+  "alertLabels": {
+    "notice": "Notice",
+    "closed": "Closed",
+    "emergency": "Emergency"
+  },
+  "alert": {
+    "details": "Details",
+    "dismiss": "Dismiss alert"
+  },
+  "empty": {
+    "news": "No news yet. Check back soon.",
+    "events": "No events scheduled — see the CPS calendar for district dates."
+  },
+  "news": {
+    "heading": "News",
+    "allNews": "All news",
+    "moreNews": "More news",
+    "pagination": "News pages",
+    "newer": "Newer posts",
+    "older": "Older posts",
+    "pageOf": "Page {n} of {total}"
+  },
+  "events": {
+    "heading": "Events",
+    "allDay": "All day",
+    "seeFullCalendar": "See full calendar",
+    "cpsCalendarLink": "see the CPS calendar",
+    "cpsCalendar": "See the CPS district calendar"
+  },
+  "staff": {
+    "title": "Our staff",
+    "intro": "Meet the teachers and staff of Courtenay.",
+    "filterLabel": "Show staff by group",
+    "all": "All",
+    "emailFor": "(email {name})",
+    "count_one": "Showing {n} person in {group}.",
+    "count_other": "Showing {n} people in {group}.",
+    "countAll": "Showing all {n} staff.",
+    "groups": ["Administration", "Pre-K", "K–2", "3–5", "6–8", "Specials", "Support"]
+  },
+  "pages": {
+    "inSection": "In this section"
+  },
+  "breadcrumb": {
+    "label": "Breadcrumb",
+    "home": "Home"
+  },
+  "footer": {
+    "contactHeading": "Visit and call",
+    "directions": "Get directions",
+    "phone": "Phone",
+    "fax": "Fax",
+    "hours": "Office hours",
+    "explore": "Explore",
+    "cpsHeading": "Chicago Public Schools",
+    "cps": "Chicago Public Schools website",
+    "nondiscrimination": "Non-discrimination statement",
+    "mentalHealth": "Mental health resources",
+    "staffLinks": "Staff",
+    "social": "Courtenay on Instagram",
+    "copyrightHolder": "Mary E. Courtenay Language Arts Center"
+  },
+  "search": {
+    "label": "Search Courtenay",
+    "submit": "Search",
+    "pageTitle": "Search",
+    "count_one": "1 result for \u201c{q}\u201d.",
+    "count_other": "{n} results for \u201c{q}\u201d.",
+    "none": "No results for \u201c{q}\u201d. Try the Families page or call the office.",
+    "error": "Search is not working right now. Try again, or call the office.",
+    "needsJs": "Search needs JavaScript. You can find what you need here instead:"
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content",
+    "externalCps": "opens CPS site",
+    "external": "opens another site"
+  },
+  "home": {
+    "enrollNow": "Enroll now",
+    "bookTour": "Book a tour",
+    "prideHeading": "Courtenay at a glance",
+    "newsHeading": "Tiger news",
+    "seeAllNews": "See all news",
+    "eventsHeading": "Upcoming events",
+    "readFullMessage": "Read the full message"
+  },
+  "meta": {
+    "description": "A Chicago public school in Uptown for Pre-K to 8th grade."
+  }
+}

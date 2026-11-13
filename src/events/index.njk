@@ -1,0 +1,39 @@
+---
+layout: layouts/base.njk
+permalink: /events/
+# How far ahead this page lists events (the homepage shows the next 4 regardless).
+eventsDays: 90
+eleventyComputed:
+  title: "{{ strings.events.heading }}"
+---
+{#- Upcoming events from the school's Google Calendar for the next `eventsDays` days,
+    grouped by month (DESIGN.md 10.9). -#}
+{%- set pageEvents = events.items | eventsWithin(now, eventsDays) -%}
+{%- set headerTitle = strings.events.heading -%}
+{%- set headerSentence = false -%}
+{%- set headerCrumbs = [] -%}
+{%- set headerDate = false -%}
+{% include "partials/page-header.njk" %}
+
+<div class="section">
+  <div class="container events" data-events-source="{{ events.source }}" data-events>
+    {%- set eventLevel = 3 %}
+    {%- set limit = false %}
+    {%- set showDescription = true %}
+    {%- if pageEvents.length %}
+    {%- set emptyHidden = true %}
+    {% include "partials/events-empty.njk" %}
+    {%- for group in pageEvents | eventMonths %}
+    <section class="events-month" aria-labelledby="events-{{ group.key }}">
+      <h2 class="events-month__title section-title" id="events-{{ group.key }}">{{ group.label }}</h2>
+      {%- set items = group.items %}
+      {% include "partials/events-list.njk" %}
+    </section>
+    {%- endfor %}
+    <p class="events-cps" data-events-more><a href="{{ site.links.cpsCalendar }}">{{ strings.events.cpsCalendar }} {% icon "external-link", strings.a11y.externalCps %}</a></p>
+    {%- else %}
+    {%- set items = [] %}
+    {% include "partials/events-list.njk" %}
+    {%- endif %}
+  </div>
+</div>

@@ -1,0 +1,27 @@
+{#- Homepage hero (DESIGN.md 10.3, 9, 12). Full-bleed photo, or the labeled placeholder until
+    the school supplies one; a navy-deep gradient on the lower half carries the display headline
+    (one gold phrase) and the supporting line. The photo is the 4:5 (mobile) / 16:9 (desktop)
+    crop; the frame's height is set in CSS (~70% of the screen on phones, at most 640px on
+    desktop) and the media covers it. The words fade up once on load (.hero-enter). -#}
+{%- set _heroWords = hero_heading + (" " + hero_highlight if hero_highlight else "") -%}
+<section class="hero on-dark" data-home-section="hero" aria-labelledby="hero-title">
+  <div class="hero__media">
+    {%- if { hero_image: hero_image, hero_alt: hero_alt } | heroPhoto %}
+    <img class="hero__img" src="{{ hero_image }}" alt="{{ hero_alt }}" sizes="100vw" loading="eager" fetchpriority="high">
+    {%- else %}
+    {% placeholder hero_placeholder, "4 / 5" %}
+    {%- endif %}
+  </div>
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <div class="container hero__content">
+    <div class="hero__text hero-enter">
+      <h1 class="hero__title {{ _heroWords | headingClass }}" id="hero-title">
+        <span class="hero__line">{{ hero_heading }}</span>
+        {%- if hero_highlight %} <span class="hero__line text-accent-on-dark">{{ hero_highlight }}</span>{% endif -%}
+      </h1>
+      {%- if hero_sub %}
+      <p class="hero__sub">{{ hero_sub }}</p>
+      {%- endif %}
+    </div>
+  </div>
+</section>
