@@ -91,3 +91,14 @@ test("help text on risky fields", () => {
   assert.match(field(entry("home"), "hero_alt").description, /can't see it/);
   assert.match(field(entry("news"), "image_alt").description, /can't see it/);
 });
+
+test("menu-only files (menu_url / external_url) are excluded from collections", () => {
+  for (const e of cfg.content.filter((c) => c.type === "collection")) {
+    const dir = new URL(`../../${e.path}/`, import.meta.url);
+    for (const f of readdirSync(dir).filter((n) => n.endsWith(".md"))) {
+      if (/^\s*(menu_url|external_url):/m.test(readFileSync(new URL(f, dir), "utf8"))) {
+        assert.ok(e.exclude?.includes(f), `${e.name} must exclude ${f}`);
+      }
+    }
+  }
+});
