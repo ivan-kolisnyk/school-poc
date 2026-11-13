@@ -112,5 +112,8 @@
     "seeAllNews": "See all news",
     "eventsHeading": "Upcoming events",
     "readFullMessage": "Read the full message"
+  },
+  "meta": {
+    "description": "A Chicago public school in Uptown for Pre-K to 8th grade."
   }
 }

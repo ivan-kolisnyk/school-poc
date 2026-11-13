@@ -131,7 +131,7 @@ html.menu-open { overflow: hidden; }
   .brand { gap: var(--space-2); }
   .brand__logo { height: 36px; }
   .brand__name { font-size: 17px; }
-  .header-btn--menu { flex-direction: column; gap: 2px; padding: 0; }
+  .header-btn--menu { flex-direction: column; gap: var(--space-1); padding: 0; }
   .header-btn--menu .header-btn__label { font-size: var(--fs-small); }
 }
 @media (max-width: 359.98px) {
@@ -456,6 +456,9 @@ html.menu-open { overflow: hidden; }
 @media (min-width: 1024px) {
   .quick-tasks--tiles { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
+/* Homepage tiles: icons on one line even when a label wraps to two (BEFORE & AFTER CARE at
+   1024px): content starts from the top, with the top padding that centres a one-line tile. */
+.quick-tasks--tiles .quick-task { justify-content: flex-start; padding-top: var(--space-4); }
 
 /* List: plain links with a gold icon, for the footer. */
 .quick-tasks--list { display: block; background: none; border: 0; }
@@ -480,7 +483,7 @@ html.menu-open { overflow: hidden; }
 .quick-tasks--list .quick-task__label {
   display: inline-flex;
   align-items: center;
-  gap: .25em;
+  gap: var(--space-1);
   font: inherit;
   letter-spacing: normal;
   text-transform: none;
@@ -493,17 +496,22 @@ html.menu-open { overflow: hidden; }
   border-top: 6px solid var(--color-surface-accent);
   color: var(--color-text-on-dark);
 }
-.site-footer a { color: var(--color-text-on-dark); gap: .25em; }
+.site-footer a { color: var(--color-text-on-dark); gap: var(--space-1); }
 .site-footer a:active { color: var(--color-text-accent-on-dark); }
 .site-footer__grid {
   display: grid;
   gap: var(--space-6);
 }
+/* Tablet and up: on the layout grid (DESIGN.md 7: 8 columns, then 12; gap 24px).
+   Desktop columns span 4 + 3 + 2 + 3 of 12. */
 @media (min-width: 768px) {
-  .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-5); }
 }
 @media (min-width: 1024px) {
-  .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: var(--space-7); }
+  .site-footer__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .site-footer__col { grid-column: span 3; }
+  .site-footer__contact { grid-column: span 4; }
+  .site-footer__col:nth-child(3) { grid-column: span 2; }
 }
 .site-footer__name {
   display: flex;
@@ -516,6 +524,7 @@ html.menu-open { overflow: hidden; }
   line-height: 1.15;
   letter-spacing: .02em;
   text-transform: uppercase;
+  text-wrap: balance;
 }
 .site-footer__logo { width: auto; height: 48px; flex: none; }
 .site-footer__heading {
@@ -538,12 +547,19 @@ html.menu-open { overflow: hidden; }
 .site-footer__facts dd a { display: inline-flex; align-items: center; min-height: 44px; }
 .site-footer__links { margin: 0; }
 .site-footer__links li { margin: 0; }
+/* Inline flow, not flex: a label that wraps in a narrow column (CHICAGO PUBLIC SCHOOLS at 1024px)
+   keeps its "opens another site" marker after its last word. Padding keeps the 44px target (A4). */
 .site-footer__links a {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   min-width: 44px;
   min-height: 44px;
+  padding-block: var(--space-2);
 }
+/* The label carries the underline, so the no-break space that ties the marker to the last
+   word is not underlined. */
+.site-footer__links a { text-decoration: none; }
+.site-footer__links a > span { text-decoration: underline; text-underline-offset: .15em; }
+.site-footer__links a:hover > span { text-decoration-thickness: 2px; }
 .site-footer__group + .site-footer__group { margin-top: var(--space-5); }
 .site-footer__social {
   display: inline-flex;
@@ -557,11 +573,14 @@ html.menu-open { overflow: hidden; }
 .site-footer__social:hover .icon { color: var(--color-text-on-dark); }
 .site-footer__base {
   margin-top: var(--space-6);
-  padding-top: var(--space-4);
-  border-top: 1px solid color-mix(in srgb, var(--color-text-on-dark) 20%, transparent);
   font-size: var(--fs-small);
 }
-.site-footer__base p { margin: 0; }
+/* The rule sits on the content lines, not across the container's gutters (DESIGN.md 7). */
+.site-footer__base p {
+  margin: 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid color-mix(in srgb, var(--color-text-on-dark) 20%, transparent);
+}
 
 /* ---------- Reduced motion: everything rests, nothing stays hidden (DESIGN.md 12, A16) ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -683,15 +702,19 @@ html.menu-open { overflow: hidden; }
 .breadcrumb__list li { display: inline-flex; align-items: center; margin: 0; }
 .breadcrumb__list li + li::before {
   content: "/" / "";
-  padding-inline: var(--space-2);
+  padding-inline: 0 var(--space-2);
   color: var(--color-text-on-dark);
   opacity: .6;
 }
+/* Labels start on the content line (centring HOME in its 44px target set it 5px in from the H1
+   below). The space before each "/" is the link's own end padding, so a short label still gets
+   an even gap on both sides of the slash. */
 .breadcrumb a {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-width: 44px;
+  padding-inline-end: var(--space-2);
   min-height: 44px;
   color: var(--color-text-accent-on-dark);
   font-family: var(--font-display);
@@ -758,7 +781,7 @@ html.menu-open { overflow: hidden; }
 .link-row:hover,
 .link-row:active { background: var(--color-surface-alt); }
 .link-row:focus-visible { outline-offset: -3px; }
-.link-row__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.link-row__text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
 .link-row__title {
   font-weight: 600;
   font-size: var(--fs-h3);
@@ -774,14 +797,11 @@ html.menu-open { overflow: hidden; }
   font-weight: 500;
   line-height: var(--lh-small);
 }
+/* The chevron stays put: hover answers with the row's background and the title's underline only
+   (DESIGN.md 12: hover transitions are colour, background and underline). */
 .link-row > .icon-chevron-right {
   width: 20px;
   height: 20px;
-  transition: transform var(--dur-fast) var(--ease-out);
-}
-.link-row:hover > .icon-chevron-right { transform: translateX(4px); }
-@media (prefers-reduced-motion: reduce) {
-  .link-row:hover > .icon-chevron-right { transform: none; }
 }
 
 /* ---------- News cards (DESIGN.md 10.8) ---------- */

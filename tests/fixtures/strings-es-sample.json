@@ -112,5 +112,8 @@
     "seeAllNews": "Ver todas las noticias",
     "eventsHeading": "Próximos eventos",
     "readFullMessage": "Leer el mensaje completo"
+  },
+  "meta": {
+    "description": "Una escuela pública de Chicago en Uptown, de Pre-K a 8.º grado."
   }
 }

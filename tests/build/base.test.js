@@ -27,3 +27,17 @@ test("anchors are prefixed too", () => {
     assert.ok(a.getAttribute("href").startsWith("/school-poc/"), a.getAttribute("href"));
   }
 });
+
+test("every page has a description and an icon for search results and shared links", () => {
+  const cases = [
+    ["index.html", "A neighborhood public school in Uptown where every child belongs."],
+    ["families/preschool/index.html", "Full-day Pre-K for 3- and 4-year-olds at the Courtenay Child-Parent Center."],
+    ["news/index.html", "A Chicago public school in Uptown for Pre-K to 8th grade."],
+  ];
+  for (const [file, description] of cases) {
+    const root = page(file);
+    assert.equal(root.querySelector('meta[name="description"]')?.getAttribute("content"), description, file);
+    assert.equal(root.querySelector('meta[property="og:description"]')?.getAttribute("content"), description, file);
+    assert.equal(root.querySelector('link[rel="icon"]')?.getAttribute("href"), "/school-poc/images/logo.png", file);
+  }
+});

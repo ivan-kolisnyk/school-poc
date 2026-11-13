@@ -78,7 +78,14 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Blockers:** —
 - **Commit / review:** 174b717, 3c500d1, 94cf41f, ec5a417
 ### 14b (steps 3–8)
-- **Status:** todo
+- **Status:** done
+- **Agent:** implementer (opus), 2026-11-13
+- **Steps done:** Step 3 (taste checkers, fixes, .taste-skill/waivers.json), Step 4 (DESIGN §17 + ui-ux-pro-max checklist in docs/qa/2026-11-poc-qa.md), Step 5 (motion audit; link-row hover nudge removed), Step 6 (Lighthouse 13.6.0: a11y 100 on / and /events/), Step 7 (README editor/admin guide), Step 8 (commit)
+- **Files touched:** see .superpowers/sdd/2026-11-13-courtenay-site-poc/task-14b-report.md
+- **Last command:** npm test -> PASS 200/200; npm run test:a11y -> PASS 95/95; npm run test:a11y:es -> PASS 58/58
+- **Next:** — (Step 9 whole-branch review is the controller's)
+- **Blockers:** —
+- **Commit / review:** see `git log` (chore: quality pass, waivers, QA report, editor guide)
 
 ---
 

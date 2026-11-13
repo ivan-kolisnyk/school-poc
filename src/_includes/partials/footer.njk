@@ -3,7 +3,7 @@
   <div class="container site-footer__grid">
     <div class="site-footer__col site-footer__contact">
       <p class="site-footer__name">
-        <img class="site-footer__logo" src="/images/logo.png" eleventy:ignore alt="" width="44" height="48">
+        <img class="site-footer__logo" src="/images/logo.png" eleventy:ignore alt="" width="44" height="48" loading="lazy" decoding="async">
         <span>{{ site.name }}</span>
       </p>
       <h2 class="site-footer__heading">{{ strings.footer.contactHeading }}</h2>
@@ -34,7 +34,7 @@
       <h2 class="site-footer__heading">{{ strings.footer.explore }}</h2>
       <ul class="site-footer__links" role="list">
         {%- for item in nav %}
-        <li><a href="{{ item.url }}">{{ strings.nav[item.key] }}</a></li>
+        <li><a href="{{ item.url }}"><span>{{ strings.nav[item.key] }}</span></a></li>
         {%- endfor %}
       </ul>
     </div>
@@ -43,9 +43,9 @@
       <div class="site-footer__group">
         <h2 class="site-footer__heading">{{ strings.footer.cpsHeading }}</h2>
         <ul class="site-footer__links" role="list">
-          <li><a href="{{ site.links.cps }}">{{ strings.footer.cps }} {{ site.links.cps | externalIcon | safe }}</a></li>
-          <li><a href="{{ site.links.nondiscrimination }}">{{ strings.footer.nondiscrimination }} {{ site.links.nondiscrimination | externalIcon | safe }}</a></li>
-          <li><a href="{{ site.links.mentalHealth }}">{{ strings.footer.mentalHealth }} {{ site.links.mentalHealth | externalIcon | safe }}</a></li>
+          <li><a href="{{ site.links.cps }}"><span>{{ strings.footer.cps }}</span>&nbsp;{{ site.links.cps | externalIcon | safe }}</a></li>
+          <li><a href="{{ site.links.nondiscrimination }}"><span>{{ strings.footer.nondiscrimination }}</span>&nbsp;{{ site.links.nondiscrimination | externalIcon | safe }}</a></li>
+          <li><a href="{{ site.links.mentalHealth }}"><span>{{ strings.footer.mentalHealth }}</span>&nbsp;{{ site.links.mentalHealth | externalIcon | safe }}</a></li>
         </ul>
       </div>
       {%- if site.staffLinks.length %}
@@ -53,7 +53,7 @@
         <h2 class="site-footer__heading">{{ strings.footer.staffLinks }}</h2>
         <ul class="site-footer__links" role="list">
           {%- for link in site.staffLinks %}
-          <li><a href="{{ link.url }}">{{ link.label }} {{ link.url | externalIcon | safe }}</a></li>
+          <li><a href="{{ link.url }}"><span>{{ link.label }}</span>&nbsp;{{ link.url | externalIcon | safe }}</a></li>
           {%- endfor %}
         </ul>
       </div>
