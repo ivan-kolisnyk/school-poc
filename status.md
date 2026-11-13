@@ -40,16 +40,18 @@ Status values: `todo` · `in progress` · `blocked` · `review` · `done`
 - **Commit / review:** 42f71d0, ce917c7 (+status commits) · review: approved (6 minor notes parked)
 
 ## Task 7: Homepage content model
-- **Status:** in progress
-- **Agent:** implementer (sonnet), 2026-11-13
-- **Steps done:** 1-3
-- **Files touched:** src/index.md, tests/build/home-data.test.js
-- **Last command:** npm test -> PASS
-- **Next:** — (awaiting review)
+- **Status:** done
+- **Commit / review:** 465492f · review: approved (3 minor notes parked)
 
 ## Task 8: Homepage composition
-- **Status:** todo
-- **Next:** Step 1
+- **Status:** done
+- **Agent:** implementer (opus), 2026-11-13
+- **Steps done:** 1-6 (skills loaded: design-taste-frontend, ui-ux-pro-max, design-motion-principles; visual check at 1440/1024/768/390/320)
+- **Files touched:** tests/build/home.test.js, src/_data/paths.js, src/_includes/partials/{hero,pride,quick-tasks}.njk, layouts/{home,post}.njk, src/_settings/strings.en.json, eleventy.config.js, src/css/{components,pages}.css
+- **Last command:** npm test -> PASS (126/126)
+- **Next:** — (awaiting review; report: .superpowers/sdd/2026-11-13-courtenay-site-poc/task-8-report.md)
+- **Blockers:** —
+- **Commit / review:** see `feat: homepage hero, quick tasks, pride band, news and events`
 
 ## Task 9: Inner pages, section navigation and migrated content
 - **Status:** todo

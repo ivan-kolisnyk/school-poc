@@ -395,7 +395,16 @@ html.menu-open { overflow: hidden; }
   text-transform: uppercase;
   overflow-wrap: anywhere;
 }
-.quick-task__label .icon-external-link { width: 14px; height: 14px; }
+/* Tiles: the "opens CPS site" marker sits in the tile's corner, so it never wraps onto a line
+   of its own under the label. */
+.quick-task__label .icon-external-link {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 14px;
+  height: 14px;
+  margin: 0;
+}
 @media (min-width: 1024px) {
   .quick-tasks--tiles { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
@@ -419,6 +428,7 @@ html.menu-open { overflow: hidden; }
 .quick-tasks--list .quick-task:hover { background: none; text-decoration-thickness: 2px; }
 .quick-tasks--list .quick-task:active { background: none; color: var(--color-text-accent-on-dark); }
 .quick-tasks--list .quick-task > .icon { width: 20px; height: 20px; color: var(--color-text-accent-on-dark); }
+.quick-tasks--list .quick-task__label .icon-external-link { position: static; }
 .quick-tasks--list .quick-task__label {
   display: inline-flex;
   align-items: center;
@@ -881,3 +891,89 @@ html.menu-open { overflow: hidden; }
 
 /* No upcoming events: one line (DESIGN.md 10.9). */
 .events-empty { margin: 0; }
+
+/* ---------- Buttons (DESIGN.md 10.5, 10.0) ---------- */
+/* Square, Oswald uppercase, ≥ 48px. Hover darkens the fill ~8% (secondary also shows a 2px gold
+   bottom bar); press moves down 1px. Only colour, opacity and transform change. */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 14px var(--space-5);
+  border: 0;
+  border-radius: var(--radius-none);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: .04em;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.btn:active { transform: translateY(1px); transition-duration: 0s; }
+.btn--primary {
+  background: var(--color-action-primary-bg);
+  color: var(--color-action-primary-fg);
+}
+.btn--primary:hover { background: color-mix(in srgb, var(--color-action-primary-bg) 92%, black); }
+/* Navy ring on gold buttons, wherever they sit (DESIGN.md 10.5). */
+.btn--primary:focus-visible { outline-color: var(--color-focus-on-light); }
+.btn--secondary {
+  background: var(--color-action-secondary-bg);
+  color: var(--color-action-secondary-fg);
+}
+.btn--secondary::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--color-surface-accent);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.btn--secondary:hover { background: color-mix(in srgb, var(--color-action-secondary-bg) 92%, black); }
+.btn--secondary:hover::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .btn:active { transform: none; }
+}
+
+/* ---------- Section heading row (DESIGN.md 8, 10.8, 10.9) ---------- */
+/* H2 with the 6px gold bar, and its "See all" link on the same line when it fits. */
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-5);
+  margin-bottom: var(--space-5);
+}
+@media (min-width: 1024px) { .section-head { margin-bottom: var(--space-6); } }
+.section-head .section-title { margin: 0; }
+.section-title {
+  padding-left: var(--space-3);
+  border-left: 6px solid var(--color-surface-accent);
+}
+.section-head__more { flex: none; }
+
+/* Gold emphasis inside a display headline: on navy or photo overlays only (DESIGN.md 6, 5.4). */
+.on-dark .text-accent-on-dark { color: var(--color-text-accent-on-dark); }
+
+/* ---------- Hero entrance (DESIGN.md 12): the page's only load animation ---------- */
+/* Headline, then the button pair, fade up 12px once; all done within --dur-enter. Pure CSS,
+   so nothing waits for script and nothing stays hidden if the animation never runs. */
+@keyframes hero-enter {
+  from { opacity: 0; transform: translateY(12px); }
+}
+.hero-enter { animation: hero-enter calc(var(--dur-enter) - 80ms) var(--ease-out) both; }
+.hero-enter--late { animation-delay: 80ms; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter { animation: none; }
+}

@@ -1,32 +1,26 @@
 {#-
-  The six quick tasks (DESIGN.md 10.6). Reused by the mobile menu, the footer and (Task 8) the homepage.
+  The six quick tasks (DESIGN.md 10.6), in the order strings.quickTasks.items gives them.
+  Used on the homepage, at the bottom of the mobile menu and in the footer.
+  URLs come from `paths` (internal pages) and `site.links` (CPS sites); none are written here.
   Set before including:
     quickTasksVariant     "tiles" (default: icon above label) | "menu" | "list" (footer link list)
     quickTasksLabelledBy  optional id of the element that names the list
 -#}
 {%- set qtVariant = quickTasksVariant or "tiles" -%}
-{%- set qtUrls = {
-  calendar: "/events/",
-  lunchMenu: site.links.lunchMenu,
-  parentPortal: site.links.parentPortal,
-  enroll: "/enroll/",
-  care: "/families/before-after-care/",
-  contact: "/contact/"
-} -%}
-{%- set qtIcons = {
-  calendar: "calendar-days",
-  lunchMenu: "utensils",
-  parentPortal: "user-round",
-  enroll: "clipboard-pen-line",
-  care: "sunrise",
-  contact: "phone"
+{%- set qtTasks = {
+  calendar:     { url: paths.events,           icon: "calendar-days" },
+  lunchMenu:    { url: site.links.lunchMenu,    icon: "utensils" },
+  parentPortal: { url: site.links.parentPortal, icon: "user-round" },
+  enroll:       { url: paths.enroll,           icon: "clipboard-pen-line" },
+  care:         { url: paths.beforeAfterCare,  icon: "sunrise" },
+  contact:      { url: paths.contact,          icon: "phone" }
 } -%}
 <ul class="quick-tasks quick-tasks--{{ qtVariant }}" role="list"{% if quickTasksLabelledBy %} aria-labelledby="{{ quickTasksLabelledBy }}"{% endif %}>
   {%- for item in strings.quickTasks.items %}
-  {%- set qtUrl = qtUrls[item.key] %}
+  {%- set qtUrl = qtTasks[item.key].url %}
   <li>
     <a class="quick-task" href="{{ qtUrl }}">
-      {%- icon qtIcons[item.key] -%}
+      {%- icon qtTasks[item.key].icon -%}
       <span class="quick-task__label">{{ item.label }}{% if "://" in qtUrl %} {% icon "external-link", strings.a11y.externalCps %}{% endif %}</span>
     </a>
   </li>

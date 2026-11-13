@@ -1,34 +1,69 @@
 ---
 layout: layouts/base.njk
 ---
-<section class="hero">
+{#- Homepage (DESIGN.md 11): hero → button pair → quick tasks → pride band → Tiger news →
+    Upcoming events → principal's welcome. Sections with no content hide, heading included. -#}
+{% include "partials/hero.njk" %}
+
+<div class="home-actions" data-home-section="actions">
+  <div class="container home-actions__inner hero-enter hero-enter--late">
+    <a class="btn btn--primary" href="{{ paths.enroll }}">{{ strings.home.enrollNow }}</a>
+    <a class="btn btn--secondary" href="{{ paths.tours }}">{{ strings.home.bookTour }}</a>
+  </div>
+</div>
+
+<section class="home-tasks" data-home-section="tasks" aria-labelledby="home-tasks-title">
   <div class="container">
-    <h1 class="{{ hero_heading | headingClass }}">{{ hero_heading }}</h1>
-    <p>{{ hero_sub }}</p>
+    <h2 class="visually-hidden" id="home-tasks-title">{{ strings.quickTasks.heading }}</h2>
+    {%- set quickTasksVariant = "tiles" %}
+    {%- set quickTasksLabelledBy = "home-tasks-title" %}
+    {% include "partials/quick-tasks.njk" %}
   </div>
 </section>
 
-<div class="container grid">
-  <article class="prose">{{ content | safe }}</article>
+{% include "partials/pride.njk" %}
 
-  <aside class="card">
-    {#- Interim until Task 8 rebuilds the homepage: the next 4 events (DESIGN.md 10.9). #}
-    <h2>{{ strings.events.heading }}</h2>
+{%- set latestNews = collections.newsDesc.slice(0, 3) %}
+{%- if latestNews.length %}
+<section class="section section--alt home-news" data-home-section="news" aria-labelledby="home-news-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title" id="home-news-title">{{ strings.home.newsHeading }}</h2>
+      <a class="text-link section-head__more" href="{{ paths.news }}"><span>{{ strings.home.seeAllNews }}</span>{% icon "arrow-right" %}</a>
+    </div>
+    <div class="news-grid">
+      {%- set cardLevel = 3 %}
+      {%- for post in latestNews %}
+      {% include "partials/news-card.njk" %}
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+<section class="section home-events" data-home-section="events" aria-labelledby="home-events-title" data-events-source="{{ events.source }}">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title" id="home-events-title">{{ strings.home.eventsHeading }}</h2>
+      <a class="text-link section-head__more" href="{{ paths.events }}"><span>{{ strings.events.seeFullCalendar }}</span>{% icon "arrow-right" %}</a>
+    </div>
     {%- set items = events.items %}
     {%- set limit = 4 %}
     {%- set eventLevel = 3 %}
     {%- set showDescription = false %}
     {% include "partials/events-list.njk" %}
-    <p class="events-more"><a href="/events/">{{ strings.events.seeFullCalendar }}</a></p>
-  </aside>
-</div>
+  </div>
+</section>
 
-<section class="container">
-  <h2>Latest news</h2>
-  {#- Interim until Task 8 rebuilds the homepage: the 3 newest posts as cards. #}
-  <div class="news-grid">
-    {%- for post in collections.newsDesc.slice(0, 3) %}
-    {% include "partials/news-card.njk" %}
-    {%- endfor %}
+<section class="section section--alt home-welcome" data-home-section="welcome" aria-labelledby="home-welcome-title">
+  <div class="container home-welcome__grid">
+    <div class="home-welcome__photo">{% placeholder welcome_photo_placeholder, "1 / 1" %}</div>
+    <div class="home-welcome__text">
+      <h2 class="section-title {{ welcome_title | headingClass }}" id="home-welcome-title">{{ welcome_title }}</h2>
+      <div class="prose">{{ content | safe }}</div>
+      {%- if welcome_link %}
+      <p class="home-welcome__more"><a class="text-link" href="{{ welcome_link }}"><span>{{ strings.home.readFullMessage }}</span>{% icon "arrow-right" %}</a></p>
+      {%- endif %}
+    </div>
   </div>
 </section>

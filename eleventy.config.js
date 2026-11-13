@@ -51,6 +51,8 @@ export default function (eleventyConfig) {
   };
   const warned = new Set();
   eleventyConfig.addCollection("newsDesc", (api) => {
+    // Test-only hook: NEWS_EMPTY=1 builds the site as if no posts existed (empty states).
+    if (process.env.NEWS_EMPTY === "1") return [];
     const posts = api.getFilteredByTag("news").slice().reverse();
     for (const post of posts) {
       const issue = photoIssue(post.data, imageExists);

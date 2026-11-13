@@ -91,5 +91,14 @@
     "closeMenu": "Close menu",
     "externalCps": "opens CPS site",
     "external": "opens another site"
+  },
+  "home": {
+    "enrollNow": "Enroll now",
+    "bookTour": "Book a tour",
+    "prideHeading": "Courtenay at a glance",
+    "newsHeading": "Tiger news",
+    "seeAllNews": "See all news",
+    "eventsHeading": "Upcoming events",
+    "readFullMessage": "Read the full message"
   }
 }
