@@ -4,6 +4,8 @@ title: Home
 hero_heading: Curious minds.
 hero_highlight: Kind hearts.
 hero_sub: A neighborhood public school in Uptown where every child belongs.
+hero_image: /images/hero-school.jpg
+hero_alt: Aerial view of Courtenay school, a red-brick building with a flat roof and a playground, surrounded by trees and neighborhood streets
 hero_placeholder: Kids at recess
 pride:
   - value: "000"
